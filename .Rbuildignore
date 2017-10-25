@@ -1,3 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^LICENCE$
+^appveyor\.yml$
+^\.travis\.yml$
