@@ -1,5 +1,5 @@
 [![Travis-CI Build Status](https://travis-ci.org/nlmixrdevelopment/n1qn1.svg?branch=master)](https://travis-ci.org/nlmixrdevelopment/n1qn1) 
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/nlmixrdevelopment/n1qn1?branch=master&svg=true)](https://ci.appveyor.com/project/nlmixrdevelopment/n1qn1)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mattfidler/n1qn1?branch=master&svg=true)](https://ci.appveyor.com/project/mattfidler/n1qn1)
 [![Coverage Status](https://img.shields.io/codecov/c/github/nlmixrdevelopment/n1qn1/master.svg)](https://codecov.io/github/nlmixrdevelopment/n1qn1?branch=master)
 [![CRAN version](http://www.r-pkg.org/badges/version/n1qn1)](https://cran.r-project.org/package=n1qn1)
 
