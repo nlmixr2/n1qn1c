@@ -5,8 +5,8 @@ Authors@R: c(person("Matthew", "Fidler", role=c("aut","cre"), email= "matthew.fi
         person("Wenping", "Wang", role = "aut", email = "wwang8198@gmail.com"),
         person("Joseph", "Bonnans", role="cph"),
 	person("Jean-Charles", "Gilbert", role="cph"),
-	person("Claude","Lemar√©chal", role="cph") ,
-	person("Claudia","Sagastiz√°bal",role="cph"))
+	person("Claude","LemarÈchal", role="cph") ,
+	person("Claudia","Sagastiz·bal",role="cph"))
 Maintainer: Matthew Fidler <matthew.fidler@gmail.com>
 Description: R port of the Scilab n1qn1 module.  This package provides n1qn1, or Quasi-Newton BFGS
       "qn" without constraints.  This takes more memory than traditional L-BFGS.  This particual
@@ -20,3 +20,4 @@ LinkingTo: RcppArmadillo (>= 0.5.600.2.0), Rcpp (>= 0.12.3)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
+Suggests: covr
