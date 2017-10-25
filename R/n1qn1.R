@@ -14,19 +14,23 @@
 ##' @param imp Verbosity of messages.
 ##' @param invisible boolean to control if the output of the minimizer
 ##'     is suppressed.
-##' @param zm Prior Hessian (in compressed format)
+##' @param zm Prior Hessian (in compressed format; This format is
+##'     output in \code{c.hess}).
 ##' @param restart Is this an estimation restart?
 ##' @param assign Assign hessian to c.hess in environment environment?
 ##'     (Default FALSE)
 ##' @param print.functions Boolean to control if the function value
 ##'     and parameter estimates are echoed every time a function is
 ##'     called.
+##'
 ##' @return The return value is a list with the following elements:
 ##'     \itemize{
 ##'        \item \code{value} The value at the minimized function.
 ##'        \item \code{par} The parameter value that minimized the function.
 ##'        \item \code{H} The estimated Hessian at the final parameter estimate.
 ##'        \item \code{c.hess} Compressed Hessian for saving curvature.
+##'        \item \code{n.fn} Number of function evaluations
+##'        \item \code{n.gr} Number of gradient evaluations
 ##'      }
 ##' @author C. Lemarechal, Stephen L. Campbell, Jean-Philippe
 ##'     Chancelier, Ramine Nikoukhah, Wenping Wang & Matthew L. Fidler
@@ -59,15 +63,17 @@
 ##'     g
 ##' }
 ##'
-##' rho = environment(fr)
 ##' x = c(1.02,1.02,1.02)
 ##' eps=1e-3
 ##' n=length(x); niter=100L; nsim=100L; imp=3L;
 ##' nzm=as.integer(n*(n+13L)/2L)
 ##' zm=double(nzm)
 ##'
-##' tmp <- n1qn1(fr, grr, x, imp=3)
+##' (op1 <- n1qn1(fr, grr, x, imp=3))
 ##'
+##' ## Note there are 40 function calls and 40 gradient calls in the above optimization
+##'
+##' ## Now assume we know something about the Hessian:
 ##' c.hess <- c(797.861115,
 ##'             -393.801473,
 ##'             -2.795134,
@@ -76,11 +82,19 @@
 ##'             200.024349)
 ##' c.hess <- c(c.hess, rep(0, 24 - length(c.hess)))
 ##'
-##' tmp2 <- n1qn1(fr, grr, x, imp=3, zm=tmp$c.hess)
+##' (op2 <- n1qn1(fr, grr, x,imp=3, zm=c.hess))
 ##'
-##' tmp3 <- n1qn1(fr, grr, x,imp=3, zm=c.hess)
+##' ## Note with this knowledge, there were only 29 function/gradient calls
+##'
+##' (op3 <- n1qn1(fr, grr, x, imp=3, zm=op1$c.hess))
+##'
+##' ## The number of function evaluations is still reduced because the Hessian
+##' ## is closer to what it should be than the initial guess.
+##'
+##' ## With certain optimization procedures this can be helpful in reducing the
+##' ## Optimization time.
+##'
 ##' @export
-
 n1qn1 <- function(call_eval, call_grad, vars, environment=parent.frame(1), ...,
                   epsilon=.Machine$double.eps, max_iterations=100, nsim=100,
                   imp=0,

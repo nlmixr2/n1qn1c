@@ -7,7 +7,7 @@ typedef void (*S2_fp) (int *, int *, double *, double *, double *, int *, float 
 extern "C" void n1qn1_ (S2_fp simul, int n[], double x[], double f[], double g[], double var[], double eps[],
                         int mode[], int niter[], int nsim[], int imp[], int lp[], double zm[], int izs[], float rzs[], double dzs[]);
 
-unsigned int n1qn1_calls = 0;
+unsigned int n1qn1_calls = 0, n1qn1_grads = 0;
 int n1qn1_fprint = 0;
 static void fwrap(int *ind, int *n, double *x, double *f, double *g, int *ti, float *tr, double *td)
 {
@@ -26,6 +26,7 @@ static void fwrap(int *ind, int *n, double *x, double *f, double *g, int *ti, fl
     *f = ret[0];
   }
   if (*ind==3 || *ind==4) {
+    n1qn1_grads++;
     ret = gev->eval(par);
     for (i = 0; i < *n; i++) g[i] = ret[i];
   }
@@ -39,6 +40,7 @@ n1qn1_wrap(
            SEXP nzmSEXP, SEXP zmSEXP, SEXP fprint_sexp) {
   BEGIN_RCPP
     n1qn1_calls=0;
+  n1qn1_grads=0;
   n1qn1_fprint = INTEGER(fprint_sexp)[0];
   if (TYPEOF(fSEXP) == EXTPTRSXP){
     fev = new Rcpp::EvalCompiled(fSEXP, rhoSEXP); // xptr
@@ -121,6 +123,8 @@ n1qn1_wrap(
                             // Rcpp::Named("D") = D,
                             Rcpp::Named("H") = H,
                             // Rcpp::Named("zm")=zms,
-                            Rcpp::Named("c.hess") = hess);
+                            Rcpp::Named("c.hess") = hess,
+			    Rcpp::Named("n.fn") = n1qn1_calls,
+			    Rcpp::Named("n.gr") = n1qn1_grads);
   END_RCPP
  }
