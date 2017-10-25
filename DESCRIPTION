@@ -1,12 +1,12 @@
 Package: n1qn1
-Title: R port of the Scilab n1qn1 module for unconstrained BGFS optimization.
+Title: R port of the Scilab n1qn1 module for unconstrained BGFS optimization
 Version: 0.0.1.9000
 Authors@R: c(person("Matthew", "Fidler", role=c("aut","cre"), email= "matthew.fidler@gmail.com"),
         person("Wenping", "Wang", role = "aut", email = "wwang8198@gmail.com"),
         person("Joseph", "Bonnans", role="cph"),
 	person("Jean-Charles", "Gilbert", role="cph"),
 	person("Claude","Lemaréchal", role="cph") ,
-	person("Claudia","Sagastizábal"))
+	person("Claudia","Sagastizábal",role="cph"))
 Maintainer: Matthew Fidler <matthew.fidler@gmail.com>
 Description: R port of the Scilab n1qn1 module.  This package provides n1qn1, or Quasi-Newton BFGS
       "qn" without constraints.  This takes more memory than traditional L-BFGS.  This particual

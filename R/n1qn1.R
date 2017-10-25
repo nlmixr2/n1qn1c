@@ -30,6 +30,7 @@
 ##'      }
 ##' @author C. Lemarechal, Stephen L. Campbell, Jean-Philippe
 ##'     Chancelier, Ramine Nikoukhah, Wenping Wang & Matthew L. Fidler
+##' @importFrom Rcpp evalCpp
 ##' @useDynLib n1qn1, .registration=TRUE
 ##' @examples
 ##'
