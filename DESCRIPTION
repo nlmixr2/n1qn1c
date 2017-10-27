@@ -6,7 +6,8 @@ Authors@R: c(person("Matthew", "Fidler", role=c("aut","cre"), email= "matthew.fi
         person("Joseph", "Bonnans", role=c("aut","cph")),
 	person("Jean-Charles", "Gilbert", role=c("aut","cph")),
 	person("Claude","Lemarechal", role=c("aut","cph")) ,
-	person("Claudia","Sagastizabal",role=c("aut","cph")))
+	person("Claudia","Sagastizabal",role=c("aut","cph")),
+	person("Dirk", "Eddelbuettel", role="ctb"))
 Maintainer: Matthew Fidler <matthew.fidler@gmail.com>
 Description: R port of the 'Scilab' n1qn1 module.  This package provides n1qn1, or Quasi-Newton BFGS
       "qn" without constraints.  This takes more memory than traditional L-BFGS.  This 
