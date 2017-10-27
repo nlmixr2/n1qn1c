@@ -13,7 +13,7 @@ Description: R port of the 'Scilab' n1qn1 module.  This package provides n1qn1, 
        routine is useful since it allows prespecification of a Hessian;  If the Hessian is near enough the
        truth in optimization it can speed up the optimization problem. The algorithm is described in the
        scilab optimization documentation located at 
-       <http://www.scilab.org/content/download/250/1714/file/optimization_in_scilab.pdf>
+       <http://www.scilab.org/content/download/250/1714/file/optimization_in_scilab.pdf>.
 URL: https://github.com/nlmixrdevelopment/n1qn1
 BugReports: https://github.com/nlmixrdevelopment/n1qn1/issues
 Depends: R (>= 3.2)
