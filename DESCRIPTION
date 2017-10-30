@@ -19,7 +19,7 @@ Description: Provides 'Scilab' 'n1qn1', or Quasi-Newton BFGS
       "qn" without constraints.  This takes more memory than traditional L-BFGS.  This 
        routine is useful since it allows prespecification of a Hessian.  If the Hessian is near enough the
        truth in optimization it can speed up the optimization problem. The algorithm is described in the
-       scilab optimization documentation located at 
+       'Scilab' optimization documentation located at 
        <http://www.scilab.org/content/download/250/1714/file/optimization_in_scilab.pdf>.
 URL: https://github.com/nlmixrdevelopment/n1qn1
 BugReports: https://github.com/nlmixrdevelopment/n1qn1/issues
