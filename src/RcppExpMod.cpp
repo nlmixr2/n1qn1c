@@ -1,4 +1,5 @@
 #include "evaluate.h"
+using namespace arma;
 
 Rcpp::EvalBase *fev = NULL;                  // pointer to abstract base class
 Rcpp::EvalBase *gev = NULL;                  // pointer to abstract base class
@@ -28,7 +29,8 @@ static void fwrap(int *ind, int *n, double *x, double *f, double *g, int *ti, fl
   if (*ind==3 || *ind==4) {
     n1qn1_grads++;
     ret = gev->eval(par);
-    for (i = 0; i < *n; i++) g[i] = ret[i];
+    std::copy(&ret[0],&ret[0]+*n,&g[0]);
+    // for (i = 0; i < *n; i++) g[i] = ret[i];
   }
 }
 
@@ -78,12 +80,12 @@ n1qn1_wrap(
          &mode,&niter,&nsim,&imp,&lp,zm,izs,rzs,dzs);
         
   Rcpp::NumericVector par(n);
-  for (i=0; i<n; i++) par[i] = x[i];
+  std::copy(&x[0],&x[0]+n,&par[0]);
+  // for (i=0; i<n; i++) par[i] = x[i];
   Rcpp::NumericVector hess(nzm);
   // On input this is hessian
   // On output this is H = LDL'
   // Triangular matrix is paramterized by column instead of row.
-  using namespace arma;
   mat L = mat(n,n);
   mat D = mat(n,n);
   mat H = mat(n,n);

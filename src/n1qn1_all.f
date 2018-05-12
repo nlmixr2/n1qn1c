@@ -1,4 +1,5 @@
 c     Modified by Matthew Fidler in 2017 for different outputs to the R console
+c     Note this should be thread safe since it doesn't use global variables
 c     Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 c Copyright (C) 1987 - INRIA - Claude LEMARECHAL
 c 
