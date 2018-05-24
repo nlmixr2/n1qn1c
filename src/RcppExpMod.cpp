@@ -34,6 +34,16 @@ static void fwrap(int *ind, int *n, double *x, double *f, double *g, int *ti, fl
   }
 }
 
+uvec lowerTri(mat H, bool diag = false){
+  unsigned int d = H.n_rows;
+  mat o(d, d, fill::ones);
+  if (!diag){
+    return find(trimatl(o,-1));
+  } else {
+    return find(trimatl(o));
+  }
+}
+
 
 RcppExport SEXP
 n1qn1_wrap(
@@ -71,11 +81,11 @@ n1qn1_wrap(
   double *zm = new double[nzm];
 
   int izs[1]; float rzs[1]; double dzs[1];
-  for (i=0; i<n; i++) x[i] = REAL(xSEXP)[i];
-  for (i=0; i<nzm; i++) zm[i] = REAL(zmSEXP)[i];
+  std::copy(&(REAL(xSEXP)[0]),&(REAL(xSEXP)[0])+n, &x[0]);
+  std::copy(&(REAL(zmSEXP)[0]),&(REAL(zmSEXP)[0])+nzm, &zm[0]);
   eps = REAL(epsSEXP)[0];
-  for (i=0; i<n; i++) var[i] = .1;
-
+  std::fill(&var[0], &var[0]+n, 0.1);
+  
   n1qn1_(fwrap,&n,x,&f,g,var,&eps,
          &mode,&niter,&nsim,&imp,&lp,zm,izs,rzs,dzs);
         
@@ -86,34 +96,36 @@ n1qn1_wrap(
   // On input this is hessian
   // On output this is H = LDL'
   // Triangular matrix is paramterized by column instead of row.
-  mat L = mat(n,n);
-  mat D = mat(n,n);
+  mat L = eye(n,n);
+  mat D = mat(n,n,fill::zeros);
   mat H = mat(n,n);
+  vec zmV(n*(n+1)/2);
+  std::copy(&zm[0], &zm[0]+n*(n+1)/2, zmV.begin());
+  H.elem(lowerTri(H,true)) = zmV;
+  L.elem(lowerTri(H,false)) = H.elem(lowerTri(H,0));
+  D.diag() = H.diag();
+  // H = symmatl(H);
   // NumericVector zms(nzm);
   // for (i = 0; i < nzm; i++) zms[i]=zm[i];
-  L.zeros();
-  D.zeros();
-  k =0;
-  for (i=0; i<n; i++){
-    for (j=i; j<n; j++){
-      if (i == j){
-        D(i,i)=zm[k];
-        L(i,i)=1;
-      } else {
-        L(j,i)=zm[k];
-      }
-      k++;
-    }
-  }
+  // L.zeros();
+  // D.zeros();
+  // k =0;
+  // for (i=0; i<n; i++){
+  //   for (j=i; j<n; j++){
+  //     if (i == j){
+  //       D(i,i)=zm[k];
+  //       L(i,i)=1;
+  //     } else {
+  //       L(j,i)=zm[k];
+  //     }
+  //     k++;
+  //   }
+  // }
   H = L*D*L.t();
-  k = 0;
-  for (i=0; i<n; i++){
-    for (j=i; j<n; j++){
-      hess[k]=H(j,i);
-      k++;
-    }
-  }
-
+  // Hessian -> c.hess
+  vec hessV = H.elem(lowerTri(H,1));
+  std::copy(hessV.begin(),hessV.end(),hess.begin());
+  
   delete[] x;
   delete[] g;
   delete[] var;
