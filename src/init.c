@@ -17,7 +17,7 @@ static const R_CallMethodDef CallEntries[] = {
 
 void R_init_n1qn1(DllInfo *dll)
 {
-  R_RegisterCCallable("n1qn1","n1qn1_", (DL_FUNC) n1qn1_);
+  R_RegisterCCallable("n1qn1","n1qn1F", (DL_FUNC) n1qn1_);
   R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
   R_useDynamicSymbols(dll, TRUE);
   R_forceSymbols(dll,TRUE);

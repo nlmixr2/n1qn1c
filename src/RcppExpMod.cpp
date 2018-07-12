@@ -102,7 +102,7 @@ n1qn1_wrap(
   vec zmV(n*(n+1)/2);
   std::copy(&zm[0], &zm[0]+n*(n+1)/2, zmV.begin());
   H.elem(lowerTri(H,true)) = zmV;
-  L.elem(lowerTri(H,false)) = H.elem(lowerTri(H,0));
+  if (n != 1) L.elem(lowerTri(H,false)) = H.elem(lowerTri(H,0));
   D.diag() = H.diag();
   // H = symmatl(H);
   // NumericVector zms(nzm);
