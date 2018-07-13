@@ -64,8 +64,7 @@ n1qn1_wrap(
   } else {
     gev = new Rcpp::EvalStandard(gSEXP, rhoSEXP); // Standard evaulation
   }
-  int i, j, k =0;
-    
+  
   int n, mode, niter, nsim, imp, lp=6, nzm;
   n = INTEGER(nSEXP)[0];
   mode = INTEGER(modeSEXP)[0];
@@ -102,28 +101,12 @@ n1qn1_wrap(
   vec zmV(n*(n+1)/2);
   std::copy(&zm[0], &zm[0]+n*(n+1)/2, zmV.begin());
   H.elem(lowerTri(H,true)) = zmV;
-  if (n != 1) L.elem(lowerTri(H,false)) = H.elem(lowerTri(H,0));
+  if (n == 1) L(0,0) = 1;
+  L.elem(lowerTri(H,false)) = H.elem(lowerTri(H,0));
   D.diag() = H.diag();
-  // H = symmatl(H);
-  // NumericVector zms(nzm);
-  // for (i = 0; i < nzm; i++) zms[i]=zm[i];
-  // L.zeros();
-  // D.zeros();
-  // k =0;
-  // for (i=0; i<n; i++){
-  //   for (j=i; j<n; j++){
-  //     if (i == j){
-  //       D(i,i)=zm[k];
-  //       L(i,i)=1;
-  //     } else {
-  //       L(j,i)=zm[k];
-  //     }
-  //     k++;
-  //   }
-  // }
   H = L*D*L.t();
   // Hessian -> c.hess
-  vec hessV = H.elem(lowerTri(H,1));
+  vec hessV = H.elem(lowerTri(H,true));
   std::copy(hessV.begin(),hessV.end(),hess.begin());
   
   delete[] x;
