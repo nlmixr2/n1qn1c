@@ -11,7 +11,7 @@ c For more information, see the COPYING file which you should have received
 c along with this program.
 c
       subroutine zqnbd(indqn,simul,dh,n,binf,bsup,x,f,g,zero,napmax,
-     &itmax,indic,izig,nfac,iprint,io,epsx,epsf,epsg,x1,x2,g1,dir,df0,
+     &     itmax,indic,izig,nfac,iprint,epsx,epsf,epsg,x1,x2,g1,dir,df0,
      &ig,in,irel,izag,iact,epsrel,ieps1,izs,rzs,dzs)
 c
       implicit double precision (a-h,o-z)
@@ -578,7 +578,7 @@ c     amd,amf tests sur h'(t) et diff
       napm1=nap + napm
       if(napm1.gt.napmax)napm1=napmax
       call rlbd(indrl,n,simul,x,binf,bsup,fn,fpn,t,tmax,dir,g,
-     & tproj,amd,amf,iprint,io,zero,nap,napm1,x2,izs,rzs,dzs)
+     &     tproj,amd,amf,iprint,zero,nap,napm1,x2,izs,rzs,dzs)
       if(indrl.ge.10)then
          indsim=4
          nap=nap + 1

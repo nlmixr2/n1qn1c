@@ -135,3 +135,69 @@ n1qn1 <- function(call_eval, call_grad, vars, environment=parent.frame(1), ...,
     if (assign) environment$c.hess <- ret$hess;
     return(ret)
 }
+
+
+##' qnbd optimization
+##'
+##' This is an R port of the qnbd which is a BFGS-B optimization
+##' procedure in scilab. (R has L-BFGS-B).
+##'
+##' @param par Initial parameter estimate
+##' @param fn Function
+##' @param gr Gradient
+##' @param lower Lower Bound for optimization
+##' @param upper Upper Bound for optimization
+##' @param environment
+##' @param zero Tolerance for Zero
+##' @param maxFn Maximum function evaluations
+##' @param maxIt Maximum iterations
+##' @param epsf Function eps for exiting
+##' @param epsg Gradient eps for exiting
+##' @param epsx Parameter eps for exiting
+##' @param print.functions
+##' @inheritParams n1qn1
+##' @export
+##' @examples
+##'
+##' ## Rosenbrock's banana function
+##' n=3; p=100
+##'
+##' fr = function(x)
+##' {
+##'     f=1.0
+##'     for(i in 2:n) {
+##'         f=f+p*(x[i]-x[i-1]**2)**2+(1.0-x[i])**2
+##'     }
+##'     f
+##' }
+##'
+##' grr = function(x)
+##' {
+##'     g = double(n)
+##'     g[1]=-4.0*p*(x[2]-x[1]**2)*x[1]
+##'     if(n>2) {
+##'         for(i in 2:(n-1)) {
+##'             g[i]=2.0*p*(x[i]-x[i-1]**2)-4.0*p*(x[i+1]-x[i]**2)*x[i]-2.0*(1.0-x[i])
+##'         }
+##'     }
+##'     g[n]=2.0*p*(x[n]-x[n-1]**2)-2.0*(1.0-x[n])
+##'     g
+##' }
+##'
+##' x = c(1.02,1.02,1.02)
+##'
+##' op1 <- qnbd(x, fr, grr)
+##'
+##' @export
+qnbd <- function(par, fn, gr, lower= -Inf, upper=Inf, environment=parent.frame(1),
+                 zero=sqrt(.Machine$double.eps/7e-07), maxFn=10000L, maxIt=10000L,
+                 epsf=sqrt(.Machine$double.eps), epsg=sqrt(.Machine$double.eps),
+                 epsx=sqrt(.Machine$double.eps), print.functions=FALSE){
+    n <- length(par);
+    if (length(lower) == 1) lower <- rep(lower, n);
+    if (length(upper) == 1) upper <- rep(upper, n);
+    print(par);
+    ret <- .Call(qnbd_wrap, fn, gr, environment, par, lower, upper, zero, as.integer(maxFn),
+                           as.integer(maxIt), epsf, epsg, epsx, as.integer(n), as.integer(print.functions));
+    return(ret);
+}

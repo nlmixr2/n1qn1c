@@ -11,10 +11,10 @@ c For more information, see the COPYING file which you should have received
 c along with this program.
 c
       subroutine rlbd(indrl,n,simul,x,binf,bsup,f,hp,t,tmax,d,gn,
-     &  tproj,amd,amf,iprint,io,zero,nap,napmax,xn,izs,rzs,dzs)
+     &     tproj,amd,amf,iprint,zero,nap,napmax,xn,izs,rzs,dzs)
 c
 c!but
-c       subroutine de recherche lineaire pour des problemes avec
+c     subroutine de recherche lineaire pour des problemes avec
 c       contraintes de borne (traitees par projection)
 c       le critere de retour est une extension de celui de wolfe
 c!methode

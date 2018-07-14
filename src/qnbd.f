@@ -1,3 +1,5 @@
+c     removed io and comment out any printing from fortran.
+
 c     Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 c     Copyright (C) 1986 - INRIA - F. BONNANS
 c 
@@ -10,8 +12,8 @@ c and continues to be available under such terms.
 c For more information, see the COPYING file which you should have received
 c along with this program.
 c
-      subroutine qnbd(indqn,simul,n,x,f,g,iprint,io,zero,
-     & napmax,itmax,epsf,epsg,epsx,df0,binf,bsup,nfac,
+      subroutine qnbd(indqn,simul,n,x,f,g,iprint,zero,
+     &     napmax,itmax,epsf,epsg,epsx,df0,binf,bsup,nfac,
      & trav,ntrav,itrav,nitrav,izs,rzs,dzs)
 c!but
 c     code de minimisation d une fonction reguliere sous contraintes
@@ -77,7 +79,7 @@ c     itmax nombre maximum d iterations de descente               e
 c     itrav vect travail dim nitrav=2n , se decompose en indic et izig
 c     nfac nombre de variables factorisees                  (e si indqn=2)  s
 c     iprint facteur d impression                                              e
-c         varie de 0 (pas d impressions) a 3 (nombreuses impressions)
+c     varie de 0 (pas d impressions) a 3 (nombreuses impressions)
 c     io numero du fichier de resultats                                     e
 c     epsx vect dim n precision sur x                                       e
 c     epsf critere arret sur f                                              e
@@ -174,7 +176,7 @@ c$$$111      format(' qnbd : nitrav=',i8,'devrait valoir',i8)
          return
       endif
       call zqnbd(indqn,simul,trav(1),n,binf,bsup,x,f,g,zero,napmax,
-     &itmax,itrav,itrav(ni1),nfac,iprint,io,epsx,epsf,epsg,trav(n1),
+     &itmax,itrav,itrav(ni1),nfac,iprint,epsx,epsf,epsg,trav(n1),
      &trav(n2),trav(n3),trav(n4),df0,ig,in,irel,izag,iact,
      &epsrel,ieps1,izs,rzs,dzs)
       return
