@@ -196,7 +196,6 @@ qnbd <- function(par, fn, gr, lower= -Inf, upper=Inf, environment=parent.frame(1
     n <- length(par);
     if (length(lower) == 1) lower <- rep(lower, n);
     if (length(upper) == 1) upper <- rep(upper, n);
-    print(par);
     ret <- .Call(qnbd_wrap, fn, gr, environment, par, lower, upper, zero, as.integer(maxFn),
                            as.integer(maxIt), epsf, epsg, epsx, as.integer(n), as.integer(print.functions));
     return(ret);

@@ -13,10 +13,10 @@ extern SEXP qnbd_wrap(SEXP, SEXP, SEXP, SEXP, SEXP,
 		      SEXP, SEXP, SEXP, SEXP, SEXP, 
 		      SEXP, SEXP, SEXP, SEXP);
 
-extern "C" void qnbd_(int* indqn, S2_fp, int* n, double* x, double* f, double* g, int* iprint, double* zero, int* napmax, 
-                      int* itmax, double* epsf, double* epsg, double* epsx, double* df0, 
-                      double* binf, double* binsup, int* nfac, double* trav, int* ntrav, int* itrav, int* nitrav, 
-                      int* izs, float* rzs, double* dzs);
+extern void qnbd_(int* indqn, S2_fp fn, int* n, double* x, double* f, double* g, int* iprint, double* zero, int* napmax, 
+		  int* itmax, double* epsf, double* epsg, double* epsx, double* df0, 
+		  double* binf, double* binsup, int* nfac, double* trav, int* ntrav, int* itrav, int* nitrav, 
+		  int* izs, float* rzs, double* dzs);
 
 
 static const R_CallMethodDef CallEntries[] = {
