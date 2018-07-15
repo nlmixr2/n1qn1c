@@ -102,10 +102,12 @@ n1qn1_wrap(
   vec zmV(n*(n+1)/2);
   std::copy(&zm[0], &zm[0]+n*(n+1)/2, zmV.begin());
   H.elem(lowerTri(H,true)) = zmV;
-  if (n == 1) L(0,0) = 1;
-  L.elem(lowerTri(H,false)) = H.elem(lowerTri(H,0));
-  D.diag() = H.diag();
-  H = L*D*L.t();
+  if (n == 1) H = D;
+  else{
+    L.elem(lowerTri(H,false)) = H.elem(lowerTri(H,0));
+    D.diag() = H.diag();
+    H = L*D*L.t();
+  }
   // Hessian -> c.hess
   vec hessV = H.elem(lowerTri(H,true));
   std::copy(hessV.begin(),hessV.end(),hess.begin());

@@ -140,14 +140,13 @@ n1qn1 <- function(call_eval, call_grad, vars, environment=parent.frame(1), ...,
 ##' qnbd optimization
 ##'
 ##' This is an R port of the qnbd which is a BFGS-B optimization
-##' procedure in scilab. (R has L-BFGS-B).
+##' procedure in scilab. (R has L-BFGS-B in optim).
 ##'
 ##' @param par Initial parameter estimate
 ##' @param fn Function
 ##' @param gr Gradient
 ##' @param lower Lower Bound for optimization
 ##' @param upper Upper Bound for optimization
-##' @param environment
 ##' @param zero Tolerance for Zero
 ##' @param maxFn Maximum function evaluations
 ##' @param maxIt Maximum iterations
