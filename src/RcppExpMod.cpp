@@ -15,8 +15,8 @@ static void fwrap(int *ind, int *n, double *x, double *f, double *g, int *ti, fl
 {
   int i;
   Rcpp::NumericVector par(*n), ret(*n);
-  for (i = 0; i < *n; i++) par[i] = x[i];
-        
+  std::copy(&x[0], &x[0]+*n, &par[0]);
+  
   if (*ind==2 || *ind==4) {
     n1qn1_calls++;
     ret = fev->eval(par);
