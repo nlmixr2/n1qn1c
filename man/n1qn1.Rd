@@ -4,10 +4,22 @@
 \alias{n1qn1}
 \title{n1qn1 optimization}
 \usage{
-n1qn1(call_eval, call_grad, vars, environment = parent.frame(1), ...,
-  epsilon = .Machine$double.eps, max_iterations = 100, nsim = 100,
-  imp = 0, invisible = NULL, zm = NULL, restart = FALSE,
-  assign = FALSE, print.functions = FALSE)
+n1qn1(
+  call_eval,
+  call_grad,
+  vars,
+  environment = parent.frame(1),
+  ...,
+  epsilon = .Machine$double.eps,
+  max_iterations = 100,
+  nsim = 100,
+  imp = 0,
+  invisible = NULL,
+  zm = NULL,
+  restart = FALSE,
+  assign = FALSE,
+  print.functions = FALSE
+)
 }
 \arguments{
 \item{call_eval}{Objective function}

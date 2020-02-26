@@ -67,33 +67,9 @@ c!
       implicit double precision (a-h,o-z)
       dimension x(n),g(n),var(n),zm(*),izs(*),dzs(*)
       real rzs(*)
-      character bufstr*(4096)
+      integer vf1(1), vfn(1)
       external simul
-c$$$      if (imp.gt.0) then
-c$$$         call basout(io, lp, '')
-c$$$         call basout(io, lp, 
-c$$$     $    '***** enters -qn code- (without bound cstr)')
-c$$$
-c$$$         write(bufstr,750)n,eps,imp
-c$$$         call basout(io ,lp ,bufstr(1:lnblnk(bufstr)))
-c$$$
-c$$$750   	 format('dimension=',i10,', epsq=',e24.16,
-c$$$     $ ', verbosity level: imp=',i10)
-c$$$
-c$$$
-c$$$         
-c$$$         write(bufstr,751)niter
-c$$$         call basout(io ,lp ,bufstr(1:lnblnk(bufstr)))
-c$$$751   	 format('max number of iterations allowed: iter=',i10)
-c$$$
-c$$$         
-c$$$         write(bufstr,752) nsim
-c$$$         call basout(io ,lp ,bufstr(1:lnblnk(bufstr)))
-c$$$752   	 format('max number of calls to costf allowed: nap=',i10)
-c$$$         
-c$$$         call basout(io ,lp ,
-c$$$     $    '------------------------------------------------')
-c$$$      endif
+      vf1(1) = 1
       nd=1+(n*(n+1))/2
       nw=nd+n
       nxa=nw+n
@@ -103,12 +79,6 @@ c$$$      endif
       call n1qn1a (simul,n,x,f,g,var,eps,mode,
      1 niter,nsim,imp,lp,zm,zm(nd),zm(nw),zm(nxa),zm(nga),
      2 zm(nxb),zm(ngb),izs,rzs,dzs)
-c$$$      if (imp.gt.0) then
-c$$$       write(bufstr,753) sqrt(eps)
-c$$$       call basout(io ,lp ,bufstr(1:lnblnk(bufstr)))
-c$$$753    format('***** leaves -qn code-, gradient norm=',e24.16)
-c$$$     
-c$$$      endif
       end
 c Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 c Copyright (C) INRIA
@@ -133,12 +103,13 @@ c
       implicit double precision (a-h,o-z)
       dimension x(n),g(n),scale(n),h(*),d(n),w(n),
      1 xa(n),ga(n),xb(n),gb(n),izs(*),dzs(*)
-      character bufstr*(4096)
       real rzs(*)
       external simul
       double precision dnrm2 ! (blas routine) added by Bruno to get
                                 ! a better information concerning directionnal derivative
-      integer vfinite ! added by Serge to avoid Inf and Nan's
+      integer vfinite           ! added by Serge to avoid Inf and Nan's
+      integer vfn(1), vf1(1)
+      vf1(1) = 1
  1000 format (46h n1qn1 ne peut demarrer (contrainte implicite))
  1001 format (40h n1qn1 termine par voeu de l'utilisateur)
  1010 format (45h n1qn1 remplace le hessien initial (qui n'est,
@@ -150,17 +121,9 @@ c
       indic=4
       call simul (indic,n,x,f,g,izs,rzs,dzs)
 c     next line added by Serge to avoid Inf and Nan's (04/2007)
-      if (vfinite(1,f).ne.1.and.vfinite(n,g).ne.1) indic=-1
+      if (vfinite(vf1,f).ne.1.and.vfinite(vfn,g).ne.1) indic=-1
       if (indic.gt.0) go to 13
       if (iprint.eq.0) go to 12
-c$$$      if (indic.lt.0) then
-c$$$        write (bufstr,1000)
-c$$$        call basout(io ,lp ,bufstr(1:lnblnk(bufstr)))
-c$$$      endif
-c$$$      if (indic.eq.0) then
-c$$$        write (bufstr,1001)
-c$$$        call basout(io ,lp ,bufstr(1:lnblnk(bufstr)))
-c$$$      endif
    12 acc=0.0d+0
       niter=1
       nsim=1
@@ -292,18 +255,6 @@ c               initialisation du pas
       if (dff.le.0.0d+0) step=min(step,1.0d+0/c)
       if (dff.gt.0.0d+0) step=min(step,(dff+dff)/(-dga))
 
-c$$$      if (iprint.ge.2) then
-c$$$         write (bufstr,'(A,I4,A,I4,A,G11.4)') ' iter num ',itr,
-c$$$     $                ', nb calls=',nfun,', f=',fa
-c$$$         call basout(io ,lp ,bufstr(1:lnblnk(bufstr)))
-c$$$
-c$$$         if (iprint.ge.3) then
-c$$$            write (bufstr,'(A,G11.4)')
-c$$$     $            ' linear search: initial derivative=',dga/dnrm2(n,d,1)
-c$$$            call basout(io ,lp ,bufstr(1:lnblnk(bufstr)))
-c$$$         endif
-c$$$      endif
-c              boucle de reherche lineaire
   170 c=stmin+step
       if (nfun.ge.nsim) go to 250
       nfun=nfun+1
@@ -313,14 +264,11 @@ c              calcul de fonction-gradient
       indic=4
       call simul (indic,n,xb,fb,gb,izs,rzs,dzs)
 c     next line added by Serge to avoid Inf and Nan's (04/2007)
-      if (vfinite(1,fb).ne.1.and.vfinite(n,gb).ne.1) indic=-1
+      vfn(1) = n
+      if (vfinite(vf1,fb).ne.1.and.vfinite(vfn,gb).ne.1) indic=-1
 c              test sur indic
       if (indic.gt.0) goto 185
       if (indic.lt.0) goto 183
-c$$$      if (iprint.gt.0) then
-c$$$        write (bufstr,1001)
-c$$$        call basout(io ,lp ,bufstr(1:lnblnk(bufstr)))
-c$$$      endif
       do 182 i=1,n
       x(i)=xb(i)
   182 g(i)=gb(i)
@@ -328,16 +276,7 @@ c$$$      endif
   183 stepbd=step
       ial=1
       step=step/10.0d+0
-c$$$      if (iprint.ge.3) then
-c$$$         write (bufstr,'(A,G11.4,A,I2)')
-c$$$     $   '                step length=',c,', indic=',indic
-c$$$         call basout(io ,lp ,bufstr(1:lnblnk(bufstr)))
-c$$$      endif
       if (stepbd.gt.steplb) goto 170
-c$$$      if (iprint.ne.0.and.isfv.lt.2) then
-c$$$        write (bufstr,1023)
-c$$$        call basout(io ,lp ,bufstr(1:lnblnk(bufstr)))
-c$$$      endif
       goto 240
 c             stockage si c'est la plus petite valeur
   185 isfv=min(2,isfv)
@@ -360,14 +299,6 @@ c               calcul de la derivee directionnelle
   230 dgb=dgb+gb(i)*d(i)
       if (iprint.lt.3) goto 231
       s=fb-fa
-* a small change (Bruno): to give a better indication about
-*  the directionnal derivative I scale it by || d ||
-c$$$      write (bufstr,'(A,G11.4,A,G11.4,A,G11.4)')
-c$$$     $  '                step length=',c,
-c$$$     $  ', df=',s,', derivative=',dgb/dnrm2(n,d,1)
-c$$$
-c$$$      call basout(io ,lp ,bufstr(1:lnblnk(bufstr)))
-c               test si la fonction a descendu
   231 if (fb-fa.le.0.10d+0*c*dga) go to 280
       ial=0
 c               iteration terminee si le pas est minimum
@@ -392,10 +323,6 @@ c               interpolation cubique
 c               ceci est un pas de descente
   280 if (ial.eq.0) goto 285
       if (stepbd.gt.steplb) go to 285
-c$$$      if (iprint.ne.0.and.isfv.lt.2) then
-c$$$        write (bufstr,1023)
-c$$$        call basout(io ,lp ,bufstr(1:lnblnk(bufstr)))
-c$$$      endif
       go to 240
   285 stepbd=stepbd-step
       stmin=c
@@ -573,14 +500,4 @@ c
  999  continue
       return
       end
-c$$$      subroutine basout (io, lp, str)
-c$$$      character str*(*)
-c$$$c$$$  write(*,*) str
-c$$$      call rprintf(str)
-c$$$      end
-c$$$      integer function vfinite(n,v)
-c$$$      implicit double precision (a-h,o-z)
-c$$$      dimension v(n)
-c$$$      vfinite = 1
-c$$$      end
        
