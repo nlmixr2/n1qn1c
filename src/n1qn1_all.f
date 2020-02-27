@@ -67,9 +67,7 @@ c!
       implicit double precision (a-h,o-z)
       dimension x(n),g(n),var(n),zm(*),izs(*),dzs(*)
       real rzs(*)
-      integer vf1(1), vfn(1)
       external simul
-      vf1(1) = 1
       nd=1+(n*(n+1))/2
       nw=nd+n
       nxa=nw+n
@@ -109,6 +107,7 @@ c
                                 ! a better information concerning directionnal derivative
       integer vfinite           ! added by Serge to avoid Inf and Nan's
       integer vfn(1), vf1(1)
+      real f1(1)
       vf1(1) = 1
  1000 format (46h n1qn1 ne peut demarrer (contrainte implicite))
  1001 format (40h n1qn1 termine par voeu de l'utilisateur)
@@ -121,7 +120,9 @@ c
       indic=4
       call simul (indic,n,x,f,g,izs,rzs,dzs)
 c     next line added by Serge to avoid Inf and Nan's (04/2007)
-      if (vfinite(vf1,f).ne.1.and.vfinite(vfn,g).ne.1) indic=-1
+      vfn(1) = n
+      f1(1) = f
+      if (vfinite(vf1, f1).ne.1.and.vfinite(vfn, g).ne.1) indic=-1
       if (indic.gt.0) go to 13
       if (iprint.eq.0) go to 12
    12 acc=0.0d+0
@@ -265,7 +266,8 @@ c              calcul de fonction-gradient
       call simul (indic,n,xb,fb,gb,izs,rzs,dzs)
 c     next line added by Serge to avoid Inf and Nan's (04/2007)
       vfn(1) = n
-      if (vfinite(vf1,fb).ne.1.and.vfinite(vfn,gb).ne.1) indic=-1
+      f1(1) = fb
+      if (vfinite(vf1,f1).ne.1.and.vfinite(vfn,gb).ne.1) indic=-1
 c              test sur indic
       if (indic.gt.0) goto 185
       if (indic.lt.0) goto 183
