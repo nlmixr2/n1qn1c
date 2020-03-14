@@ -117,7 +117,7 @@ n1qn1 <- function(call_eval, call_grad, vars, environment=parent.frame(1), ...,
     imp <- as.integer(imp);
     max_iterations <- as.integer(max_iterations)
     nsim <- as.integer(nsim)
-    nzm <- as.integer(n * (n + 13) / 2);
+    nzm <- as.integer(ceiling(n * (n + 13) / 2));
     nsim <- as.integer(nsim);
     epsilon <- as.double(epsilon)
     if (is.null(zm)){

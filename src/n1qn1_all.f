@@ -105,10 +105,10 @@ c
       external simul
       double precision dnrm2 ! (blas routine) added by Bruno to get
                                 ! a better information concerning directionnal derivative
-      integer vfinite           ! added by Serge to avoid Inf and Nan's
-      integer vfn(1), vf1(1)
+      integer vfinite 
+      integer vfinite1 
+      integer vfn(1)
       real f1(1)
-      vf1(1) = 1
  1000 format (46h n1qn1 ne peut demarrer (contrainte implicite))
  1001 format (40h n1qn1 termine par voeu de l'utilisateur)
  1010 format (45h n1qn1 remplace le hessien initial (qui n'est,
@@ -122,7 +122,7 @@ c
 c     next line added by Serge to avoid Inf and Nan's (04/2007)
       vfn(1) = n
       f1(1) = f
-      if (vfinite(vf1, f1).ne.1.and.vfinite(vfn, g).ne.1) indic=-1
+      if (vfinite1(f1).ne.1.and.vfinite(vfn, g).ne.1) indic=-1
       if (indic.gt.0) go to 13
       if (iprint.eq.0) go to 12
    12 acc=0.0d+0
@@ -267,7 +267,7 @@ c              calcul de fonction-gradient
 c     next line added by Serge to avoid Inf and Nan's (04/2007)
       vfn(1) = n
       f1(1) = fb
-      if (vfinite(vf1,f1).ne.1.and.vfinite(vfn,gb).ne.1) indic=-1
+      if (vfinite1(f1).ne.1.and.vfinite(vfn,gb).ne.1) indic=-1
 c              test sur indic
       if (indic.gt.0) goto 185
       if (indic.lt.0) goto 183
