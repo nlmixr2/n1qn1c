@@ -1,4 +1,17 @@
 c     Modified by Matthew Fidler in 2017 for different outputs to the R console
+      integer function vff(n, g)
+      integer n, i, ret
+      double precision g, x
+      dimension g(n)
+      ret = 0
+      do 7710, i=1, n
+         if (abs(g(i)) .ge. huge(x)) then
+            ret = 1
+            goto 7710
+         endif
+ 7710 continue
+      vff = ret
+      end
 c     Note this should be thread safe since it doesn't use global variables
 c     Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 c Copyright (C) 1987 - INRIA - Claude LEMARECHAL
@@ -104,10 +117,8 @@ c
       real rzs(*)
       external simul
       double precision dnrm2 ! (blas routine) added by Bruno to get
-                                ! a better information concerning directionnal derivative
-      integer vfinite 
-      integer vfinite1 
-      integer vfn(1)
+                             ! a better information concerning directionnal derivative
+      integer vff
       real f1(1)
  1000 format (46h n1qn1 ne peut demarrer (contrainte implicite))
  1001 format (40h n1qn1 termine par voeu de l'utilisateur)
@@ -120,9 +131,7 @@ c
       indic=4
       call simul (indic,n,x,f,g,izs,rzs,dzs)
 c     next line added by Serge to avoid Inf and Nan's (04/2007)
-      vfn(1) = n
-      f1(1) = f
-      if (vfinite1(f1).ne.1.and.vfinite(vfn, g).ne.1) indic=-1
+      if ( abs(f) .ge. huge(f) .and. vff(n, g).ne.1) indic=-1
       if (indic.gt.0) go to 13
       if (iprint.eq.0) go to 12
    12 acc=0.0d+0
@@ -265,9 +274,7 @@ c              calcul de fonction-gradient
       indic=4
       call simul (indic,n,xb,fb,gb,izs,rzs,dzs)
 c     next line added by Serge to avoid Inf and Nan's (04/2007)
-      vfn(1) = n
-      f1(1) = fb
-      if (vfinite1(f1).ne.1.and.vfinite(vfn,gb).ne.1) indic=-1
+      if ( abs(fb) .ge. huge(fb) .and. vff(n,gb).ne.1) indic=-1
 c              test sur indic
       if (indic.gt.0) goto 185
       if (indic.lt.0) goto 183
