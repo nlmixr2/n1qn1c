@@ -78,9 +78,10 @@ c
 c
 c     eps0 sert a partitionner les variables
       eps0=0.0d+0
-      do 5 i=1,n
+      do i=1,n
          izig(i)=0
-5     eps0=eps0+epsx(i)
+         eps0=eps0+epsx(i)
+      end do
       eps0=10.*eps0/n
 c
 c     section 1  mise en forme de dh
@@ -106,10 +107,12 @@ c$$$        endif
 c     on initialise dh a l identite puis a l iteration 2
 c     on met a l echelle
       nfac=0
-      do 11 i=1,n
-11    indic(i)=i
-      do 12 i=1,ndh
-12    dh(i)=0.0d+0
+      do i=1,n
+         indic(i)=i
+      end do
+      do i=1,ndh
+         dh(i)=0.0d+0
+      end do 
 30    continue
 c
 c     section 2  mise a jour dh
@@ -136,13 +139,15 @@ c     df0 decroissance prevue . si mod quad df0=((dh)-1g,g)/2
 c     et on cherche dh diag de la forme cst/(dx)**2
 c     d ou cst=som((y(i)*(dx))**2))/(2*df0)
       cof1=0.0d+0
-      do 80 i=1,n
-80    cof1=cof1+(g(i)*epsx(i))**2
+      do i=1,n
+         cof1=cof1+(g(i)*epsx(i))**2
+      end do
       cof1=cof1/(2.0d+0*df0)
       i1=-n
-      do 82 i=1,n
-      i1=i1+n+2-i
-82    dh(i1)=(cof1 + zero)/(epsx(i)**2 + zero)
+      do i=1,n
+         i1=i1+n+2-i
+         dh(i1)=(cof1 + zero)/(epsx(i)**2 + zero)
+      end do
       iconv=0
 200   iter=iter +1
       if(iter.le.itmax)go to 202
@@ -165,17 +170,19 @@ c$$$1210  format(' qnbd : iter=',i3,'  f=',d15.7)
 c     x1,g1 valeurs a l iteration precedente
 202   if(iter.eq.1)go to 300
       cof1=0.0d+0
-      do 201 i=1,n
-      x1(i)=x(i)-x1(i)
-      g1(i)=g(i)-g1(i)
-201   cof1=cof1 + x1(i)*g1(i)
+      do i=1,n
+         x1(i)=x(i)-x1(i)
+         g1(i)=g(i)-g1(i)
+         cof1=cof1 + x1(i)*g1(i)
+      end do
       if(cof1.le.zero)go to 250
       if(iter.gt.2.or.indqn.ne.1)go to 250
 c     mise a l echelle de dh par methode shanno-phua
 c      dh=(y,y)/(y,s)*id
       cof2=0.0d+0
-      do 203 i=1,n
-203   cof2=cof2 + g1(i)**2
+      do i=1,n
+         cof2=cof2 + g1(i)**2
+      end do
       cof2=cof2/cof1
 c$$$      if(iprint.gt.3) then
 c$$$        write(bufstr,1203)cof2
@@ -184,9 +191,10 @@ c$$$        endif
 c$$$1203  format(' qnbd : facteur d echelle=',d11.4)
       dh(1)=cof2
       i1=1
-      do 205 i=1,nfac
-      i1=i1+n+1-i
-205   dh(i1)=cof2
+      do i=1,nfac
+         i1=i1+n+1-i
+         dh(i1)=cof2
+      end do
 c
 c     scal= (y,s)/(y,y)
 c     scal sert de coeff a g dans le calcul de dir pour i dans ib
@@ -196,15 +204,18 @@ c
 c     mise a jour dh par methode bfgs (majour) si iter ge 2
 c     dh1=dh +y*yt/(y,s) - dh*s*st*dh/(s,dh*s)
 c     exprimons ds=x1 et y=g1 dans les nouv variables soit x2 et g1
-      do 251 i=1,n
-      i1=indic(i)
-      x2(i1)=g1(i)
-251   dir(i1)=x1(i)
-      do 252 i=1,n
-252   g1(i)=x2(i)
-      do 253 i=1,n
-      i1=indic(i)
-253   x2(i1)=x1(i)
+      do i=1,n
+         i1=indic(i)
+         x2(i1)=g1(i)
+         dir(i1)=x1(i)
+      end do
+      do i=1,n
+         g1(i)=x2(i)
+      end do
+      do i=1,n
+         i1=indic(i)
+         x2(i1)=x1(i)
+      end do
 c     on stocke d abord dh*s dans x2
 c     calcul des nfac premieres variables,en deux fois
       continue
@@ -216,27 +227,31 @@ c     calcul des nfac premieres variables,en deux fois
       np=nfac+1
       ii=1
       n1=nfac-1
-      do 2303 i=1,n1
-      y=dir(i)
-      if(dh(ii).eq.0.0d+0) go to 2302
-      ij=ii
-      ip=i+1
-      do 2301 j=ip,nfac
-      ij=ij+1
-2301  y=y+dir(j)*dh(ij)
-2302  dir(i)=y*dh(ii)
-2303  ii=ii+np-i
+      do i=1,n1
+         y=dir(i)
+         if(dh(ii).eq.0.0d+0) go to 2302
+         ij=ii
+         ip=i+1
+         do j=ip,nfac
+            ij=ij+1
+            y=y+dir(j)*dh(ij)
+         end do
+ 2302    dir(i)=y*dh(ii)
+         ii=ii+np-i
+      end do
       dir(nfac)=dir(nfac)*dh(ii)
-      do 2311 k=1,n1
-      i=nfac-k
-      ii=ii-np+i
-      if(dir(i).eq.0.0d+0) go to 2311
-      ip=i+1
-      ij=ii
-      y=dir(i)
-      do 2310 j=ip,nfac
-      ij=ij+1
-2310  dir(j)=dir(j)+dh(ij)*dir(i)
+      do k=1,n1
+         i=nfac-k
+         ii=ii-np+i
+         if(dir(i).eq.0.0d+0) go to 2311
+         ip=i+1
+         ij=ii
+         y=dir(i)
+         do j=ip,nfac
+            ij=ij+1
+            dir(j)=dir(j)+dh(ij)*dir(i)
+         end do
+      end do
 2311  continue
 2312  continue
       nfac1=nfac+1
@@ -244,29 +259,36 @@ c     calcul des nfac premieres variables,en deux fois
       nnfac=n-nfac
       k=n2fac
       if(nfac.eq.n)go to 268
-      do 255 i=nfac1,n
-255   dir(i)=0.0d+0
+      do i=nfac1,n
+         dir(i)=0.0d+0
+      end do
       if(nfac.eq.0)go to 265
-      do 260i=1,nfac
-      do 260j=nfac1,n
-      k=k+1
-      if(x2(j).eq.0.)go to 260
-      dir(i)= dir(i) + dh(k)*x2(j)
+      do i=1,nfac
+         do j=nfac1,n
+            k=k+1
+            if(x2(j).eq.0.)go to 260
+            dir(i)= dir(i) + dh(k)*x2(j)
+         end do
+      end do
 260   continue
 c     calcul autres comp de dh*s=d en deux fois
       k=n2fac
-      do 264 j=1,nfac
-      do 264 i=nfac1,n
-      k=k+1
-      dir(i)=dir(i) + dh(k)*x2(j)
+      do j=1,nfac
+         do i=nfac1,n
+            k=k+1
+            dir(i)=dir(i) + dh(k)*x2(j)
+         end do
+      end do
 264   continue
 265   continue
       k=n2fac+nfac*nnfac
-      do 266 j=nfac1,n
-      do 266 i=j,n
-      k=k+1
-      if(x2(j).eq.0.)go to 266
-      dir(i)=dir(i) + dh(k)*x2(j)
+      do j=nfac1,n
+         do i=j,n
+            k=k+1
+            if(x2(j).eq.0.)go to 266
+            dir(i)=dir(i) + dh(k)*x2(j)
+         end do
+      end do
 266   continue
       if(nfac.eq.n-1)go to 268
       nm1=n-1
@@ -274,44 +296,32 @@ c     calcul autres comp de dh*s=d en deux fois
       do 267 i=nfac1,nm1
       k=k+1
       i1=i+1
-      do 267 j=i1,n
-      k=k+1
-      if(x2(j).eq.0.)go to 267
-      dir(i)=dir(i)+dh(k)*x2(j)
+      do j=i1,n
+         k=k+1
+         if(x2(j).eq.0.)go to 267
+         dir(i)=dir(i)+dh(k)*x2(j)
+      end do
 267   continue
 c     calcul de dh*s fini
 c     calcul sig1 pour 2eme mise a jour
 268   sig1=0.0d+0
-      do 271 i=1,n
-271   sig1=sig1+dir(i)*x2(i)
+      do i=1,n
+         sig1=sig1+dir(i)*x2(i)
+      end do
       if(sig1.gt.0.0d+0)go to 272
-c$$$      if(iprint.gt.2) then
-c$$$        write(bufstr,1272)sig1
-c$$$        call basout(io_out ,io ,bufstr(1:lnblnk(bufstr)))
-c$$$        endif
-c$$$1272  format(' qnbd : pb (bs,s) negatif=',d11.4)
 c
 c     ******************************************************
       indqn=8
       if(iter.eq.1)indqn=-5
-c$$$      if(iprint.gt.0) then
-c$$$        write(bufstr,123)indqn
-c$$$        call basout(io_out ,io ,bufstr(1:lnblnk(bufstr)))
-c$$$        endif
-c$$$      return
 272      sig1=-1.0d+0/sig1
 c     truc powell si (y,s) negatif
       if(cof1.gt.zero)go to 277
-c$$$      if(iprint.gt.2) then
-c$$$        write(bufstr,1270)cof1
-c$$$        call basout(io_out ,io ,bufstr(1:lnblnk(bufstr)))
-c$$$        endif
-c$$$1270  format(' qnbd : emploi truc powell (y,s)=',d11.4)
       teta=-1.0d+0/sig1
       teta=.8*teta/(teta-cof1)
       teta1=1.0d+0-teta
-      do 274 i=1,n
-274   g1(i)=teta*g1(i)+teta1*dir(i)
+      do i=1,n
+         g1(i)=teta*g1(i)+teta1*dir(i)
+      end do
       cof1=-.2/sig1
 277   continue
 c
@@ -336,38 +346,33 @@ c$$$282   format(' qnbd : pb dans appel majour')
 c$$$      if(iprint.gt.0) then
 c$$$        write(bufstr,123)indqn
 c$$$        call basout(io_out ,io ,bufstr(1:lnblnk(bufstr)))
-c$$$        endif
+c$$$  endif
       return
-300   continue
-c
+ 300  continue
+c     
 c     section 3 determination des variables libres et bloquees
-c
+c     
 c     calcul eps1
-c
+c     
       scal1=scal
       if(ieps1.eq.1)scal1=0.0d+0
       if(ieps1.eq.2)scal1=scal*cscal1
-305   do 310 i=1,n
-310   x1(i)=x(i)-scal1*abs(g(i))*g(i)
+ 305  do i=1,n
+         x1(i)=x(i)-scal1*abs(g(i))*g(i)
+      end do
       call proj(n,binf,bsup,x1)
       eps1=0.0d+0
-      do 320 i=1,n
-320   eps1=eps1 + abs(x1(i)-x(i))
+      do i=1,n
+         eps1=eps1 + abs(x1(i)-x(i))
+      end do
       eps1=min(eps0,eps1)
       if(ieps1.eq.1)eps1=0.0d+0
       if(ieps1.eq.2)eps1=eps1*1.0d+4
-c$$$      if(iprint.gt.3) then
-c$$$         write(bufstr,322)eps1
-c$$$         call basout(io_out ,io ,bufstr(1:lnblnk(bufstr)))
-c$$$         endif
-c$$$ 322  format(' qnbd : val de eps1 servant a partitionner les variables'
-c$$$     &,d11.4)
-c     nfac nombre de lignes factorisees (nr pour ajour)
       ifac=0
       idfac=0
       k=0
-c
-c
+c     
+c     
       gr=0.0d+0
       if(ig.eq.1)gr=0.2*difg/n
       n3=n
@@ -376,88 +381,51 @@ c     si irit=1 on peut relacher des variables
       irit=0
       if(difg1.le.epsrel*difg0)irit=1
       if(irel.eq.0.or.iter.eq.1)irit=1
-c$$$      if(irit*irel.gt.0.and.iprint.gt.3) then
-c$$$        write(bufstr,1320)difg0,epsrel,difg1
-c$$$        call basout(io_out ,io ,bufstr(1:lnblnk(bufstr)))
-c$$$        endif
-c$$$1320  format(' qnbd : redemarrage ; difg0,epsrel,difg1=',3d11.4)
-c
+c     
       tiers=1.0d+0/3.0d+0
-      do 340 k=1,n
-      izig(k)=izig(k)-1
-      if(izig(k).le.0)izig(k)=0
-      bi=binf(k)
-      bs=bsup(k)
-      ic=indic(k)
-      d1=x(k)-bi
-      d2=bs-x(k)
-      dd=(bs-bi)*tiers
-      ep=min(eps1,dd)
-      if(d1.gt.ep)go to 324
-      if(g(k).gt.0.)go to 330
-      go to 335
-324   if(d2.gt.ep)go to 335
-      if(g(k).gt.0.)go to 335
-      go to 330
+      do k=1,n
+         izig(k)=izig(k)-1
+         if(izig(k).le.0)izig(k)=0
+         bi=binf(k)
+         bs=bsup(k)
+         ic=indic(k)
+         d1=x(k)-bi
+         d2=bs-x(k)
+         dd=(bs-bi)*tiers
+         ep=min(eps1,dd)
+         if(d1.gt.ep)go to 324
+         if(g(k).gt.0.)go to 330
+         go to 335
+ 324     if(d2.gt.ep)go to 335
+         if(g(k).gt.0.)go to 335
+         go to 330
 c     on defactorise si necessaire
-330   continue
-      if(ic.gt.nfac)go to 340
-      idfac=idfac+1
-      mode=-1
-c$$$      if(iprint.ge.4) then
-c$$$        write(bufstr,336)k
-c$$$        call basout(io_out ,io ,bufstr(1:lnblnk(bufstr)))
-c$$$        endif
-c$$$336   format(' defactorisation de ',i3)
-      izig(k)=izig(k) + izag
-      call ajour(mode,n,k,nfac,dh,x2,indic)
-      if(mode.eq.0) go to 340
-c$$$      if(iprint.gt.0) then
-c$$$        write(bufstr,333)mode
-c$$$        call basout(io_out ,io ,bufstr(1:lnblnk(bufstr)))
-c$$$        endif
-c$$$333   format(' qnbd : pb dans ajour. mode=',i3)
-      indqn=8
-      if(iter.eq.1)indqn=-5
-c$$$      if(iprint.gt.0) then
-c$$$        write(bufstr,123)indqn
-c$$$        call basout(io_out ,io ,bufstr(1:lnblnk(bufstr)))
-c$$$        endif
-      return
+ 330     continue
+         if(ic.gt.nfac)go to 340
+         idfac=idfac+1
+         mode=-1
+         izig(k)=izig(k) + izag
+         call ajour(mode,n,k,nfac,dh,x2,indic)
+         if(mode.eq.0) go to 340
+         indqn=8
+         if(iter.eq.1)indqn=-5
+         return
 c     on factorise
-335   continue
-      if(irit.eq.0)go to 340
-      if(ic.le.nfac)go to 340
-      if(izig(k).ge.1)go to 340
-      mode=1
-      if(ifac.ge.n3.and.iter.gt.1)go to 340
-      if(abs(g(k)).le.gr)go to 340
-      ifac=ifac+1
-c$$$      if(iprint.ge.4) then
-c$$$        write(bufstr,339)k
-c$$$        call basout(io_out ,io ,bufstr(1:lnblnk(bufstr)))
-c$$$        endif
-c$$$339   format(' on factorise l indice ',i3)
-      call ajour(mode,n,k,nfac,dh,x2,indic)
-      if(mode.eq.0)go to 340
-c$$$      if(iprint.gt.0) then
-c$$$        write(bufstr,333)mode
-c$$$        call basout(io_out ,io ,bufstr(1:lnblnk(bufstr)))
-c$$$        endif
-      indqn=8
-      if(iter.eq.1)indqn=-5
-c$$$      if(iprint.gt.0) then
-c$$$        write(bufstr,123)indqn
-c$$$        call basout(io_out ,io ,bufstr(1:lnblnk(bufstr)))
-c$$$        endif
-      return
-340   continue
-c$$$      if(iprint.ge.2) then
-c$$$        write(bufstr,350)ifac,idfac,nfac
-c$$$        call basout(io_out ,io ,bufstr(1:lnblnk(bufstr)))
-c$$$        endif
-c$$$350   format(' qnbd : nbre fact',i3,' defact',i3,
-c$$$     &' total var factorisees',i3)
+ 335     continue
+         if(irit.eq.0)go to 340
+         if(ic.le.nfac)go to 340
+         if(izig(k).ge.1)go to 340
+         mode=1
+         if(ifac.ge.n3.and.iter.gt.1)go to 340
+         if(abs(g(k)).le.gr)go to 340
+         ifac=ifac+1
+         call ajour(mode,n,k,nfac,dh,x2,indic)
+         if(mode.eq.0)go to 340
+         indqn=8
+         if(iter.eq.1)indqn=-5
+         return
+      end do
+ 340  continue
 c
 c     *********************************************** a voir
       if(iconv.eq.1)return
@@ -466,78 +434,78 @@ c     section 6 resolution systeme lineaire et expression de dir
 c     on inverse le syst correspondant aux nl premieres composantes
 c     dans le nouveau syst d indices
       ir=nfac
-      do 640 i=1,n
-      i1=indic(i)
-640   x2(i1)=g(i)
+      do i=1,n
+         i1=indic(i)
+         x2(i1)=g(i)
+      end do
 641   continue
       if(ir.lt.nfac) go to 412
       if(nfac.gt.1) go to 400
       x2(1)=x2(1)/dh(1)
       go to 412
 400   continue
-      do 402 i=2,nfac
-      ij=i
-      i1=i-1
-      v=x2(i)
-      do 401 j=1,i1
-      v=v-dh(ij)*x2(j)
-401   ij=ij+nfac-j
-      x2(i)=v
-402   x2(i)=v
+      do i=2,nfac
+         ij=i
+         i1=i-1
+         v=x2(i)
+         do j=1,i1
+            v=v-dh(ij)*x2(j)
+            ij=ij+nfac-j
+         end do
+         x2(i)=v
+         x2(i)=v
+      end do
       x2(nfac)=x2(nfac)/dh(ij)
       np=nfac+1
-      do 411 nip=2,nfac
-      i=np-nip
-      ii=ij-nip
-      v=x2(i)/dh(ii)
-      ip=i+1
-      ij=ii
-      do 410 j=ip,nfac
-      ii=ii+1
-410   v=v-dh(ii)*x2(j)
-411   x2(i)=v
+      do nip=2,nfac
+         i=np-nip
+         ii=ij-nip
+         v=x2(i)/dh(ii)
+         ip=i+1
+         ij=ii
+         do j=ip,nfac
+            ii=ii+1
+            v=v-dh(ii)*x2(j)
+         end do
+         x2(i)=v
+      end do
 412   continue
       if(ir.eq.nfac)go to 660
-c$$$      if(iprint.gt.0) then
-c$$$        write(bufstr,650)
-c$$$        call basout(io_out ,io ,bufstr(1:lnblnk(bufstr)))
-c$$$        endif
-c$$$650   format(' qnbd : pb num dans mult par inverse')
       indqn=7
       if(iter.eq.1)indqn=-6
-c$$$      if(iprint.gt.0) then
-c$$$        write(bufstr,123)indqn
-c$$$        call basout(io_out ,io ,bufstr(1:lnblnk(bufstr)))
-c$$$        endif
       return
 660   continue
-      do 610 i=1,n
-      i1=indic(i)
-      dir(i)=-g(i)*scal
-610   if(i1.le.nfac) dir(i)=-x2(i1)
+      do i=1,n
+         i1=indic(i)
+         dir(i)=-g(i)*scal
+         if(i1.le.nfac) dir(i)=-x2(i1)
+      end do
       continue
 c
 c     gestion contraintes actives (si iact=1)
       if(iact.ne.1)go to 675
-      do 670 i=1,n
-      if(izig(i).gt.0)dir(i)=0.
-      if(indic(i).gt.nfac)dir(i)=0.0d+0
+      do i=1,n
+         if(izig(i).gt.0)dir(i)=0.
+         if(indic(i).gt.nfac)dir(i)=0.0d+0
+      end do
 670   continue
 675   continue
 c
 c     recherche lineaire
 c     conservation de x et g . calcul de dir+ et fpn
-      do 700 i=1,n
-      g1(i)=g(i)
-700   x1(i)=x(i)
+      do i=1,n
+         g1(i)=g(i)
+         x1(i)=x(i)
+      end do
 c     ifp =1 si fpn trop petit. on prend alors d=-g
       ifp=0
       fn=f
 709   fpn=0.0d+0
-      do 710 i=1,n
-      if(x(i)-binf(i).le.epsx(i).and.dir(i).lt.0.)dir(i)=0.0d+0
-      if(bsup(i)-x(i).le.epsx(i).and.dir(i).gt.0.)dir(i)=0.0d+0
-710   fpn=fpn + g(i)*dir(i)
+      do i=1,n
+         if(x(i)-binf(i).le.epsx(i).and.dir(i).lt.0.)dir(i)=0.0d+0
+         if(bsup(i)-x(i).le.epsx(i).and.dir(i).gt.0.)dir(i)=0.0d+0
+         fpn=fpn + g(i)*dir(i)
+      end do
       if(fpn.gt.0.0d+0) then
          if(ifp.eq.1) then
 c$$$            if(iprint.gt.0) then
@@ -554,8 +522,9 @@ c$$$              endif
             return
          else
             ifp=1
-            do 707 i=1,n
-707         if(izig(i).gt.0)dir(i)=-scal*g(i)
+            do i=1,n
+               if(izig(i).gt.0)dir(i)=-scal*g(i)
+            end do
             irit=1
             go to 709
          endif
@@ -606,12 +575,6 @@ c$$$           endif
          return
       endif
 c
-c$$$753   if(iprint.lt.6)go to 778
-c$$$      do 760 i=1,n
-c$$$760      write(bufstr,777)i,x(i),g(i),dir(i)
-c$$$         call basout(io_out ,io ,bufstr(1:lnblnk(bufstr)))
-c$$$777   format(' i=',i2,' xgd ',3f11.4)
-c$$$c
 778   continue
       if(nap.lt.napmax)go to 758
       f=fn
@@ -629,8 +592,9 @@ c$$$        endif
 758   continue
 c     section 8 test de convergence
 c
-      do 805 i=1,n
-      if(abs(x(i)-x1(i)).gt.epsx(i))go to 806
+      do i=1,n
+         if(abs(x(i)-x1(i)).gt.epsx(i))go to 806
+      end do
 805   continue
       f=fn
 c$$$      if(iprint.gt.0) then
@@ -646,18 +610,20 @@ c$$$        endif
       return
 806   continue
       difg=0.0d+0
-      do 810 i=1,n
-      aa=g(i)
-      if(x(i)-binf(i).le.epsx(i))aa=min(0.0d+0,aa)
-      if(bsup(i)-x(i).le.epsx(i))aa=max(0.0d+0,aa)
-810   difg=difg + aa**2
+      do i=1,n
+         aa=g(i)
+         if(x(i)-binf(i).le.epsx(i))aa=min(0.0d+0,aa)
+         if(bsup(i)-x(i).le.epsx(i))aa=max(0.0d+0,aa)
+         difg=difg + aa**2
+      end do
       difg1=0.0d+0
-      do 820 i=1,n
-      if(indic(i).gt.nfac)go to 820
-      aa=g(i)
-      if(x(i)-binf(i).le.epsx(i))aa=min(0.0d+0,aa)
-      if(bsup(i)-x(i).le.epsx(i))aa=max(0.0d+0,aa)
-      difg1=difg1 + aa**2
+      do i=1,n
+         if(indic(i).gt.nfac)go to 820
+         aa=g(i)
+         if(x(i)-binf(i).le.epsx(i))aa=min(0.0d+0,aa)
+         if(bsup(i)-x(i).le.epsx(i))aa=max(0.0d+0,aa)
+         difg1=difg1 + aa**2
+      end do
 820   continue
       difg1=sqrt(difg1)
       difg=sqrt(difg)

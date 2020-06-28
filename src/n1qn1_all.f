@@ -4,12 +4,13 @@ c     Modified by Matthew Fidler in 2017 for different outputs to the R console
       double precision g, x
       dimension g(n)
       ret = 0
-      do 7710, i=1, n
+      do i=1, n
          if (abs(g(i)) .ge. huge(x)) then
             ret = 1
             goto 7710
          endif
- 7710 continue
+      end do 
+ 7710    continue
       vff = ret
       end
 c     Note this should be thread safe since it doesn't use global variables
@@ -133,8 +134,7 @@ c
 c     next line added by Serge to avoid Inf and Nan's (04/2007)
       if ( abs(f) .ge. huge(f) .and. vff(n, g).ne.1) indic=-1
       if (indic.gt.0) go to 13
-      if (iprint.eq.0) go to 12
-   12 acc=0.0d+0
+      acc=0.0d+0
       niter=1
       nsim=1
       return
@@ -145,16 +145,19 @@ c     next line added by Serge to avoid Inf and Nan's (04/2007)
 c                  initialisation du hessien, en fonction de var
       if (mode.ge.2) go to 60
    20 c=0.0d+0
-      do 30 i=1,n
-   30 c=max(c,abs(g(i)*scale(i)))
+      do i=1,n
+         c=max(c,abs(g(i)*scale(i)))
+      end do
       if (c.le.0.0d+0) c=1.0d+0
       k=(n*np)/2
-      do 40 i=1,k
-   40 h(i)=0.0d+0
+      do i=1,k
+         h(i)=0.0d+0
+      end do
       k=1
-      do 50 i=1,n
-      h(k)=0.010d+0*c/(scale(i)*scale(i))
-   50 k=k+np-i
+      do i=1,n
+         h(k)=0.010d+0*c/(scale(i)*scale(i))
+         k=k+np-i
+      end do
       go to 100
 c               factorisation du hessien
    60 if (mode.ge.3) go to 80
@@ -167,24 +170,27 @@ c               factorisation du hessien
   300 continue
       np=n+1
       ii=1
-      do 304 i=2,n
-      hh=h(ii)
-      ni=ii+np-i
-      if(hh.gt.0.0d+0) go to 301
-      h(ii)=0.0d+0
-      k=k-1
-      ii=ni+1
-      go to 304
-  301 continue
-      ip=ii+1
-      ii=ni+1
-      jk=ii
-      do 303 ij=ip,ni
-      v=h(ij)/hh
-      do 302 ik=ij,ni
-      h(jk)=h(jk)-h(ik)*v
-  302 jk=jk+1
-  303 h(ij)=v
+      do i=2,n
+         hh=h(ii)
+         ni=ii+np-i
+         if(hh.gt.0.0d+0) go to 301
+         h(ii)=0.0d+0
+         k=k-1
+         ii=ni+1
+         go to 304
+ 301     continue
+         ip=ii+1
+         ii=ni+1
+         jk=ii
+         do ij=ip,ni
+            v=h(ij)/hh
+            do ik=ij,ni
+               h(jk)=h(jk)-h(ik)*v
+               jk=jk+1
+            end do
+            h(ij)=v
+         end do
+      end do
   304 continue
       if(h(ii).gt.0.0d+0) go to 305
       h(ii)=0.0d+0
@@ -195,16 +201,18 @@ c
  70   go to 20
 c                verification que la diagonale est positive
    80 k=1
-      do 90 i=1,n
-      if (h(k).le.0.0d+0) go to 70
-   90 k=k+np-i
+      do i=1,n
+         if (h(k).le.0.0d+0) go to 70
+         k=k+np-i
+      end do
 c                quelques initialisations
   100 dff=0.0d+0
   110 fa=f
       isfv=1
-      do 120 i=1,n
-      xa(i)=x(i)
-  120 ga(i)=g(i)
+      do i=1,n
+         xa(i)=x(i)
+         ga(i)=g(i)
+      end do
 c                   iteration
   130 itr=itr+1
       ial=0
@@ -217,42 +225,48 @@ c                   iteration
 c     error in user function
       if(indic.eq.0) goto 250
 c               calcul de la direction de recherche
-  140 do 150 i=1,n
-  150 d(i)=-ga(i)
+  140 do i=1,n
+         d(i)=-ga(i)
+      end do
       w(1)=d(1)
       if(n.gt.1)go to 400
       d(1)=d(1)/h(1)
       go to 412
   400 continue
-      do 402 i=2,n
-      ij=i
-      i1=i-1
-      v=d(i)
-      do 401 j=1,i1
-      v=v-h(ij)*d(j)
-  401 ij=ij+n-j
-      w(i)=v
-  402 d(i)=v
+      do i=2,n
+         ij=i
+         i1=i-1
+         v=d(i)
+         do j=1,i1
+            v=v-h(ij)*d(j)
+            ij=ij+n-j
+         end do
+         w(i)=v
+         d(i)=v
+      end do
       d(n)=d(n)/h(ij)
       np=n+1
-      do 411 nip=2,n
-      i=np-nip
-      ii=ij-nip
-      v=d(i)/h(ii)
-      ip=i+1
-      ij=ii
-      do 410 j=ip,n
-      ii=ii+1
-  410 v=v-h(ii)*d(j)
-  411 d(i)=v
+      do nip=2,n
+         i=np-nip
+         ii=ij-nip
+         v=d(i)/h(ii)
+         ip=i+1
+         ij=ii
+         do j=ip,n
+            ii=ii+1
+            v=v-h(ii)*d(j)
+         end do
+         d(i)=v
+      end do 
   412 continue
 c               calcul du pas minimum
 c               et de la derivee directionnelle initiale
       c=0.0d+0
       dga=0.0d+0
-      do 160 i=1,n
-      c=max(c,abs(d(i)/scale(i)))
-  160 dga=dga+ga(i)*d(i)
+      do i=1,n
+         c=max(c,abs(d(i)/scale(i)))
+         dga=dga+ga(i)*d(i)
+      end do
 c               test si la direction est de descente
       if (dga.ge.0.0d+0) go to 240
 c               initialisation du pas
@@ -269,8 +283,9 @@ c               initialisation du pas
       if (nfun.ge.nsim) go to 250
       nfun=nfun+1
 c              calcul de fonction-gradient
-      do 180 i=1,n
-  180 xb(i)=xa(i)+c*d(i)
+      do i=1,n
+         xb(i)=xa(i)+c*d(i)
+      end do
       indic=4
       call simul (indic,n,xb,fb,gb,izs,rzs,dzs)
 c     next line added by Serge to avoid Inf and Nan's (04/2007)
@@ -278,9 +293,10 @@ c     next line added by Serge to avoid Inf and Nan's (04/2007)
 c              test sur indic
       if (indic.gt.0) goto 185
       if (indic.lt.0) goto 183
-      do 182 i=1,n
-      x(i)=xb(i)
-  182 g(i)=gb(i)
+      do i=1,n
+         x(i)=xb(i)
+         g(i)=gb(i)
+      end do
       go to 250
   183 stepbd=step
       ial=1
@@ -293,19 +309,22 @@ c             stockage si c'est la plus petite valeur
       if (fb.lt.f) go to 200
       gl1=0.0d+0
       gl2=0.0d+0
-      do 190 i=1,n
-      gl1=gl1+(scale(i)*g(i))**2
-  190 gl2=gl2+(scale(i)*gb(i))**2
+      do i=1,n
+         gl1=gl1+(scale(i)*g(i))**2
+         gl2=gl2+(scale(i)*gb(i))**2
+      end do
       if (gl2.ge.gl1) go to 220
   200 isfv=3
       f=fb
-      do 210 i=1,n
-      x(i)=xb(i)
-  210 g(i)=gb(i)
+      do i=1,n
+         x(i)=xb(i)
+         g(i)=gb(i)
+      end do
 c               calcul de la derivee directionnelle
   220 dgb=0.0d+0
-      do 230 i=1,n
-  230 dgb=dgb+gb(i)*d(i)
+      do i=1,n
+         dgb=dgb+gb(i)*d(i)
+      end do
       if (iprint.lt.3) goto 231
       s=fb-fa
   231 if (fb-fa.le.0.10d+0*c*dga) go to 280
@@ -315,8 +334,9 @@ c               iteration terminee si le pas est minimum
   240 if (isfv.ge.2) go to 110
 c               ici, tout est termine
  250  acc=0.0d+0
-      do 260 i=1,n
-  260 acc=acc+g(i)*g(i)
+      do i=1,n
+         acc=acc+g(i)*g(i)
+      end do
       niter=itr
       nsim=nfun
       return
@@ -348,11 +368,12 @@ c                 recherche lineaire terminee, test de convergence
       if (stmin+step.le.steplb) go to 240
 c                 formule de bfgs
       ir=-n
-      do 290 i=1,n
-      xa(i)=xb(i)
-      xb(i)=ga(i)
-      d(i)=gb(i)-ga(i)
-  290 ga(i)=gb(i)
+      do i=1,n
+         xa(i)=xb(i)
+         xb(i)=ga(i)
+         d(i)=gb(i)-ga(i)
+         ga(i)=gb(i)
+      end do
       call majour(h,xb,w,n,1.0d+0/dga,ir,1,0.0d+0)
       ir=-ir
       call majour(h,d,d,n,1.0d+0/(stmin*(dgb-dga)),ir,1,0.0d+0)
@@ -389,15 +410,18 @@ c
       ll=1
       if(indic.eq.0) go to 1
 c
-      do 2 i=1,n
-      if(hm(ll).eq.0.0d+0) go to 2 
-      hon=hon+dd(i)**2/hm(ll)
- 2    ll=ll+np-i
+      do i=1,n
+         if(hm(ll).eq.0.0d+0) go to 2 
+         hon=hon+dd(i)**2/hm(ll)
+         ll=ll+np-i
+      end do
+ 2    continue
       go to 3
 c
  1    continue
-      do 4 i=1,n
-      dd(i)=hd(i)
+      do i=1,n
+         dd(i)=hd(i)
+      end do
  4    continue
       do 5 i=1,n
          iplus=i+1
@@ -409,10 +433,11 @@ c
  6       continue
          hon=hon+del**2/hm(ll)
          if(i.eq.n) go to 7
-         do 8 j=iplus,n
+         do j=iplus,n
             ll=ll+1
- 8          dd(j)=dd(j)-del*hm(ll)
- 7          ll=ll+1
+            dd(j)=dd(j)-del*hm(ll)
+         end do
+ 7       ll=ll+1
  5    continue
 c
  3    continue
@@ -432,12 +457,13 @@ c
  11   continue
       mm=1
       honm=hon
-      do 12 i=1,n
-      j=np-i
-      ll=ll-i
-      if(hm(ll).ne.0.0d+0) honm=hon-dd(j)**2/hm(ll)
-      dd(j)=hon
- 12   hon=honm
+      do  i=1,n
+         j=np-i
+         ll=ll-i
+         if(hm(ll).ne.0.0d+0) honm=hon-dd(j)**2/hm(ll)
+         dd(j)=hon
+         hon=honm
+      end do
       go to 13
 c
  99   continue
@@ -456,9 +482,10 @@ c
          ir=1-ir
          hm(ll)=del**2/honm
          if(i.eq.n) go to 999
-         do 16 j=iplus,n
+         do j=iplus,n
             ll=ll+1
- 16         hm(ll)=hd(j)/del
+            hm(ll)=hd(j)/del
+         end do
          go to 999
  15      continue
          hon=honm
@@ -481,17 +508,19 @@ c
          if(i.eq.n)go to 20
          b=hml/hon
          if(r.gt.4.0d+0) go to 21
-         do 22 j=iplus,n
+         do j=iplus,n
             ll=ll+1
             hd(j)=hd(j)-del*hm(ll)
- 22         hm(ll)=hm(ll)+b*hd(j)
+            hm(ll)=hm(ll)+b*hd(j)
+         end do
          go to 23
  21      gm=honm/hon
-         do 24 j=iplus,n
+         do j=iplus,n
             ll=ll+1
             y=hm(ll)
             hm(ll)=b*hd(j)+y*gm
- 24         hd(j)=hd(j)-del*y
+            hd(j)=hd(j)-del*y
+         end do
  23     continue
         honm=hon
         ll=ll+1
