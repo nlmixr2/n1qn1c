@@ -171,9 +171,6 @@ L7710:
     int i__1, i__2, i__3;
     double d__1, d__2, d__3, d__4;
 
-    /* Builtin functions */
-    double sqrt(double);
-
     /* Local variables */
     static double c__;
     static int i__, j, k;

@@ -20,6 +20,7 @@ void n1qn1cF2(S2_fp simul, int n[], double x[], double f[], double g[], double v
 }
 /* .C calls */
 extern SEXP n1qn1c_wrap(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+
 extern SEXP qnbd_wrap(SEXP, SEXP, SEXP, SEXP, SEXP, 
 		      SEXP, SEXP, SEXP, SEXP, SEXP, 
 		      SEXP, SEXP, SEXP, SEXP);
@@ -29,19 +30,16 @@ extern void qnbd_(int* indqn, S2_fp fn, int* n, double* x, double* f, double* g,
 		  double* binf, double* binsup, int* nfac, double* trav, int* ntrav, int* itrav, int* nitrav, 
 		  int* izs, float* rzs, double* dzs);
 
-
-static const R_CallMethodDef CallEntries[] = {
-  {"n1qn1c_wrap", (DL_FUNC) &n1qn1c_wrap, 13},
-  {"qnbd_wrap", (DL_FUNC) &qnbd_wrap, 14},
-  {NULL, NULL, 0}
-};
-
 void R_init_n1qn1c(DllInfo *dll)
 {
+  R_CallMethodDef callMethods[]  = {
+    {"n1qn1c_wrap", (DL_FUNC) &n1qn1c_wrap, 13},
+    {"qnbd_wrap", (DL_FUNC) &qnbd_wrap, 14},
+    {NULL, NULL, 0}
+  };
   R_RegisterCCallable("n1qn1c","n1qn1cF", (DL_FUNC) n1qn1cF);
   R_RegisterCCallable("n1qn1c","n1qn1cF2", (DL_FUNC) n1qn1cF2);
   R_RegisterCCallable("n1qn1c","qnbdF", (DL_FUNC) qnbd_);
-  R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
-  R_useDynamicSymbols(dll, TRUE);
-  R_forceSymbols(dll,TRUE);
-}
+  R_registerRoutines(dll, NULL, callMethods, NULL, NULL);
+  R_useDynamicSymbols(dll, FALSE);
+} 

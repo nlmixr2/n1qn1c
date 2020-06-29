@@ -1,6 +1,6 @@
-##' n1qn1 optimization
+##' n1qn1c optimization
 ##'
-##' This is an R port of the n1qn1 optimization procedure in scilab.
+##' This is an R port of the nq1n1c optimization procedure in scilab.
 ##'
 ##' @param call_eval Objective function
 ##' @param call_grad Gradient Function
@@ -35,7 +35,7 @@
 ##' @author C. Lemarechal, Stephen L. Campbell, Jean-Philippe
 ##'     Chancelier, Ramine Nikoukhah, Wenping Wang & Matthew L. Fidler
 ##' @importFrom Rcpp evalCpp
-##' @useDynLib n1qn1, .registration=TRUE
+##' @useDynLib nq1n1c, .registration=TRUE
 ##' @examples
 ##'
 ##' ## Rosenbrock's banana function
@@ -69,7 +69,7 @@
 ##' nzm=as.integer(n*(n+13L)/2L)
 ##' zm=double(nzm)
 ##'
-##' (op1 <- n1qn1(fr, grr, x, imp=3))
+##' (op1 <- nq1n1c(fr, grr, x, imp=3))
 ##'
 ##' ## Note there are 40 function calls and 40 gradient calls in the above optimization
 ##'
@@ -82,11 +82,11 @@
 ##'             200.024349)
 ##' c.hess <- c(c.hess, rep(0, 24 - length(c.hess)))
 ##'
-##' (op2 <- n1qn1(fr, grr, x,imp=3, zm=c.hess))
+##' (op2 <- nq1n1c(fr, grr, x,imp=3, zm=c.hess))
 ##'
 ##' ## Note with this knowledge, there were only 29 function/gradient calls
 ##'
-##' (op3 <- n1qn1(fr, grr, x, imp=3, zm=op1$c.hess))
+##' (op3 <- nq1n1c(fr, grr, x, imp=3, zm=op1$c.hess))
 ##'
 ##' ## The number of function evaluations is still reduced because the Hessian
 ##' ## is closer to what it should be than the initial guess.
@@ -95,45 +95,47 @@
 ##' ## Optimization time.
 ##'
 ##' @export
-n1qn1 <- function(call_eval, call_grad, vars, environment=parent.frame(1), ...,
-                  epsilon=.Machine$double.eps, max_iterations=100, nsim=100,
-                  imp=0,
-                  invisible=NULL,
-                  zm=NULL, restart=FALSE,
-                  assign=FALSE,
-                  print.functions=FALSE){
-    if (!is.null(invisible)){
-        if (invisible == 1){
-            imp <- 0;
-            print.functions <- FALSE
-        } else {
-            print.functions <- TRUE
-        }
-    }
-    if (!missing(max_iterations) && missing(nsim)){
-        nsim <- max_iterations * 10;
-    }
-    n <- as.integer(length(vars));
-    imp <- as.integer(imp);
-    max_iterations <- as.integer(max_iterations)
-    nsim <- as.integer(nsim)
-    nzm <- as.integer(ceiling(n * (n + 13) / 2));
-    nsim <- as.integer(nsim);
-    epsilon <- as.double(epsilon)
-    if (is.null(zm)){
-        mode <- 1L
-        zm <- double(nzm);
+n1qn1c <- function(call_eval, call_grad, vars, environment = parent.frame(1), ...,
+                   epsilon = .Machine$double.eps, max_iterations = 100, nsim = 100,
+                   imp = 0,
+                   invisible = NULL,
+                   zm = NULL, restart = FALSE,
+                   assign = FALSE,
+                   print.functions = FALSE) {
+  if (!is.null(invisible)) {
+    if (invisible == 1) {
+      imp <- 0
+      print.functions <- FALSE
     } else {
-        mode <- 2L
-        if (restart) model <- 3L
-        if (length(zm) != nzm){
-            stop(sprintf("Compressed Hessian not the right length for this problem.  It should be %d.", nzm))
-        }
+      print.functions <- TRUE
     }
-    ret <- .Call(n1qn1_wrap, call_eval, call_grad, environment,
-                 vars, epsilon, n, mode, max_iterations, nsim, imp, nzm, zm, as.integer(print.functions));
-    if (assign) environment$c.hess <- ret$hess;
-    return(ret)
+  }
+  if (!missing(max_iterations) && missing(nsim)) {
+    nsim <- max_iterations * 10
+  }
+  n <- as.integer(length(vars))
+  imp <- as.integer(imp)
+  max_iterations <- as.integer(max_iterations)
+  nsim <- as.integer(nsim)
+  nzm <- as.integer(ceiling(n * (n + 13) / 2))
+  nsim <- as.integer(nsim)
+  epsilon <- as.double(epsilon)
+  if (is.null(zm)) {
+    mode <- 1L
+    zm <- double(nzm)
+  } else {
+    mode <- 2L
+    if (restart) model <- 3L
+    if (length(zm) != nzm) {
+      stop(sprintf("Compressed Hessian not the right length for this problem.  It should be %d.", nzm))
+    }
+  }
+  ret <- .Call(
+    n1qn1c_wrap, call_eval, call_grad, environment,
+    vars, epsilon, n, mode, max_iterations, nsim, imp, nzm, zm, as.integer(print.functions)
+  )
+  if (assign) environment$c.hess <- ret$hess
+  return(ret)
 }
 
 
@@ -154,7 +156,7 @@ n1qn1 <- function(call_eval, call_grad, vars, environment=parent.frame(1), ...,
 ##' @param epsg Gradient eps for exiting
 ##' @param epsx Parameter eps for exiting
 ##' @param print.functions
-##' @inheritParams n1qn1
+##' @inheritParams nq1n1c
 ##' @export
 ##' @examples
 ##'
@@ -188,14 +190,16 @@ n1qn1 <- function(call_eval, call_grad, vars, environment=parent.frame(1), ...,
 ##' op1 <- qnbd(x, fr, grr)
 ##'
 ##' @export
-qnbd <- function(par, fn, gr, lower= -Inf, upper=Inf, environment=parent.frame(1),
-                 zero=sqrt(.Machine$double.eps/7e-07), maxFn=10000L, maxIt=10000L,
-                 epsf=sqrt(.Machine$double.eps), epsg=sqrt(.Machine$double.eps),
-                 epsx=sqrt(.Machine$double.eps), print.functions=FALSE){
-    n <- length(par);
-    if (length(lower) == 1) lower <- rep(lower, n);
-    if (length(upper) == 1) upper <- rep(upper, n);
-    ret <- .Call(qnbd_wrap, fn, gr, environment, par, lower, upper, zero, as.integer(maxFn),
-                           as.integer(maxIt), epsf, epsg, epsx, as.integer(n), as.integer(print.functions));
-    return(ret);
+qnbd <- function(par, fn, gr, lower = -Inf, upper = Inf, environment = parent.frame(1),
+                 zero = sqrt(.Machine$double.eps / 7e-07), maxFn = 10000L, maxIt = 10000L,
+                 epsf = sqrt(.Machine$double.eps), epsg = sqrt(.Machine$double.eps),
+                 epsx = sqrt(.Machine$double.eps), print.functions = FALSE) {
+  n <- length(par)
+  if (length(lower) == 1) lower <- rep(lower, n)
+  if (length(upper) == 1) upper <- rep(upper, n)
+  ret <- .Call(
+    qnbd_wrap, fn, gr, environment, par, lower, upper, zero, as.integer(maxFn),
+    as.integer(maxIt), epsf, epsg, epsx, as.integer(n), as.integer(print.functions)
+  )
+  return(ret)
 }
