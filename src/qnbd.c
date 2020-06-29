@@ -10,8 +10,6 @@
 		http://www.netlib.org/f2c/libf2c.zip
 */
 
-#include "f2c.h"
-
 /*     removed io and comment out any printing from fortran. */
 /*     Scilab ( http://www.scilab.org/ ) - This file is part of Scilab */
 /*     Copyright (C) 1986 - INRIA - F. BONNANS */
@@ -25,23 +23,26 @@
 /* For more information, see the COPYING file which you should have received */
 /* along with this program. */
 
-/* Subroutine */ int qnbd_(integer *indqn, U_fp simul, integer *n, doublereal 
-	*x, doublereal *f, doublereal *g, doublereal *zero, integer *napmax, 
-	integer *itmax, doublereal *epsf, doublereal *epsg, doublereal *epsx, 
-	doublereal *df0, doublereal *binf, doublereal *bsup, integer *nfac, 
-	doublereal *trav, integer *ntrav, integer *itrav, integer *nitrav, 
-	integer *izs, real *rzs, doublereal *dzs)
+// From f2c header
+typedef int /* Unknown procedure type */ (*U_fp)();
+
+/* Subroutine */ int qnbd_(int *indqn, U_fp simul, int *n, double 
+	*x, double *f, double *g, double *zero, int *napmax, 
+	int *itmax, double *epsf, double *epsg, double *epsx, 
+	double *df0, double *binf, double *bsup, int *nfac, 
+	double *trav, int *ntrav, int *itrav, int *nitrav, 
+	int *izs, float *rzs, double *dzs)
 {
-    static integer n1, n2, n3, n4, n5, ig, in, ni1, ni2, iact, izag, irel, 
+    static int n1, n2, n3, n4, n5, ig, in, ni1, ni2, iact, izag, irel, 
 	    ieps1;
-    extern /* Subroutine */ int zqnbd_(integer *, U_fp, doublereal *, integer 
-	    *, doublereal *, doublereal *, doublereal *, doublereal *, 
-	    doublereal *, doublereal *, integer *, integer *, integer *, 
-	    integer *, integer *, doublereal *, doublereal *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *, doublereal *, 
-	    doublereal *, integer *, integer *, integer *, integer *, integer 
-	    *, doublereal *, integer *, integer *, real *, doublereal *);
-    static doublereal epsrel;
+    extern /* Subroutine */ int zqnbd_(int *, U_fp, double *, int 
+	    *, double *, double *, double *, double *, 
+	    double *, double *, int *, int *, int *, 
+	    int *, int *, double *, double *, double *, 
+	    double *, double *, double *, double *, 
+	    double *, int *, int *, int *, int *, int 
+	    *, double *, int *, int *, float *, double *);
+    static double epsrel;
 
 /* !but */
 /*     code de minimisation d une fonction reguliere sous contraintes */

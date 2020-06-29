@@ -10,7 +10,16 @@
 		http://www.netlib.org/f2c/libf2c.zip
 */
 
-#include "f2c.h"
+#include <stdio.h>
+#include <float.h>
+#include <math.h>
+
+#define max( a , b )  ( (a) > (b) ? (a) : (b) )
+#define min( a , b )  ( (a) < (b) ? (a) : (b) )
+
+typedef /* Subroutine */ int (*S_fp)();
+typedef /* Subroutine */ int (*U_fp)();
+
 
 /* Scilab ( http://www.scilab.org/ ) - This file is part of Scilab */
 /* Copyright (C) INRIA */
@@ -24,21 +33,21 @@
 /* For more information, see the COPYING file which you should have received */
 /* along with this program. */
 
-/* Subroutine */ int satur_(integer *n, doublereal *x, doublereal *binf, 
-	doublereal *bsup, doublereal *d__, doublereal *ttmin, doublereal *
-	ttsup, doublereal *topt, doublereal *tg, doublereal *td, doublereal *
-	tmi, integer *icoi, integer *icos, integer *iproj)
+/* Subroutine */ int satur_(int *n, double *x, double *binf, 
+	double *bsup, double *d__, double *ttmin, double *
+	ttsup, double *topt, double *tg, double *td, double *
+	tmi, int *icoi, int *icos, int *iproj)
 {
     /* System generated locals */
-    integer i__1;
-    doublereal d__1;
+    int i__1;
+    double d__1;
 
     /* Local variables */
-    static doublereal e;
-    static integer i__;
-    static doublereal ep, tb;
-    static integer inf;
-    static doublereal cres;
+    static double e;
+    static int i__;
+    static double ep, tb;
+    static int inf;
+    static double cres;
 
 
 /*      subroutine calculant ,dans un intervalle donne, un pas proche */
@@ -102,7 +111,7 @@ L63:
 	    inf = 2;
 	}
 /*        recherche du pas le plus proche de tmi */
-	e = (d__1 = tb - *tmi, abs(d__1));
+	e = (d__1 = tb - *tmi, fabs(d__1));
 	if (e >= ep) {
 	    goto L70;
 	}

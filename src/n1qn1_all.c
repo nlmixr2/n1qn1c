@@ -10,26 +10,32 @@
 		http://www.netlib.org/f2c/libf2c.zip
 */
 
-#include "f2c.h"
 #include <stdio.h>
 #include <float.h>
+#include <math.h>
+
+#define max( a , b )  ( (a) > (b) ? (a) : (b) )
+#define min( a , b )  ( (a) < (b) ? (a) : (b) )
+
+typedef /* Subroutine */ int (*S_fp)();
+typedef /* Subroutine */ int (*U_fp)();
 
 /* Table of constant values */
 
-static integer c__1 = 1;
-static doublereal c_b32 = 0.;
+static int c__1 = 1;
+static double c_b32 = 0.;
 
 /*     Modified by Matthew Fidler in 2017 for different outputs to the R console */
-integer vff_(integer *n, doublereal *g)
+int vff_(int *n, double *g)
 {
     /* System generated locals */
-    integer ret_val, i__1;
-    doublereal d__1;
+    int ret_val, i__1;
+    double d__1;
 
     /* Local variables */
-    static integer i__;
-    static doublereal x;
-    static integer ret;
+    static int i__;
+    static double x;
+    static int ret;
 
     /* Parameter adjustments */
     --g;
@@ -38,7 +44,7 @@ integer vff_(integer *n, doublereal *g)
     ret = 0;
     i__1 = *n;
     for (i__ = 1; i__ <= i__1; ++i__) {
-	if (((d__1 = g[i__], abs(d__1))) >= DBL_MAX) {
+	if (((d__1 = g[i__], fabs(d__1))) >= DBL_MAX) {
 	    ret = 1;
 	    goto L7710;
 	}
@@ -58,17 +64,17 @@ L7710:
 /* are also available at */
 /* http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt */
 
-/* Subroutine */ int n1qn1c_(U_fp simul, integer *n, doublereal *x, doublereal 
-	*f, doublereal *g, doublereal *var, doublereal *eps, integer *mode, 
-	integer *niter, integer *nsim, integer *imp, doublereal *zm, integer *
-	izs, real *rzs, doublereal *dzs)
+/* Subroutine */ int n1qn1c_(U_fp simul, int *n, double *x, double 
+	*f, double *g, double *var, double *eps, int *mode, 
+	int *niter, int *nsim, int *imp, double *zm, int *
+	izs, float *rzs, double *dzs)
 {
-    static integer nd, nw, nga, ngb, nxa, nxb;
-    extern /* Subroutine */ int n1qn1ca_(U_fp, integer *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *, doublereal *, integer *,
-	     integer *, integer *, integer *, doublereal *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *, doublereal *, 
-	    doublereal *, integer *, real *, doublereal *);
+    static int nd, nw, nga, ngb, nxa, nxb;
+    extern /* Subroutine */ int n1qn1ca_(U_fp, int *, double *, 
+	    double *, double *, double *, double *, int *,
+	     int *, int *, int *, double *, double *, 
+	    double *, double *, double *, double *, 
+	    double *, int *, float *, double *);
 
 
 /* !but */
@@ -154,39 +160,39 @@ L7710:
 /* are also available at */
 /* http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt */
 
-/* Subroutine */ int n1qn1ca_(S_fp simul, integer *n, doublereal *x, 
-	doublereal *f, doublereal *g, doublereal *scale, doublereal *acc, 
-	integer *mode, integer *niter, integer *nsim, integer *iprint, 
-	doublereal *h__, doublereal *d__, doublereal *w, doublereal *xa, 
-	doublereal *ga, doublereal *xb, doublereal *gb, integer *izs, real *
-	rzs, doublereal *dzs)
+/* Subroutine */ int n1qn1ca_(S_fp simul, int *n, double *x, 
+	double *f, double *g, double *scale, double *acc, 
+	int *mode, int *niter, int *nsim, int *iprint, 
+	double *h__, double *d__, double *w, double *xa, 
+	double *ga, double *xb, double *gb, int *izs, float *
+	rzs, double *dzs)
 {
     /* System generated locals */
-    integer i__1, i__2, i__3;
-    doublereal d__1, d__2, d__3, d__4;
+    int i__1, i__2, i__3;
+    double d__1, d__2, d__3, d__4;
 
     /* Builtin functions */
-    double sqrt(doublereal);
+    double sqrt(double);
 
     /* Local variables */
-    static doublereal c__;
-    static integer i__, j, k;
-    static doublereal s, v;
-    static integer i1;
-    static doublereal cc, fa, fb, hh;
-    static integer ii, ij, ik, jk, ni, ip, ir, np;
-    static doublereal gl1, gl2, dga, dgb, dff;
-    static integer ial;
-    extern integer vff_(integer *, doublereal *);
-    static integer nip, itr;
-    static doublereal fmin, gmin;
-    static integer nfun, isfv;
-    static doublereal step;
-    static integer indic, iecri;
-    static doublereal stmin, stepbd, steplb;
-    extern /* Subroutine */ int majour_(doublereal *, doublereal *, 
-	    doublereal *, integer *, doublereal *, integer *, integer *, 
-	    doublereal *);
+    static double c__;
+    static int i__, j, k;
+    static double s, v;
+    static int i1;
+    static double cc, fa, fb, hh;
+    static int ii, ij, ik, jk, ni, ip, ir, np;
+    static double gl1, gl2, dga, dgb, dff;
+    static int ial;
+    extern int vff_(int *, double *);
+    static int nip, itr;
+    static double fmin, gmin;
+    static int nfun, isfv;
+    static double step;
+    static int indic, iecri;
+    static double stmin, stepbd, steplb;
+    extern /* Subroutine */ int majour_(double *, double *, 
+	    double *, int *, double *, int *, int *, 
+	    double *);
 
 
 /*     A (very) few modifs by Bruno (14 March 2005): I have translated some output */
@@ -219,7 +225,7 @@ L7710:
     indic = 4;
     (*simul)(&indic, n, &x[1], f, &g[1], &izs[1], &rzs[1], &dzs[1]);
 /*     next line added by Serge to avoid Inf and Nan's (04/2007) */
-    if (abs(*f) >= DBL_MAX && vff_(n, &g[1]) != 1) {
+    if (fabs(*f) >= DBL_MAX && vff_(n, &g[1]) != 1) {
 	indic = -1;
     }
     if (indic > 0) {
@@ -243,7 +249,7 @@ L20:
     i__1 = *n;
     for (i__ = 1; i__ <= i__1; ++i__) {
 /* Computing MAX */
-	d__2 = c__, d__3 = (d__1 = g[i__] * scale[i__], abs(d__1));
+	d__2 = c__, d__3 = (d__1 = g[i__] * scale[i__], fabs(d__1));
 	c__ = max(d__2,d__3);
     }
     if (c__ <= 0.) {
@@ -407,7 +413,7 @@ L412:
     i__1 = *n;
     for (i__ = 1; i__ <= i__1; ++i__) {
 /* Computing MAX */
-	d__2 = c__, d__3 = (d__1 = d__[i__] / scale[i__], abs(d__1));
+	d__2 = c__, d__3 = (d__1 = d__[i__] / scale[i__], fabs(d__1));
 	c__ = max(d__2,d__3);
 	dga += ga[i__] * d__[i__];
     }
@@ -446,7 +452,7 @@ L170:
     indic = 4;
     (*simul)(&indic, n, &xb[1], &fb, &gb[1], &izs[1], &rzs[1], &dzs[1]);
 /*     next line added by Serge to avoid Inf and Nan's (04/2007) */
-    if (abs(fb) >= DBL_MAX && vff_(n, &gb[1]) != 1) {
+    if (fabs(fb) >= DBL_MAX && vff_(n, &gb[1]) != 1) {
 	indic = -1;
     }
 /*              test sur indic */
@@ -542,8 +548,8 @@ L270:
     if (c__ == 0.) {
 	goto L250;
     }
-    cc = abs(c__) - gmin * (dgb / abs(c__));
-    cc = sqrt((abs(c__))) * sqrt((max(0.,cc)));
+    cc = fabs(c__) - gmin * (dgb / fabs(c__));
+    cc = sqrt((fabs(c__))) * sqrt((max(0.,cc)));
     c__ = (c__ - gmin + cc) / (dgb - gmin + cc + cc);
     step *= max(.1,c__);
     goto L170;
@@ -617,21 +623,21 @@ L285:
 /* are also available at */
 /* http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt */
 
-/* Subroutine */ int majour_(doublereal *hm, doublereal *hd, doublereal *dd, 
-	integer *n, doublereal *hno, integer *ir, integer *indic, doublereal *
+/* Subroutine */ int majour_(double *hm, double *hd, double *dd, 
+	int *n, double *hno, int *ir, int *indic, double *
 	eps)
 {
     /* System generated locals */
-    integer i__1, i__2;
-    doublereal d__1;
+    int i__1, i__2;
+    double d__1;
 
     /* Local variables */
-    static doublereal b;
-    static integer i__, j;
-    static doublereal r__, y, gm;
-    static integer ll, mm, np;
-    static doublereal del, hml, hon, honm;
-    static integer iplus;
+    static double b;
+    static int i__, j;
+    static double r__, y, gm;
+    static int ll, mm, np;
+    static double del, hml, hon, honm;
+    static int iplus;
 
 
     /* Parameter adjustments */

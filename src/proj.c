@@ -10,7 +10,16 @@
 		http://www.netlib.org/f2c/libf2c.zip
 */
 
-#include "f2c.h"
+#include <stdio.h>
+#include <float.h>
+#include <math.h>
+
+#define max( a , b )  ( (a) > (b) ? (a) : (b) )
+#define min( a , b )  ( (a) < (b) ? (a) : (b) )
+
+typedef /* Subroutine */ int (*S_fp)();
+typedef /* Subroutine */ int (*U_fp)();
+
 
 /* Scilab ( http://www.scilab.org/ ) - This file is part of Scilab */
 /* Copyright (C) INRIA */
@@ -24,15 +33,15 @@
 /* For more information, see the COPYING file which you should have received */
 /* along with this program. */
 
-/* Subroutine */ int proj_(integer *n, doublereal *binf, doublereal *bsup, 
-	doublereal *x)
+/* Subroutine */ int proj_(int *n, double *binf, double *bsup, 
+	double *x)
 {
     /* System generated locals */
-    integer i__1;
-    doublereal d__1, d__2, d__3, d__4;
+    int i__1;
+    double d__1, d__2, d__3, d__4;
 
     /* Local variables */
-    static integer i__;
+    static int i__;
 
     /* Parameter adjustments */
     --x;

@@ -10,8 +10,6 @@
 		http://www.netlib.org/f2c/libf2c.zip
 */
 
-#include "f2c.h"
-
 /*     Scilab ( http://www.scilab.org/ ) - This file is part of Scilab */
 /* Copyright (C) 1988 - INRIA - F. BONNANS */
 
@@ -24,45 +22,46 @@
 /* For more information, see the COPYING file which you should have received */
 /* along with this program. */
 
-/* Subroutine */ int rlbd_(integer *indrl, integer *n, S_fp simul, doublereal 
-	*x, doublereal *binf, doublereal *bsup, doublereal *f, doublereal *hp,
-	 doublereal *t, doublereal *tmax, doublereal *d__, doublereal *gn, 
-	doublereal *tproj, doublereal *amd, doublereal *amf, doublereal *zero,
-	 integer *nap, integer *napmax, doublereal *xn, integer *izs, real *
-	rzs, doublereal *dzs)
+typedef /* Subroutine */ int (*S_fp)();
+/* Subroutine */ int rlbd_(int *indrl, int *n, S_fp simul, double 
+	*x, double *binf, double *bsup, double *f, double *hp,
+	 double *t, double *tmax, double *d__, double *gn, 
+	double *tproj, double *amd, double *amf, double *zero,
+	 int *nap, int *napmax, double *xn, int *izs, float *
+	rzs, double *dzs)
 {
     /* System generated locals */
-    integer i__1;
-    doublereal d__1, d__2;
+    int i__1;
+    double d__1, d__2;
 
     /* Builtin functions */
-    /* Subroutine */ int s_copy(char *, char *, ftnlen, ftnlen);
-    double sqrt(doublereal);
+    /* Subroutine */ int s_copy(char *, char *, short, short);
+    double sqrt(double);
 
     /* Local variables */
-    static doublereal a, b, e;
-    static integer i__, k;
-    static doublereal p, r__, a1, f0, h1, t1, t2, fa, f11, di, fn, ta, td, tg,
+    static double a, b, e;
+    static int i__, k;
+    static double p, r__, a1, f0, h1, t1, t2, fa, f11, di, fn, ta, td, tg,
 	     fa1, ta1, hpa, hpd, ftd, hpg, ftg, div, hpn, eps, tmi, xni;
-    static integer ico1;
-    static doublereal eps1;
+    static int ico1;
+    static double eps1;
     static char var2[3];
-    static integer icoi, icop;
-    static doublereal cres;
-    static integer icos, imax;
-    static doublereal hptd, hptg;
-    extern /* Subroutine */ int proj_(integer *, doublereal *, doublereal *, 
-	    doublereal *);
-    static doublereal epst, text, topt, hpta1;
-    static integer indic;
-    static doublereal difhp, extra;
-    static integer iproj;
-    static doublereal tmaxp, ttmin;
-    extern /* Subroutine */ int satur_(integer *, doublereal *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *, doublereal *, integer *,
-	     integer *, integer *);
-    static doublereal extrp, ttsup, cofder;
+    static int icoi, icop;
+    static double cres;
+    static int icos, imax;
+    static double hptd, hptg;
+    extern /* Subroutine */ int proj_(int *, double *, double *, 
+	    double *);
+    static double epst, text, topt, hpta1;
+    static int indic;
+    static double difhp, extra;
+    static int iproj;
+    static double tmaxp, ttmin;
+    extern /* Subroutine */ int satur_(int *, double *, double *, 
+	    double *, double *, double *, double *, 
+	    double *, double *, double *, double *, int *,
+	     int *, int *);
+    static double extrp, ttsup, cofder;
 
 
 /* !but */
@@ -191,7 +190,7 @@
     extrp = 100.;
     extra = 10.;
     cofder = 100.f;
-    s_copy(var2, "   ", (ftnlen)3, (ftnlen)3);
+    s_copy(var2, "   ", (short)3, (short)3);
 
     ta1 = 0.;
     f0 = *f;
@@ -274,7 +273,7 @@ L200:
 	imax = 1;
 	icoi = 0;
 	icos = 0;
-	s_copy(var2, "dd ", (ftnlen)3, (ftnlen)3);
+	s_copy(var2, "dd ", (short)3, (short)3);
 	goto L800;
     }
     if (indic == 0) {
@@ -354,7 +353,7 @@ L350:
 	    goto L1010;
 	}
 	*t /= 10.;
-	s_copy(var2, "d  ", (ftnlen)3, (ftnlen)3);
+	s_copy(var2, "d  ", (short)3, (short)3);
 	goto L800;
     }
     icos = ico1;
@@ -414,7 +413,7 @@ L360:
 	if (td == 0.) {
 	    goto L700;
 	}
-	a1 = (d__1 = hptd / *hp, abs(d__1));
+	a1 = (d__1 = hptd / *hp, fabs(d__1));
 	if (a1 > cofder && ftd > *f && hptg > *hp * .99f) {
 	    hpta1 = *hp;
 	    fa1 = *f;
@@ -422,7 +421,7 @@ L360:
 	    goto L700;
 	}
     }
-    a1 = (d__1 = hpn / *hp, abs(d__1));
+    a1 = (d__1 = hpn / *hp, fabs(d__1));
     if (tg != 0. || fn <= *f || a1 <= cofder || hpn < 0.) {
 	if (td <= *tproj) {
 	    goto L600;
@@ -438,7 +437,7 @@ L360:
     fa1 = fn;
     div = *hp - hptd;
     text = *t / 10.;
-    if (abs(div) > *zero) {
+    if (fabs(div) > *zero) {
 	text = *t * (*hp / div);
     }
     if (text > *tproj) {
@@ -453,7 +452,7 @@ L360:
     ttsup = *t * 1.5;
     extrp = 10.f;
     if (*tproj > ta1) {
-	s_copy(var2, "id ", (ftnlen)3, (ftnlen)3);
+	s_copy(var2, "id ", (short)3, (short)3);
 	goto L800;
     }
     ttmin = *t * .7;
@@ -462,10 +461,10 @@ L360:
     iproj = 0;
     satur_(n, &x[1], &binf[1], &bsup[1], &d__[1], &ttmin, &ttsup, &topt, &tg, 
 	    &td, &tmi, &icoi, &icos, &iproj);
-    s_copy(var2, "id ", (ftnlen)3, (ftnlen)3);
+    s_copy(var2, "id ", (short)3, (short)3);
     if (topt != 0.) {
 	*t = topt;
-	s_copy(var2, "ids", (ftnlen)3, (ftnlen)3);
+	s_copy(var2, "ids", (short)3, (short)3);
     }
     goto L800;
 
@@ -488,9 +487,9 @@ L500:
 	goto L600;
     }
     *t = topt;
-    s_copy(var2, "s  ", (ftnlen)3, (ftnlen)3);
+    s_copy(var2, "s  ", (short)3, (short)3);
     if (*t == ttsup || *t == ttmin) {
-	s_copy(var2, "sb ", (ftnlen)3, (ftnlen)3);
+	s_copy(var2, "sb ", (short)3, (short)3);
     }
     goto L800;
 
@@ -514,7 +513,7 @@ L600:
 	b = -1.;
     }
     div = hpn + p + b * sqrt(di);
-    if (abs(div) <= *zero) {
+    if (fabs(div) <= *zero) {
 	goto L690;
     }
     r__ = hpn / div;
@@ -525,14 +524,14 @@ L600:
 
 /*      sauvegarde de convergence */
     e = epst * (td - tg);
-    s_copy(var2, "ic ", (ftnlen)3, (ftnlen)3);
+    s_copy(var2, "ic ", (short)3, (short)3);
     if (topt > td - e) {
 	topt = td - e;
-	s_copy(var2, "icb", (ftnlen)3, (ftnlen)3);
+	s_copy(var2, "icb", (short)3, (short)3);
     }
     if (topt < tg + e) {
 	topt = tg + e;
-	s_copy(var2, "icb", (ftnlen)3, (ftnlen)3);
+	s_copy(var2, "icb", (short)3, (short)3);
     }
     ta1 = *t;
     fa1 = fn;
@@ -542,7 +541,7 @@ L690:
     ta1 = *t;
     fa1 = fn;
     *t = (tg + td) * .5;
-    s_copy(var2, "d  ", (ftnlen)3, (ftnlen)3);
+    s_copy(var2, "d  ", (short)3, (short)3);
     goto L800;
 
 /*      extrapolation */
@@ -587,7 +586,7 @@ L700:
 	    icoi = icop;
 	    icos = 0;
 	}
-	s_copy(var2, "es ", (ftnlen)3, (ftnlen)3);
+	s_copy(var2, "es ", (short)3, (short)3);
 	goto L800;
     }
 /* Computing MIN */
@@ -604,12 +603,12 @@ L700:
 	    &td, &tmi, &icoi, &icos, &iproj);
     if (topt > 0.) {
 	*t = topt;
-	s_copy(var2, "es ", (ftnlen)3, (ftnlen)3);
+	s_copy(var2, "es ", (short)3, (short)3);
 	goto L800;
     }
 L785:
     *t = text;
-    s_copy(var2, "e  ", (ftnlen)3, (ftnlen)3);
+    s_copy(var2, "e  ", (short)3, (short)3);
 L800:
     f11 = fn - *f;
 /* $$$      if (iprint.ge.3.and.indic.gt.0) then */
@@ -618,7 +617,7 @@ L800:
 /* $$$        endif */
 
 /*      test sur deltat */
-    if ((d__1 = ta1 - *t, abs(d__1)) >= *zero * 100.) {
+    if ((d__1 = ta1 - *t, fabs(d__1)) >= *zero * 100.) {
 	goto L200;
     }
     k = 4;

@@ -10,8 +10,6 @@
 		http://www.netlib.org/f2c/libf2c.zip
 */
 
-#include "f2c.h"
-
 /* Scilab ( http://www.scilab.org/ ) - This file is part of Scilab */
 /* Copyright (C) INRIA */
 
@@ -24,18 +22,18 @@
 /* For more information, see the COPYING file which you should have received */
 /* along with this program. */
 
-/* Subroutine */ int calmaj_(doublereal *dh, integer *n, doublereal *g1, 
-	doublereal *sig, doublereal *w, integer *ir, integer *mk, doublereal *
-	epsmc, integer *nfac)
+/* Subroutine */ int calmaj_(double *dh, int *n, double *g1, 
+	double *sig, double *w, int *ir, int *mk, double *
+	epsmc, int *nfac)
 {
     /* System generated locals */
-    integer i__1, i__2;
+    int i__1, i__2;
 
     /* Local variables */
-    static integer i__, j, k, nfac1, n2fac, nnfac;
-    extern /* Subroutine */ int majour_(doublereal *, doublereal *, 
-	    doublereal *, integer *, doublereal *, integer *, integer *, 
-	    doublereal *);
+    static int i__, j, k, nfac1, n2fac, nnfac;
+    extern /* Subroutine */ int majour_(double *, double *, 
+	    double *, int *, double *, int *, int *, 
+	    double *);
 
 
 /*     subroutine de qnbd */

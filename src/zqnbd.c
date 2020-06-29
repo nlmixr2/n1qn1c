@@ -10,7 +10,15 @@
 		http://www.netlib.org/f2c/libf2c.zip
 */
 
-#include "f2c.h"
+#include <stdio.h>
+#include <float.h>
+#include <math.h>
+
+#define max( a , b )  ( (a) > (b) ? (a) : (b) )
+#define min( a , b )  ( (a) < (b) ? (a) : (b) )
+
+typedef /* Subroutine */ int (*S_fp)();
+typedef /* Subroutine */ int (*U_fp)();
 
 /*     Scilab ( http://www.scilab.org/ ) - This file is part of Scilab */
 /*     Copyright (C) INRIA */
@@ -24,67 +32,67 @@
 /* For more information, see the COPYING file which you should have received */
 /* along with this program. */
 
-/* Subroutine */ int zqnbd_(integer *indqn, S_fp simul, doublereal *dh, 
-	integer *n, doublereal *binf, doublereal *bsup, doublereal *x, 
-	doublereal *f, doublereal *g, doublereal *zero, integer *napmax, 
-	integer *itmax, integer *indic, integer *izig, integer *nfac, 
-	doublereal *epsx, doublereal *epsf, doublereal *epsg, doublereal *x1, 
-	doublereal *x2, doublereal *g1, doublereal *dir, doublereal *df0, 
-	integer *ig, integer *in, integer *irel, integer *izag, integer *iact,
-	 doublereal *epsrel, integer *ieps1, integer *izs, real *rzs, 
-	doublereal *dzs)
+/* Subroutine */ int zqnbd_(int *indqn, S_fp simul, double *dh, 
+	int *n, double *binf, double *bsup, double *x, 
+	double *f, double *g, double *zero, int *napmax, 
+	int *itmax, int *indic, int *izig, int *nfac, 
+	double *epsx, double *epsf, double *epsg, double *x1, 
+	double *x2, double *g1, double *dir, double *df0, 
+	int *ig, int *in, int *irel, int *izag, int *iact,
+	 double *epsrel, int *ieps1, int *izs, float *rzs, 
+	double *dzs)
 {
     /* System generated locals */
-    integer i__1, i__2;
-    doublereal d__1, d__2;
+    int i__1, i__2;
+    double d__1, d__2;
 
     /* Builtin functions */
-    double sqrt(doublereal);
+    double sqrt(double);
 
     /* Local variables */
-    static integer i__, j, k;
-    static doublereal t, v, y, d1, d2;
-    static integer i1, n1, n3;
-    static doublereal t1, aa, dd, bi;
-    static integer ic, ii, ij;
-    static doublereal fn, bs, ep;
-    static integer mk, ip;
-    static doublereal gr;
-    static integer ir, np, nm1;
-    static doublereal amd, amf;
-    static integer ndh, nap, ifp;
-    static doublereal sig, fpn;
-    static integer nip;
-    static doublereal cof1, cof2, sig1, eps0, eps1;
-    static integer ifac;
-    static doublereal diff, difg, scal;
-    extern /* Subroutine */ int rlbd_(integer *, integer *, S_fp, doublereal *
-	    , doublereal *, doublereal *, doublereal *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *, doublereal *, integer *,
-	     integer *, doublereal *, integer *, real *, doublereal *);
-    static integer mode, napm;
-    static doublereal teta;
-    static integer iter, irit;
-    extern /* Subroutine */ int proj_(integer *, doublereal *, doublereal *, 
-	    doublereal *);
-    static doublereal tmax;
-    static integer nfac1;
-    static doublereal difg0, difg1;
-    static integer n2fac;
-    static doublereal scal1;
-    static integer napm1;
-    static doublereal teta1, zsig1;
-    static integer idfac, nnfac;
-    static doublereal epsmc;
-    static integer indrl, iconv;
-    extern /* Subroutine */ int ajour_(integer *, integer *, integer *, 
-	    integer *, doublereal *, doublereal *, integer *);
-    static doublereal tiers, tproj, cscal1;
-    extern /* Subroutine */ int calmaj_(doublereal *, integer *, doublereal *,
-	     doublereal *, doublereal *, integer *, integer *, doublereal *, 
-	    integer *);
-    static integer indsim;
+    static int i__, j, k;
+    static double t, v, y, d1, d2;
+    static int i1, n1, n3;
+    static double t1, aa, dd, bi;
+    static int ic, ii, ij;
+    static double fn, bs, ep;
+    static int mk, ip;
+    static double gr;
+    static int ir, np, nm1;
+    static double amd, amf;
+    static int ndh, nap, ifp;
+    static double sig, fpn;
+    static int nip;
+    static double cof1, cof2, sig1, eps0, eps1;
+    static int ifac;
+    static double diff, difg, scal;
+    extern /* Subroutine */ int rlbd_(int *, int *, S_fp, double *
+	    , double *, double *, double *, double *, 
+	    double *, double *, double *, double *, 
+	    double *, double *, double *, double *, int *,
+	     int *, double *, int *, float *, double *);
+    static int mode, napm;
+    static double teta;
+    static int iter, irit;
+    extern /* Subroutine */ int proj_(int *, double *, double *, 
+	    double *);
+    static double tmax;
+    static int nfac1;
+    static double difg0, difg1;
+    static int n2fac;
+    static double scal1;
+    static int napm1;
+    static double teta1, zsig1;
+    static int idfac, nnfac;
+    static double epsmc;
+    static int indrl, iconv;
+    extern /* Subroutine */ int ajour_(int *, int *, int *, 
+	    int *, double *, double *, int *);
+    static double tiers, tproj, cscal1;
+    extern /* Subroutine */ int calmaj_(double *, int *, double *,
+	     double *, double *, int *, int *, double *, 
+	    int *);
+    static int indsim;
 
 
 
@@ -534,13 +542,13 @@ L300:
     }
     i__1 = *n;
     for (i__ = 1; i__ <= i__1; ++i__) {
-	x1[i__] = x[i__] - scal1 * (d__1 = g[i__], abs(d__1)) * g[i__];
+	x1[i__] = x[i__] - scal1 * (d__1 = g[i__], fabs(d__1)) * g[i__];
     }
     proj_(n, &binf[1], &bsup[1], &x1[1]);
     eps1 = 0.;
     i__1 = *n;
     for (i__ = 1; i__ <= i__1; ++i__) {
-	eps1 += (d__1 = x1[i__] - x[i__], abs(d__1));
+	eps1 += (d__1 = x1[i__] - x[i__], fabs(d__1));
     }
     eps1 = min(eps0,eps1);
     if (*ieps1 == 1) {
@@ -632,7 +640,7 @@ L335:
 	if (ifac >= n3 && iter > 1) {
 	    goto L340;
 	}
-	if ((d__1 = g[k], abs(d__1)) <= gr) {
+	if ((d__1 = g[k], fabs(d__1)) <= gr) {
 	    goto L340;
 	}
 	++ifac;
@@ -875,7 +883,7 @@ L758:
 
     i__1 = *n;
     for (i__ = 1; i__ <= i__1; ++i__) {
-	if ((d__1 = x[i__] - x1[i__], abs(d__1)) > epsx[i__]) {
+	if ((d__1 = x[i__] - x1[i__], fabs(d__1)) > epsx[i__]) {
 	    goto L806;
 	}
     }
@@ -926,8 +934,8 @@ L806:
 L820:
     difg1 = sqrt(difg1);
     difg = sqrt(difg);
-    difg /= sqrt((real) (*n));
-    diff = (d__1 = *f - fn, abs(d__1));
+    difg /= sqrt((float) (*n));
+    diff = (d__1 = *f - fn, fabs(d__1));
     *df0 = -diff;
     if (irit == 1) {
 	difg0 = difg1;

@@ -10,7 +10,16 @@
 		http://www.netlib.org/f2c/libf2c.zip
 */
 
-#include "f2c.h"
+#include <stdio.h>
+#include <float.h>
+#include <math.h>
+
+#define max( a , b )  ( (a) > (b) ? (a) : (b) )
+#define min( a , b )  ( (a) < (b) ? (a) : (b) )
+
+typedef /* Subroutine */ int (*S_fp)();
+typedef /* Subroutine */ int (*U_fp)();
+
 
 /* Scilab ( http://www.scilab.org/ ) - This file is part of Scilab */
 /* Copyright (C) INRIA */
@@ -24,26 +33,26 @@
 /* For more information, see the COPYING file which you should have received */
 /* along with this program. */
 
-/* Subroutine */ int ajour_(integer *mode, integer *n, integer *nc, integer *
-	nr, doublereal *h__, doublereal *w, integer *indi)
+/* Subroutine */ int ajour_(int *mode, int *n, int *nc, int *
+	nr, double *h__, double *w, int *indi)
 {
     /* System generated locals */
-    integer i__1, i__2;
-    doublereal d__1;
+    int i__1, i__2;
+    double d__1;
 
     /* Local variables */
-    static doublereal a, b, c__;
-    static integer i__, j, k;
-    static doublereal u, v, h1;
-    static integer i1;
-    static doublereal h2, ai, di;
-    static integer ii, ij, ik, nh, nj, nk, nl, ko;
-    static doublereal wi;
-    static integer nw;
-    static doublereal di1;
-    static integer nh1, nr1, nr2, inc;
-    static doublereal hij;
-    static integer nii, nkk, nrr, inc1, nsaut;
+    static double a, b, c__;
+    static int i__, j, k;
+    static double u, v, h1;
+    static int i1;
+    static double h2, ai, di;
+    static int ii, ij, ik, nh, nj, nk, nl, ko;
+    static double wi;
+    static int nw;
+    static double di1;
+    static int nh1, nr1, nr2, inc;
+    static double hij;
+    static int nii, nkk, nrr, inc1, nsaut;
 
 
 
