@@ -22,7 +22,16 @@
 /* For more information, see the COPYING file which you should have received */
 /* along with this program. */
 
+#include <stdio.h>
+#include <float.h>
+#include <math.h>
+
+#define max( a , b )  ( (a) > (b) ? (a) : (b) )
+#define min( a , b )  ( (a) < (b) ? (a) : (b) )
+
 typedef /* Subroutine */ int (*S_fp)();
+typedef /* Subroutine */ int (*U_fp)();
+
 /* Subroutine */ int rlbd_(int *indrl, int *n, S_fp simul, double 
 	*x, double *binf, double *bsup, double *f, double *hp,
 	 double *t, double *tmax, double *d__, double *gn, 
