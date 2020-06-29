@@ -1,11 +1,12 @@
 PKG_LIBS = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS) 
 PKG_CPPFLAGS = -Id -I../inst/include
-
+PKG_FFLAGS = @N1QN1_FFLAGS@
 SOURCES_C = init.c
 SOURCES_CPP = RcppExpMod.cpp
 SOURCES_FORTAN = n1qn1_all.f qnbd.f zqnbd.f proj.f calmaj.f ajour.f rlbd.f satur.f
 OBJECTS = $(SOURCES_C:.c=.o) $(SOURCES_CPP:.cpp=.o) $(SOURCES_FORTAN:.f=.o)
 
 all: $(SHLIB)
+
 $(SHLIB): $(OBJECTS)
 

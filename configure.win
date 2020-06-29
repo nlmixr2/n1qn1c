@@ -1,0 +1,10 @@
+#! /bin/sh
+echo "if(!file.exists(\"src/Makevars.win\")) writeLines(gsub(\"@N1QN1_FFLAGS@\",\"\",suppressWarnings(readLines(\"src/Makevars.in\"))),\"src/Makevars.win\")" > build.R    
+
+${R_HOME}/bin/R CMD BATCH build.R
+rm build.R
+rm build.Rout
+#sh inst/tools/stripper
+echo --------[[begin src/Makevars.win]]--------
+cat src/Makevars.win
+echo --------[[end src/Makevars.win]]--------
