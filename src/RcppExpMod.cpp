@@ -66,7 +66,7 @@ n1qn1_wrap(
     gev = new Rcpp::EvalStandard(gSEXP, rhoSEXP); // Standard evaulation
   }
   
-  int n, mode, niter, nsim, imp, lp=6, nzm;
+  int n, mode, niter, nsim, imp, nzm;
   n = INTEGER(nSEXP)[0];
   mode = INTEGER(modeSEXP)[0];
   niter = INTEGER(niterSEXP)[0];
