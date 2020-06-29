@@ -55,7 +55,7 @@ c          stockage des elements de la colonne inc dans w
  35      w(nw)=h(nh)
          nw=nw-1
          nh=nh-1
- 40      nsaut=nsaut+1
+         nsaut=nsaut+1
       end do
       do j=1,inc-nr1
          h(nh+nsaut)=h(nh)
@@ -136,7 +136,6 @@ c          stockage de w dans h
             h(nh+nsaut)=h(nh)
             nh=nh-1
          end do
- 210     continue
       end do
   220 h(nr1)=w(1)
       if(n.eq.nr1) go to 233
@@ -207,11 +206,9 @@ c          mise a jour de l
             nh=nh+1
             nh1=nh1+1
          end do
- 300     continue
          nh=nh+1
          di=di*di1/c
       end do
-  310 continue
 c          condensation de la matrice l
   315 nh=inc+1
       nsaut=1
@@ -244,7 +241,6 @@ c          mise a jour de la matrice h
             h(nh+j)=h(nh+nsaut+j)
          end do
  455     nh=nh+nrr+1
- 460     continue
       end do
   470 nw=nw+1
       if(nr.eq.n) go to 485
@@ -263,7 +259,6 @@ c          mise a jour de la matrice h
          end do
  495     nh=nh+nrr+1
       end do
-  500 continue
   510 h(nh)=w(inc)
       if(nr.eq.n) go to 540
       do i=1,nrr

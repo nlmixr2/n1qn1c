@@ -30,7 +30,6 @@ c     subroutine de qnbd
             dh(k)=dh(k)+g1(i)*w(j)
          end do
       end do
-20    continue
 25    k=n2fac+nfac*nnfac
       do j=nfac1,n
          do i=j,n
@@ -38,7 +37,6 @@ c     subroutine de qnbd
             dh(k)=dh(k) + g1(i)*w(j)
          end do
       end do
-30    continue
 50    ir=nfac
       if(nfac.eq.0)return
       call majour(dh,g1,w,nfac,sig,ir,mk,epsmc)

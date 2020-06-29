@@ -12,7 +12,7 @@ c and continues to be available under such terms.
 c For more information, see the COPYING file which you should have received
 c along with this program.
 c
-      subroutine qnbd(indqn,simul,n,x,f,g,iprint,zero,
+      subroutine qnbd(indqn,simul,n,x,f,g,zero,
      &     napmax,itmax,epsf,epsg,epsx,df0,binf,bsup,nfac,
      & trav,ntrav,itrav,nitrav,izs,rzs,dzs)
 c!but
@@ -106,7 +106,6 @@ c
       implicit double precision (a-h,o-z)
       real rzs(*)
       double precision dzs(*)
-      character bufstr*(4096)
       dimension binf(n),bsup(n),x(n),g(n),epsx(n)
       dimension trav(ntrav),itrav(nitrav),izs(*)
       external simul
@@ -176,7 +175,7 @@ c$$$111      format(' qnbd : nitrav=',i8,'devrait valoir',i8)
          return
       endif
       call zqnbd(indqn,simul,trav(1),n,binf,bsup,x,f,g,zero,napmax,
-     &itmax,itrav,itrav(ni1),nfac,iprint,epsx,epsf,epsg,trav(n1),
+     &itmax,itrav,itrav(ni1),nfac,epsx,epsf,epsg,trav(n1),
      &trav(n2),trav(n3),trav(n4),df0,ig,in,irel,izag,iact,
      &epsrel,ieps1,izs,rzs,dzs)
       return

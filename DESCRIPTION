@@ -1,6 +1,6 @@
 Package: n1qn1
 Title: Port of the 'Scilab' 'n1qn1' and 'qnbd' Modules for (Un)constrained BFGS Optimization
-Version: 6.0.1-7
+Version: 6.0.1-8
 Authors@R: c(person("Matthew", "Fidler", role=c("aut","cre"), email= "matthew.fidler@gmail.com"),
         person("Wenping", "Wang", role = "aut", email = "wwang8198@gmail.com"),
         person("Claude","Lemarechal", role=c("aut","ctb")),
@@ -30,4 +30,4 @@ License: CeCILL-2
 NeedsCompilation: yes
 LinkingTo: RcppArmadillo (>= 0.5.600.2.0), Rcpp (>= 0.12.3)
 LazyData: true
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1

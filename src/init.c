@@ -5,8 +5,19 @@
 
 typedef void (*S2_fp) (int *, int *, double *, double *, double *, int *, float *, double *);
 extern void n1qn1_(S2_fp simul, int n[], double x[], double f[], double g[], double var[], double eps[],
-		   int mode[], int niter[], int nsim[], int imp[], int lp[], double zm[], int izs[], 
+		   int mode[], int niter[], int nsim[], int imp[], double zm[], int izs[], 
 		   float rzs[], double dzs[]);
+void n1qn1F(S2_fp simul, int n[], double x[], double f[], double g[], double var[], double eps[],
+		   int mode[], int niter[], int nsim[], int imp[], int lp[], double zm[], int izs[], 
+		   float rzs[], double dzs[]) {
+  n1qn1_(simul, n, x, f, g, var, eps, mode, niter, nsim, imp, zm, izs, rzs, dzs);
+}
+
+void n1qn1F2(S2_fp simul, int n[], double x[], double f[], double g[], double var[], double eps[],
+		   int mode[], int niter[], int nsim[], int imp[], double zm[], int izs[], 
+		   float rzs[], double dzs[]) {
+  n1qn1_(simul, n, x, f, g, var, eps, mode, niter, nsim, imp, zm, izs, rzs, dzs);
+}
 /* .C calls */
 extern SEXP n1qn1_wrap(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP qnbd_wrap(SEXP, SEXP, SEXP, SEXP, SEXP, 
@@ -27,7 +38,8 @@ static const R_CallMethodDef CallEntries[] = {
 
 void R_init_n1qn1(DllInfo *dll)
 {
-  R_RegisterCCallable("n1qn1","n1qn1F", (DL_FUNC) n1qn1_);
+  R_RegisterCCallable("n1qn1","n1qn1F", (DL_FUNC) n1qn1F);
+  R_RegisterCCallable("n1qn1","n1qn1F2", (DL_FUNC) n1qn1F2);
   R_RegisterCCallable("n1qn1","qnbdF", (DL_FUNC) qnbd_);
   R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
   R_useDynamicSymbols(dll, TRUE);

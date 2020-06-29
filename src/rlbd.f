@@ -11,7 +11,7 @@ c For more information, see the COPYING file which you should have received
 c along with this program.
 c
       subroutine rlbd(indrl,n,simul,x,binf,bsup,f,hp,t,tmax,d,gn,
-     &     tproj,amd,amf,iprint,zero,nap,napmax,xn,izs,rzs,dzs)
+     &     tproj,amd,amf,zero,nap,napmax,xn,izs,rzs,dzs)
 c
 c!but
 c     subroutine de recherche lineaire pour des problemes avec
@@ -124,7 +124,6 @@ c
       character var2*3
       dimension x(n),xn(n),gn(n),d(n),binf(n),bsup(n),izs(*)
       double precision dzs(*)
-      character bufstr*(4096)
       real rzs(*)
 c
       indrl=1

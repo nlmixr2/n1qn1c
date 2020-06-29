@@ -24,7 +24,7 @@ c are also available at
 c http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
 c
       subroutine n1qn1 (simul,n,x,f,g,var,eps,
-     1     mode,niter,nsim,imp,lp,zm,izs,rzs,dzs)
+     1     mode,niter,nsim,imp,zm,izs,rzs,dzs)
 c
 c!but
 c     minimisation d une fonction reguliere sans contraintes
@@ -89,7 +89,7 @@ c!
       nxb=nga+n
       ngb=nxb+n
       call n1qn1a (simul,n,x,f,g,var,eps,mode,
-     1 niter,nsim,imp,lp,zm,zm(nd),zm(nw),zm(nxa),zm(nga),
+     1 niter,nsim,imp,zm,zm(nd),zm(nw),zm(nxa),zm(nga),
      2 zm(nxb),zm(ngb),izs,rzs,dzs)
       end
 c Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
@@ -102,7 +102,7 @@ c are also available at
 c http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
 c
       subroutine n1qn1a (simul,n,x,f,g,scale,acc,mode,
-     1     niter,nsim,iprint,lp,h,d,w,xa,ga,xb,gb,izs,rzs,dzs)
+     1     niter,nsim,iprint,h,d,w,xa,ga,xb,gb,izs,rzs,dzs)
 c
 
 *     A (very) few modifs by Bruno (14 March 2005): I have translated some output
@@ -117,15 +117,9 @@ c
      1 xa(n),ga(n),xb(n),gb(n),izs(*),dzs(*)
       real rzs(*)
       external simul
-      double precision dnrm2 ! (blas routine) added by Bruno to get
-                             ! a better information concerning directionnal derivative
+      ! (blas routine) added by Bruno to get
+      ! a better information concerning directionnal derivative
       integer vff
-      real f1(1)
- 1000 format (46h n1qn1 ne peut demarrer (contrainte implicite))
- 1001 format (40h n1qn1 termine par voeu de l'utilisateur)
- 1010 format (45h n1qn1 remplace le hessien initial (qui n'est,
-     1 20h pas defini positif)/27h par une diagonale positive)
- 1023 format (40h n1qn1 bute sur une contrainte implicite)
 c
 c              calcul initial de fonction-gradient
 c
@@ -422,8 +416,7 @@ c
       do i=1,n
          dd(i)=hd(i)
       end do
- 4    continue
-      do 5 i=1,n
+      do i=1,n
          iplus=i+1
          del=dd(i)
          if(hm(ll).gt.0.0d+0) go to 6
@@ -438,6 +431,7 @@ c
             dd(j)=dd(j)-del*hm(ll)
          end do
  7       ll=ll+1
+      end do
  5    continue
 c
  3    continue

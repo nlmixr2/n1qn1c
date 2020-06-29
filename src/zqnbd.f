@@ -11,13 +11,12 @@ c For more information, see the COPYING file which you should have received
 c along with this program.
 c
       subroutine zqnbd(indqn,simul,dh,n,binf,bsup,x,f,g,zero,napmax,
-     &     itmax,indic,izig,nfac,iprint,epsx,epsf,epsg,x1,x2,g1,dir,df0,
+     &     itmax,indic,izig,nfac,epsx,epsf,epsg,x1,x2,g1,dir,df0,
      &ig,in,irel,izag,iact,epsrel,ieps1,izs,rzs,dzs)
 c
       implicit double precision (a-h,o-z)
       real rzs(*)
       double precision dzs(*)
-      character bufstr*(4096)
       dimension x1(n),x2(n),g1(n),dir(n),epsx(n)
       dimension binf(n),bsup(n),x(n),g(n),dh(*),indic(n),izig(n),
      &izs(*)
@@ -279,7 +278,6 @@ c     calcul autres comp de dh*s=d en deux fois
             dir(i)=dir(i) + dh(k)*x2(j)
          end do
       end do
-264   continue
 265   continue
       k=n2fac+nfac*nnfac
       do j=nfac1,n
@@ -357,7 +355,7 @@ c
       scal1=scal
       if(ieps1.eq.1)scal1=0.0d+0
       if(ieps1.eq.2)scal1=scal*cscal1
- 305  do i=1,n
+      do i=1,n
          x1(i)=x(i)-scal1*abs(g(i))*g(i)
       end do
       call proj(n,binf,bsup,x1)
@@ -438,7 +436,6 @@ c     dans le nouveau syst d indices
          i1=indic(i)
          x2(i1)=g(i)
       end do
-641   continue
       if(ir.lt.nfac) go to 412
       if(nfac.gt.1) go to 400
       x2(1)=x2(1)/dh(1)
@@ -488,7 +485,6 @@ c     gestion contraintes actives (si iact=1)
          if(izig(i).gt.0)dir(i)=0.
          if(indic(i).gt.nfac)dir(i)=0.0d+0
       end do
-670   continue
 675   continue
 c
 c     recherche lineaire
@@ -547,7 +543,7 @@ c     amd,amf tests sur h'(t) et diff
       napm1=nap + napm
       if(napm1.gt.napmax)napm1=napmax
       call rlbd(indrl,n,simul,x,binf,bsup,fn,fpn,t,tmax,dir,g,
-     &     tproj,amd,amf,iprint,zero,nap,napm1,x2,izs,rzs,dzs)
+     &     tproj,amd,amf,zero,nap,napm1,x2,izs,rzs,dzs)
       if(indrl.ge.10)then
          indsim=4
          nap=nap + 1
@@ -575,7 +571,6 @@ c$$$           endif
          return
       endif
 c
-778   continue
       if(nap.lt.napmax)go to 758
       f=fn
 c$$$      if(iprint.gt.0) then
@@ -595,7 +590,6 @@ c
       do i=1,n
          if(abs(x(i)-x1(i)).gt.epsx(i))go to 806
       end do
-805   continue
       f=fn
 c$$$      if(iprint.gt.0) then
 c$$$        write(bufstr,1805)
