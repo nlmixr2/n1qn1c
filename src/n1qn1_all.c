@@ -1,4 +1,4 @@
-/* n1qn1_all.f -- translated by f2c (version 20160102).
+/* n1qn1c_all.f -- translated by f2c (version 20160102).
    You must link the resulting object file with libf2c:
 	on Microsoft Windows system, link with libf2c.lib;
 	on Linux or Unix systems, link with .../path/to/libf2c.a -lm
@@ -11,6 +11,8 @@
 */
 
 #include "f2c.h"
+#include <stdio.h>
+#include <float.h>
 
 /* Table of constant values */
 
@@ -28,7 +30,6 @@ integer vff_(integer *n, doublereal *g)
     static integer i__;
     static doublereal x;
     static integer ret;
-    extern doublereal huge_(doublereal *);
 
     /* Parameter adjustments */
     --g;
@@ -37,7 +38,7 @@ integer vff_(integer *n, doublereal *g)
     ret = 0;
     i__1 = *n;
     for (i__ = 1; i__ <= i__1; ++i__) {
-	if ((d__1 = g[i__], abs(d__1)) >= huge_(&x)) {
+	if (((d__1 = g[i__], abs(d__1))) >= DBL_MAX) {
 	    ret = 1;
 	    goto L7710;
 	}
@@ -57,13 +58,13 @@ L7710:
 /* are also available at */
 /* http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt */
 
-/* Subroutine */ int n1qn1_(U_fp simul, integer *n, doublereal *x, doublereal 
+/* Subroutine */ int n1qn1c_(U_fp simul, integer *n, doublereal *x, doublereal 
 	*f, doublereal *g, doublereal *var, doublereal *eps, integer *mode, 
 	integer *niter, integer *nsim, integer *imp, doublereal *zm, integer *
 	izs, real *rzs, doublereal *dzs)
 {
     static integer nd, nw, nga, ngb, nxa, nxb;
-    extern /* Subroutine */ int n1qn1a_(U_fp, integer *, doublereal *, 
+    extern /* Subroutine */ int n1qn1ca_(U_fp, integer *, doublereal *, 
 	    doublereal *, doublereal *, doublereal *, doublereal *, integer *,
 	     integer *, integer *, integer *, doublereal *, doublereal *, 
 	    doublereal *, doublereal *, doublereal *, doublereal *, 
@@ -80,13 +81,13 @@ L7710:
 /*     recherche lineaire de type wolfe */
 /* !liste d appel */
 /*     simul    : point d'entree au module de simulation (cf normes modulopt i) */
-/*     n1qn1 appelle toujours simul avec indic = 4 ; le module de */
+/*     n1qn1c appelle toujours simul avec indic = 4 ; le module de */
 /*     simulation doit se presenter sous la forme subroutine simul */
 /*     (n,x, f, g, izs, rzs, dzs) et e^tre declare en external dans le */
-/*     programme appelant n1qn1. */
+/*     programme appelant n1qn1c. */
 /*     n (e)    : nombre de variables dont depend f. */
 /*     x (e-s)   : vecteur de dimension n ; en entree le point initial ; */
-/*                 en sortie : le point final calcule par n1qn1. */
+/*                 en sortie : le point final calcule par n1qn1c. */
 /*     f (e-s)   : scalaire ; en entree valeur de f en x (initial), en sortie */
 /*                 valeur de f en x (final). */
 /*     g (e-s)   : vecteur de dimension n : en entree valeur du gradient en x */
@@ -101,7 +102,7 @@ L7710:
 /*      x(i) une variation superieure a eps*var(i). */
 /*      en sortie, eps contient le carre de la norme du gradient en x (final). */
 /*     mode (e)     : definit l approximation initiale du hessien */
-/*                  =1 n1qn1 l initialise lui-meme */
+/*                  =1 n1qn1c l initialise lui-meme */
 /*                  =2 le hessien est fourni dans zm sous forme compressee (zm */
 /*                     contient les colonnes de la partie inferieure du hessien) */
 /*     niter (e-s)  : en entree nombre maximal d'iterations : en sortie nombre */
@@ -118,7 +119,7 @@ L7710:
 /*                      tres utile pour detecter les erreurs dans le gradient. */
 /*      lp (e)    : le numero du canal de sortie, i.e. les impressions */
 /*                  commandees par imp sont faites par write (lp, format). */
-/*     zm     : memoire de travail pour n1qn1 de   dimension n*(n+13)/2. */
+/*     zm     : memoire de travail pour n1qn1c de   dimension n*(n+13)/2. */
 /*     izs,rzs,dzs memoires reservees au simulateur (cf doc) */
 
 /* ! */
@@ -138,11 +139,11 @@ L7710:
     nga = nxa + *n;
     nxb = nga + *n;
     ngb = nxb + *n;
-    n1qn1a_((U_fp)simul, n, &x[1], f, &g[1], &var[1], eps, mode, niter, nsim, 
+    n1qn1ca_((U_fp)simul, n, &x[1], f, &g[1], &var[1], eps, mode, niter, nsim, 
 	    imp, &zm[1], &zm[nd], &zm[nw], &zm[nxa], &zm[nga], &zm[nxb], &zm[
 	    ngb], &izs[1], &rzs[1], &dzs[1]);
     return 0;
-} /* n1qn1_ */
+} /* n1qn1c_ */
 
 /* Scilab ( http://www.scilab.org/ ) - This file is part of Scilab */
 /* Copyright (C) INRIA */
@@ -153,7 +154,7 @@ L7710:
 /* are also available at */
 /* http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt */
 
-/* Subroutine */ int n1qn1a_(S_fp simul, integer *n, doublereal *x, 
+/* Subroutine */ int n1qn1ca_(S_fp simul, integer *n, doublereal *x, 
 	doublereal *f, doublereal *g, doublereal *scale, doublereal *acc, 
 	integer *mode, integer *niter, integer *nsim, integer *iprint, 
 	doublereal *h__, doublereal *d__, doublereal *w, doublereal *xa, 
@@ -178,7 +179,6 @@ L7710:
     static integer ial;
     extern integer vff_(integer *, doublereal *);
     static integer nip, itr;
-    extern doublereal huge_(doublereal *);
     static doublereal fmin, gmin;
     static integer nfun, isfv;
     static doublereal step;
@@ -219,7 +219,7 @@ L7710:
     indic = 4;
     (*simul)(&indic, n, &x[1], f, &g[1], &izs[1], &rzs[1], &dzs[1]);
 /*     next line added by Serge to avoid Inf and Nan's (04/2007) */
-    if (abs(*f) >= huge_(f) && vff_(n, &g[1]) != 1) {
+    if (abs(*f) >= DBL_MAX && vff_(n, &g[1]) != 1) {
 	indic = -1;
     }
     if (indic > 0) {
@@ -446,7 +446,7 @@ L170:
     indic = 4;
     (*simul)(&indic, n, &xb[1], &fb, &gb[1], &izs[1], &rzs[1], &dzs[1]);
 /*     next line added by Serge to avoid Inf and Nan's (04/2007) */
-    if (abs(fb) >= huge_(&fb) && vff_(n, &gb[1]) != 1) {
+    if (abs(fb) >= DBL_MAX && vff_(n, &gb[1]) != 1) {
 	indic = -1;
     }
 /*              test sur indic */
@@ -606,7 +606,7 @@ L285:
     dff = fa - fb;
     fa = fb;
     goto L130;
-} /* n1qn1a_ */
+} /* n1qn1ca_ */
 
 /* Scilab ( http://www.scilab.org/ ) - This file is part of Scilab */
 /* Copyright (C) INRIA */
