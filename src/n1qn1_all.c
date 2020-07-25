@@ -34,7 +34,6 @@ int vff_(int *n, double *g)
 
     /* Local variables */
     static int i__;
-    static double x;
     static int ret;
 
     /* Parameter adjustments */
@@ -174,7 +173,7 @@ L7710:
     /* Local variables */
     static double c__;
     static int i__, j, k;
-    static double s, v;
+    static double v;
     static int i1;
     static double cc, fa, fb, hh;
     static int ii, ij, ik, jk, ni, ip, ir, np;
@@ -514,7 +513,7 @@ L220:
     if (*iprint < 3) {
 	goto L231;
     }
-    s = fb - fa;
+    /* s = fb - fa; */
 L231:
     if (fb - fa <= c__ * .1 * dga) {
 	goto L280;

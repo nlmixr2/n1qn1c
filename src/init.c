@@ -27,8 +27,8 @@ void R_init_n1qn1c(DllInfo *dll)
     {"n1qn1c_wrap", (DL_FUNC) &n1qn1c_wrap, 13},
     {NULL, NULL, 0}
   };
-  R_RegisterCCallable("n1qn1c","n1qn1cF", (DL_FUNC) n1qn1cF);
-  R_RegisterCCallable("n1qn1c","n1qn1cF2", (DL_FUNC) n1qn1cF2);
+  R_RegisterCCallable("n1qn1c","n1qn1cF", (DL_FUNC) &n1qn1cF);
+  R_RegisterCCallable("n1qn1c","n1qn1cF2", (DL_FUNC) &n1qn1cF2);
   R_registerRoutines(dll, NULL, callMethods, NULL, NULL);
   R_useDynamicSymbols(dll, FALSE);
 } 
