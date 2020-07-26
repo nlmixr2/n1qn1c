@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <float.h>
 #include <math.h>
+#include <R.h>
 
 #define max( a , b )  ( (a) > (b) ? (a) : (b) )
 #define min( a , b )  ( (a) < (b) ? (a) : (b) )
@@ -30,7 +31,6 @@ int vff_(int *n, double *g)
 {
     /* System generated locals */
     int ret_val, i__1;
-    double d__1;
 
     /* Local variables */
     static int i__;
@@ -43,7 +43,7 @@ int vff_(int *n, double *g)
     ret = 0;
     i__1 = *n;
     for (i__ = 1; i__ <= i__1; ++i__) {
-	if (((d__1 = g[i__], fabs(d__1))) >= DBL_MAX) {
+      if (!R_FINITE(g[i__])) {
 	    ret = 1;
 	    goto L7710;
 	}
@@ -221,7 +221,7 @@ L7710:
     indic = 4;
     (*simul)(&indic, n, &x[1], f, &g[1], &izs[1], &rzs[1], &dzs[1]);
 /*     next line added by Serge to avoid Inf and Nan's (04/2007) */
-    if (fabs(*f) >= DBL_MAX && vff_(n, &g[1]) != 1) {
+    if (!R_FINITE(*f) && vff_(n, &g[1]) != 1) {
 	indic = -1;
     }
     if (indic > 0) {
@@ -448,7 +448,7 @@ L170:
     indic = 4;
     (*simul)(&indic, n, &xb[1], &fb, &gb[1], &izs[1], &rzs[1], &dzs[1]);
 /*     next line added by Serge to avoid Inf and Nan's (04/2007) */
-    if (fabs(fb) >= DBL_MAX && vff_(n, &gb[1]) != 1) {
+    if (!R_FINITE(fb) && vff_(n, &gb[1]) != 1) {
 	indic = -1;
     }
 /*              test sur indic */
