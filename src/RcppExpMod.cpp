@@ -7,7 +7,7 @@ Rcpp::EvalBase *gev = NULL;                  // pointer to abstract base class
 
 typedef void (*S2_fp) (int *, int *, double *, double *, double *, int *, float *, double *);
 
-extern "C" void n1qn1c_ (S2_fp simul, int n[], double x[], double f[], double g[], double var[], double eps[],
+extern "C" void n1qn1_ (S2_fp simul, int n[], double x[], double f[], double g[], double var[], double eps[],
                         int mode[], int niter[], int nsim[], int imp[], double zm[], int izs[], float rzs[], double dzs[]);
 
 unsigned int nq1n1c_calls = 0, nq1n1c_grads = 0;
@@ -47,7 +47,7 @@ uvec lowerTri(mat H, bool diag = false){
 }
 
 
-RcppExport SEXP n1qn1c_wrap(
+RcppExport SEXP n1qn1_wrap(
            SEXP fSEXP, SEXP gSEXP, SEXP rhoSEXP, SEXP xSEXP, SEXP epsSEXP, 
            SEXP nSEXP, SEXP modeSEXP, SEXP niterSEXP, SEXP nsimSEXP, SEXP impSEXP,
            SEXP nzmSEXP, SEXP zmSEXP, SEXP fprint_sexp) {
@@ -86,7 +86,7 @@ RcppExport SEXP n1qn1c_wrap(
   eps = REAL(epsSEXP)[0];
   std::fill(&var[0], &var[0]+n, 0.1);
   
-  n1qn1c_(fwrap,&n,x,&f,g,var,&eps,
+  n1qn1_(fwrap,&n,x,&f,g,var,&eps,
          &mode,&niter,&nsim,&imp,zm,izs,rzs,dzs);
         
   Rcpp::NumericVector par(n);

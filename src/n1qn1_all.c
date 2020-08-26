@@ -1,4 +1,4 @@
-/* n1qn1c_all.f -- translated by f2c (version 20160102).
+/* n1qn1_all.f -- translated by f2c (version 20160102).
    You must link the resulting object file with libf2c:
 	on Microsoft Windows system, link with libf2c.lib;
 	on Linux or Unix systems, link with .../path/to/libf2c.a -lm
@@ -63,13 +63,13 @@ L7710:
 /* are also available at */
 /* http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt */
 
-/* Subroutine */ int n1qn1c_(U_fp simul, int *n, double *x, double 
+/* Subroutine */ int n1qn1_(U_fp simul, int *n, double *x, double 
 	*f, double *g, double *var, double *eps, int *mode, 
 	int *niter, int *nsim, int *imp, double *zm, int *
 	izs, float *rzs, double *dzs)
 {
     static int nd, nw, nga, ngb, nxa, nxb;
-    extern /* Subroutine */ int n1qn1ca_(U_fp, int *, double *, 
+    extern /* Subroutine */ int n1qn1a_(U_fp, int *, double *, 
 	    double *, double *, double *, double *, int *,
 	     int *, int *, int *, double *, double *, 
 	    double *, double *, double *, double *, 
@@ -86,13 +86,13 @@ L7710:
 /*     recherche lineaire de type wolfe */
 /* !liste d appel */
 /*     simul    : point d'entree au module de simulation (cf normes modulopt i) */
-/*     n1qn1c appelle toujours simul avec indic = 4 ; le module de */
+/*     n1qn1 appelle toujours simul avec indic = 4 ; le module de */
 /*     simulation doit se presenter sous la forme subroutine simul */
 /*     (n,x, f, g, izs, rzs, dzs) et e^tre declare en external dans le */
-/*     programme appelant n1qn1c. */
+/*     programme appelant n1qn1. */
 /*     n (e)    : nombre de variables dont depend f. */
 /*     x (e-s)   : vecteur de dimension n ; en entree le point initial ; */
-/*                 en sortie : le point final calcule par n1qn1c. */
+/*                 en sortie : le point final calcule par n1qn1. */
 /*     f (e-s)   : scalaire ; en entree valeur de f en x (initial), en sortie */
 /*                 valeur de f en x (final). */
 /*     g (e-s)   : vecteur de dimension n : en entree valeur du gradient en x */
@@ -107,7 +107,7 @@ L7710:
 /*      x(i) une variation superieure a eps*var(i). */
 /*      en sortie, eps contient le carre de la norme du gradient en x (final). */
 /*     mode (e)     : definit l approximation initiale du hessien */
-/*                  =1 n1qn1c l initialise lui-meme */
+/*                  =1 n1qn1 l initialise lui-meme */
 /*                  =2 le hessien est fourni dans zm sous forme compressee (zm */
 /*                     contient les colonnes de la partie inferieure du hessien) */
 /*     niter (e-s)  : en entree nombre maximal d'iterations : en sortie nombre */
@@ -124,7 +124,7 @@ L7710:
 /*                      tres utile pour detecter les erreurs dans le gradient. */
 /*      lp (e)    : le numero du canal de sortie, i.e. les impressions */
 /*                  commandees par imp sont faites par write (lp, format). */
-/*     zm     : memoire de travail pour n1qn1c de   dimension n*(n+13)/2. */
+/*     zm     : memoire de travail pour n1qn1 de   dimension n*(n+13)/2. */
 /*     izs,rzs,dzs memoires reservees au simulateur (cf doc) */
 
 /* ! */
@@ -144,11 +144,11 @@ L7710:
     nga = nxa + *n;
     nxb = nga + *n;
     ngb = nxb + *n;
-    n1qn1ca_((U_fp)simul, n, &x[1], f, &g[1], &var[1], eps, mode, niter, nsim, 
+    n1qn1a_((U_fp)simul, n, &x[1], f, &g[1], &var[1], eps, mode, niter, nsim, 
 	    imp, &zm[1], &zm[nd], &zm[nw], &zm[nxa], &zm[nga], &zm[nxb], &zm[
 	    ngb], &izs[1], &rzs[1], &dzs[1]);
     return 0;
-} /* n1qn1c_ */
+} /* n1qn1_ */
 
 /* Scilab ( http://www.scilab.org/ ) - This file is part of Scilab */
 /* Copyright (C) INRIA */
@@ -159,7 +159,7 @@ L7710:
 /* are also available at */
 /* http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt */
 
-/* Subroutine */ int n1qn1ca_(S_fp simul, int *n, double *x, 
+/* Subroutine */ int n1qn1a_(S_fp simul, int *n, double *x, 
 	double *f, double *g, double *scale, double *acc, 
 	int *mode, int *niter, int *nsim, int *iprint, 
 	double *h__, double *d__, double *w, double *xa, 
@@ -608,7 +608,7 @@ L285:
     dff = fa - fb;
     fa = fb;
     goto L130;
-} /* n1qn1ca_ */
+} /* n1qn1a_ */
 
 /* Scilab ( http://www.scilab.org/ ) - This file is part of Scilab */
 /* Copyright (C) INRIA */

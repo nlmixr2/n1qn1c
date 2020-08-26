@@ -1,6 +1,6 @@
-##' n1qn1c optimization
+##' n1qn1 optimization
 ##'
-##' This is an R port of the n1qn1c optimization procedure in scilab.
+##' This is an R port of the n1qn1 optimization procedure in scilab.
 ##'
 ##' @param call_eval Objective function
 ##' @param call_grad Gradient Function
@@ -67,7 +67,7 @@
 ##' nzm=as.integer(n*(n+13L)/2L)
 ##' zm=double(nzm)
 ##'
-##' (op1 <- n1qn1c(fr, grr, x, imp=3))
+##' (op1 <- n1qn1(fr, grr, x, imp=3))
 ##'
 ##' ## Note there are 40 function calls and 40 gradient calls in the above optimization
 ##'
@@ -80,11 +80,11 @@
 ##'             200.024349)
 ##' c.hess <- c(c.hess, rep(0, 24 - length(c.hess)))
 ##'
-##' (op2 <- n1qn1c(fr, grr, x,imp=3, zm=c.hess))
+##' (op2 <- n1qn1(fr, grr, x,imp=3, zm=c.hess))
 ##'
 ##' ## Note with this knowledge, there were only 29 function/gradient calls
 ##'
-##' (op3 <- n1qn1c(fr, grr, x, imp=3, zm=op1$c.hess))
+##' (op3 <- n1qn1(fr, grr, x, imp=3, zm=op1$c.hess))
 ##'
 ##' ## The number of function evaluations is still reduced because the Hessian
 ##' ## is closer to what it should be than the initial guess.
@@ -94,8 +94,8 @@
 ##'
 ##' @export
 ##' @importFrom Rcpp evalCpp
-##' @useDynLib n1qn1c, .registration=TRUE
-n1qn1c <- function(call_eval, call_grad, vars, environment = parent.frame(1), ...,
+##' @useDynLib n1qn1, .registration=TRUE
+n1qn1 <- function(call_eval, call_grad, vars, environment = parent.frame(1), ...,
                    epsilon = .Machine$double.eps, max_iterations = 100, nsim = 100,
                    imp = 0,
                    invisible = NULL,
@@ -131,7 +131,7 @@ n1qn1c <- function(call_eval, call_grad, vars, environment = parent.frame(1), ..
     }
   }
   ret <- .Call(
-    n1qn1c_wrap, call_eval, call_grad, environment,
+    n1qn1_wrap, call_eval, call_grad, environment,
     vars, epsilon, n, mode, max_iterations, nsim, imp, nzm, zm, as.integer(print.functions)
   )
   if (assign) environment$c.hess <- ret$hess
