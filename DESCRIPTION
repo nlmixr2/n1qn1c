@@ -16,8 +16,7 @@ Authors@R: c(person("Matthew", "Fidler", role=c("aut","cre"), email= "matthew.fi
 	)
 Maintainer: Matthew Fidler <matthew.fidler@gmail.com>
 Description: Provides 'Scilab' 'n1qn1', or Quasi-Newton BFGS
-      "qn" without constraints and 'qnbd' or Quasi-Newton BFGS with constraints.
-       This takes more memory than traditional L-BFGS.  The n1qn1 routine is useful since it allows prespecification of a Hessian.
+      "qn" without constraints. This takes more memory than traditional L-BFGS.  The n1qn1 routine is useful since it allows prespecification of a Hessian.
        If the Hessian is near enough the truth in optimization it can speed up the optimization problem. Both algorithms are described in the
        'Scilab' optimization documentation located at 
        <https://www.scilab.org/sites/default/files/optimization_in_scilab.pdf>.
