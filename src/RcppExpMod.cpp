@@ -5,14 +5,14 @@ using namespace arma;
 Rcpp::EvalBase *fev = NULL;                  // pointer to abstract base class
 Rcpp::EvalBase *gev = NULL;                  // pointer to abstract base class
 
-typedef void (*S2_fp) (int *, int *, double *, double *, double *, int *, float *, double *);
+typedef void (*S2_fp) (int *, int *, double *, double *, double *, int *, float *, double *, int *);
 
 extern "C" void n1qn1_ (S2_fp simul, int n[], double x[], double f[], double g[], double var[], double eps[],
-                        int mode[], int niter[], int nsim[], int imp[], double zm[], int izs[], float rzs[], double dzs[]);
+                        int mode[], int niter[], int nsim[], int imp[], double zm[], int izs[], float rzs[], double dzs[], int []);
 
 unsigned int nq1n1c_calls = 0, nq1n1c_grads = 0;
 int nq1n1c_fprint = 0;
-static void fwrap(int *ind, int *n, double *x, double *f, double *g, int *ti, float *tr, double *td)
+static void fwrap(int *ind, int *n, double *x, double *f, double *g, int *ti, float *tr, double *td, int *id)
 {
   int i;
   Rcpp::NumericVector par(*n), ret(*n);
@@ -85,9 +85,10 @@ RcppExport SEXP n1qn1_wrap(
   std::copy(&(REAL(zmSEXP)[0]),&(REAL(zmSEXP)[0])+nzm, &zm[0]);
   eps = REAL(epsSEXP)[0];
   std::fill(&var[0], &var[0]+n, 0.1);
+  int id = 0;
   
   n1qn1_(fwrap,&n,x,&f,g,var,&eps,
-         &mode,&niter,&nsim,&imp,zm,izs,rzs,dzs);
+         &mode,&niter,&nsim,&imp,zm,izs,rzs,dzs, &id);
         
   Rcpp::NumericVector par(n);
   std::copy(&x[0],&x[0]+n,&par[0]);

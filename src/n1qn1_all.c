@@ -66,14 +66,14 @@ L7710:
 /* Subroutine */ int n1qn1_(U_fp simul, int *n, double *x, double 
 	*f, double *g, double *var, double *eps, int *mode, 
 	int *niter, int *nsim, int *imp, double *zm, int *
-	izs, float *rzs, double *dzs)
+        izs, float *rzs, double *dzs, int *id)
 {
     static int nd, nw, nga, ngb, nxa, nxb;
     extern /* Subroutine */ int n1qn1a_(U_fp, int *, double *, 
 	    double *, double *, double *, double *, int *,
 	     int *, int *, int *, double *, double *, 
 	    double *, double *, double *, double *, 
-	    double *, int *, float *, double *);
+           double *, int *, float *, double *, int *);
 
 
 /* !but */
@@ -145,8 +145,8 @@ L7710:
     nxb = nga + *n;
     ngb = nxb + *n;
     n1qn1a_((U_fp)simul, n, &x[1], f, &g[1], &var[1], eps, mode, niter, nsim, 
-	    imp, &zm[1], &zm[nd], &zm[nw], &zm[nxa], &zm[nga], &zm[nxb], &zm[
-	    ngb], &izs[1], &rzs[1], &dzs[1]);
+	    imp, &zm[1], &zm[nd], &zm[nw], &zm[nxa], &zm[nga], &zm[nxb], &zm[ngb],
+	    &izs[1], &rzs[1], &dzs[1], id);
     return 0;
 } /* n1qn1_ */
 
@@ -163,8 +163,8 @@ L7710:
 	double *f, double *g, double *scale, double *acc, 
 	int *mode, int *niter, int *nsim, int *iprint, 
 	double *h__, double *d__, double *w, double *xa, 
-	double *ga, double *xb, double *gb, int *izs, float *
-	rzs, double *dzs)
+	double *ga, double *xb, double *gb, int *izs, float *rzs,
+        double *dzs, int *id)
 {
     /* System generated locals */
     int i__1, i__2, i__3;
@@ -219,7 +219,7 @@ L7710:
 
     /* Function Body */
     indic = 4;
-    (*simul)(&indic, n, &x[1], f, &g[1], &izs[1], &rzs[1], &dzs[1]);
+    (*simul)(&indic, n, &x[1], f, &g[1], &izs[1], &rzs[1], &dzs[1], id);
 /*     next line added by Serge to avoid Inf and Nan's (04/2007) */
     if (!R_FINITE(*f) && vff_(n, &g[1]) != 1) {
 	indic = -1;
@@ -354,7 +354,7 @@ L130:
     }
     iecri = 0;
     indic = 1;
-    (*simul)(&indic, n, &x[1], f, &g[1], &izs[1], &rzs[1], &dzs[1]);
+    (*simul)(&indic, n, &x[1], f, &g[1], &izs[1], &rzs[1], &dzs[1], id);
 /*     error in user function */
     if (indic == 0) {
 	goto L250;
@@ -446,7 +446,7 @@ L170:
 	xb[i__] = xa[i__] + c__ * d__[i__];
     }
     indic = 4;
-    (*simul)(&indic, n, &xb[1], &fb, &gb[1], &izs[1], &rzs[1], &dzs[1]);
+    (*simul)(&indic, n, &xb[1], &fb, &gb[1], &izs[1], &rzs[1], &dzs[1], id);
 /*     next line added by Serge to avoid Inf and Nan's (04/2007) */
     if (!R_FINITE(fb) && vff_(n, &gb[1]) != 1) {
 	indic = -1;
