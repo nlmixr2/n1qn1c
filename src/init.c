@@ -2,6 +2,7 @@
 #include <Rinternals.h>
 #include <stdlib.h> // for NULL
 #include <R_ext/Rdynload.h>
+#include <R_ext/Linpack.h>
 
 typedef void (*S2_fp) (int *, int *, double *, double *, double *, int *, float *, double *);
 extern void n1qn1_(S2_fp simul, int n[], double x[], double f[], double g[], double var[], double eps[],
