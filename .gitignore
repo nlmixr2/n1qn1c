@@ -5,6 +5,5 @@
 *.dll
 *.so
 *.o
-/src/Makevars
 /config.log
 /config.status
