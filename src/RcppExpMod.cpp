@@ -1,8 +1,5 @@
 #include "evaluate.h"
 #include <limits>
-extern "C" {
-#include <R_ext/Linpack.h>
-}
 using namespace arma;
 
 Rcpp::EvalBase *fev = NULL;                  // pointer to abstract base class

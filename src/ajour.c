@@ -10,10 +10,14 @@
 		http://www.netlib.org/f2c/libf2c.zip
 */
 
+#define DOUBLE_EPS     DBL_EPSILON
+//#define safe_zero(a) ((a) == 0 ? DOUBLE_EPS : (a))
+#define safe_zero(a) (a)
+
+
 #include <stdio.h>
 #include <float.h>
 #include <math.h>
-#include <R_ext/Linpack.h>
 
 #define max( a , b )  ( (a) > (b) ? (a) : (b) )
 #define min( a , b )  ( (a) < (b) ? (a) : (b) )
@@ -202,7 +206,7 @@ L160:
     i__1 = *nr;
     for (i__ = 1; i__ <= i__1; ++i__) {
 	wi = w[i__];
-	hij = h__[ij];
+	hij = safe_zero(h__[ij]);
 /* Computing 2nd power */
 	d__1 = wi;
 	v -= d__1 * d__1 / hij;
@@ -317,7 +321,7 @@ L260:
 	ai = a * di;
 /* Computing 2nd power */
 	d__1 = a;
-	c__ = d__1 * d__1 * di + di1;
+	c__ = safe_zero(d__1 * d__1 * di + di1);
 	h__[nh] = c__;
 	++nh;
 	if (j == nkk) {

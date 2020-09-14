@@ -14,10 +14,13 @@
 #include <float.h>
 #include <math.h>
 #include <R.h>
-#include <R_ext/Linpack.h>
 
 #define max( a , b )  ( (a) > (b) ? (a) : (b) )
 #define min( a , b )  ( (a) < (b) ? (a) : (b) )
+
+#define DOUBLE_EPS     DBL_EPSILON
+//#define safe_zero(a) ((a) == 0 ? DOUBLE_EPS : (a))
+#define safe_zero(a) (a)
 
 typedef /* Subroutine */ int (*S_fp)();
 typedef /* Subroutine */ int (*U_fp)();
@@ -260,7 +263,9 @@ L20:
     k = 1;
     i__1 = *n;
     for (i__ = 1; i__ <= i__1; ++i__) {
-	h__[k] = c__ * .01 / (scale[i__] * scale[i__]);
+      double tmp = scale[i__] * scale[i__];
+      tmp = safe_zero(tmp);
+	h__[k] = c__ * .01 / tmp;
 	k = k + np - i__;
     }
     goto L100;
@@ -284,7 +289,7 @@ L300:
     ii = 1;
     i__1 = *n;
     for (i__ = 2; i__ <= i__1; ++i__) {
-	hh = h__[ii];
+      hh = safe_zero(h__[ii]);
 	ni = ii + np - i__;
 	if (hh > 0.) {
 	    goto L301;
@@ -392,7 +397,7 @@ L400:
     for (nip = 2; nip <= i__1; ++nip) {
 	i__ = np - nip;
 	ii = ij - nip;
-	v = d__[i__] / h__[ii];
+	v = d__[i__] / safe_zero(h__[ii]);
 	ip = i__ + 1;
 	ij = ii;
 	i__2 = *n;
@@ -410,7 +415,7 @@ L412:
     i__1 = *n;
     for (i__ = 1; i__ <= i__1; ++i__) {
 /* Computing MAX */
-	d__2 = c__, d__3 = (d__1 = d__[i__] / scale[i__], fabs(d__1));
+	d__2 = c__, d__3 = (d__1 = d__[i__] / safe_zero(scale[i__]), fabs(d__1));
 	c__ = max(d__2,d__3);
 	dga += ga[i__] * d__[i__];
     }
@@ -421,18 +426,18 @@ L412:
 /*               initialisation du pas */
     stmin = 0.;
     stepbd = 0.;
-    steplb = *acc / c__;
+    steplb = *acc / safe_zero(c__);
     fmin = fa;
     gmin = dga;
     step = 1.;
     if (dff <= 0.) {
 /* Computing MIN */
-	d__1 = step, d__2 = 1. / c__;
+	d__1 = step, d__2 = 1. / safe_zero(c__);
 	step = min(d__1,d__2);
     }
     if (dff > 0.) {
 /* Computing MIN */
-	d__1 = step, d__2 = (dff + dff) / (-dga);
+	d__1 = step, d__2 = (dff + dff) / safe_zero(-dga);
 	step = min(d__1,d__2);
     }
 L170:
@@ -541,13 +546,13 @@ L250:
 /*               interpolation cubique */
 L270:
     stepbd = step;
-    c__ = gmin + dgb - (fb - fmin) * 3. / step;
+    c__ = gmin + dgb - (fb - fmin) * 3. / safe_zero(step);
     if (c__ == 0.) {
 	goto L250;
     }
-    cc = fabs(c__) - gmin * (dgb / fabs(c__));
+    cc = fabs(c__) - gmin * (dgb / safe_zero(fabs(c__)));
     cc = sqrt((fabs(c__))) * sqrt((max(0.,cc)));
-    c__ = (c__ - gmin + cc) / (dgb - gmin + cc + cc);
+    c__ = (c__ - gmin + cc) / safe_zero(dgb - gmin + cc + cc);
     step *= max(.1,c__);
     goto L170;
 /*               ceci est un pas de descente */
@@ -569,11 +574,11 @@ L285:
     if (stepbd > 0.) {
 	step = stepbd * .5;
     }
-    c__ = dga + dgb * 3. - (fb - fa) * 4. / stmin;
+    c__ = dga + dgb * 3. - (fb - fa) * 4. / safe_zero(stmin);
     if (c__ > 0.) {
 /* Computing MIN */
 /* Computing MAX */
-	d__3 = 1., d__4 = -dgb / c__;
+	d__3 = 1., d__4 = -dgb / safe_zero(c__);
 	d__1 = step, d__2 = stmin * max(d__3,d__4);
 	step = min(d__1,d__2);
     }
@@ -594,10 +599,10 @@ L285:
 	d__[i__] = gb[i__] - ga[i__];
 	ga[i__] = gb[i__];
     }
-    d__1 = 1. / dga;
+    d__1 = 1. / safe_zero(dga);
     majour_(&h__[1], &xb[1], &w[1], n, &d__1, &ir, &c__1, &c_b32);
     ir = -ir;
-    d__1 = 1. / (stmin * (dgb - dga));
+    d__1 = 1. / safe_zero(stmin * (dgb - dga));
     majour_(&h__[1], &d__[1], &d__[1], n, &d__1, &ir, &c__1, &c_b32);
 /* ww edits */
 /*     write(*,*) (h(kk), kk=1,(n*(n+1))/2) */
@@ -658,7 +663,7 @@ L285:
     if (*ir == 0) {
 	goto L999;
     }
-    hon = 1. / *hno;
+    hon = 1. / safe_zero(*hno);
     ll = 1;
     if (*indic == 0) {
 	goto L1;
@@ -671,7 +676,7 @@ L285:
 	}
 /* Computing 2nd power */
 	d__1 = dd[i__];
-	hon += d__1 * d__1 / hm[ll];
+	hon += d__1 * d__1 / safe_zero(hm[ll]);
 	ll = ll + np - i__;
     }
 L2:
@@ -695,7 +700,7 @@ L1:
 L6:
 /* Computing 2nd power */
 	d__1 = del;
-	hon += d__1 * d__1 / hm[ll];
+	hon += d__1 * d__1 / safe_zero(hm[ll]);
 	if (i__ == *n) {
 	    goto L7;
 	}
@@ -726,7 +731,7 @@ L9:
     *ir = -(*ir) - 1;
     goto L11;
 L10:
-    hon = *eps / *hno;
+    hon = *eps / safe_zero(*hno);
     if (*eps == 0.) {
 	--(*ir);
     }
@@ -740,7 +745,7 @@ L11:
 	if (hm[ll] != 0.) {
 /* Computing 2nd power */
 	    d__1 = dd[j];
-	    honm = hon - d__1 * d__1 / hm[ll];
+	    honm = hon - d__1 * d__1 / safe_zero(hm[ll]);
 	}
 	dd[j] = hon;
 	hon = honm;
@@ -749,7 +754,7 @@ L11:
 
 L99:
     mm = 0;
-    honm = 1. / *hno;
+    honm = 1. / safe_zero(*hno);
 L13:
     ll = 1;
 
@@ -772,14 +777,14 @@ L13:
 	*ir = 1 - *ir;
 /* Computing 2nd power */
 	d__1 = del;
-	hm[ll] = d__1 * d__1 / honm;
+	hm[ll] = d__1 * d__1 / safe_zero(honm);
 	if (i__ == *n) {
 	    goto L999;
 	}
 	i__2 = *n;
 	for (j = iplus; j <= i__2; ++j) {
 	    ++ll;
-	    hm[ll] = hd[j] / del;
+	    hm[ll] = hd[j] / safe_zero(del);
 	}
 	goto L999;
 L15:
@@ -787,7 +792,7 @@ L15:
 	ll = ll + np - i__;
 	goto L98;
 L14:
-	hml = del / hm[ll];
+	hml = del / safe_zero(hm[ll]);
 	if (mm <= 0) {
 	    goto L17;
 	} else {
@@ -799,7 +804,7 @@ L17:
 L18:
 	hon = dd[i__];
 L19:
-	r__ = hon / honm;
+	r__ = hon / safe_zero(honm);
 	hm[ll] *= r__;
 	if (r__ == 0.) {
 	    goto L20;
@@ -807,7 +812,7 @@ L19:
 	if (i__ == *n) {
 	    goto L20;
 	}
-	b = hml / hon;
+	b = hml / safe_zero(hon);
 	if (r__ > 4.) {
 	    goto L21;
 	}
@@ -819,7 +824,7 @@ L19:
 	}
 	goto L23;
 L21:
-	gm = honm / hon;
+	gm = honm / safe_zero(hon);
 	i__2 = *n;
 	for (j = iplus; j <= i__2; ++j) {
 	    ++ll;

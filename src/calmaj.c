@@ -9,7 +9,6 @@
 
 		http://www.netlib.org/f2c/libf2c.zip
 */
-#include <R_ext/Linpack.h>
 /* Scilab ( http://www.scilab.org/ ) - This file is part of Scilab */
 /* Copyright (C) INRIA */
 
