@@ -19,8 +19,8 @@ Description: Provides 'Scilab' 'n1qn1'. This takes more memory than traditional 
        If the Hessian is near enough the truth in optimization it can speed up the optimization problem. The algorithm is described in the
        'Scilab' optimization documentation located at 
        <https://www.scilab.org/sites/default/files/optimization_in_scilab.pdf>. This version uses manually modified code from 'f2c' to make this a C only binary.
-URL: https://github.com/nlmixrdevelopment/n1qn1c
-BugReports: https://github.com/nlmixrdevelopment/n1qn1c/issues
+URL: https://github.com/nlmixr2/n1qn1c
+BugReports: https://github.com/nlmixr2/n1qn1c/issues
 Depends: R (>= 3.2)
 Imports: Rcpp (>= 0.12.3)
 Suggests: testthat, covr
@@ -28,5 +28,5 @@ License: CeCILL-2
 Biarch: true
 NeedsCompilation: yes
 LinkingTo: RcppArmadillo (>= 0.5.600.2.0), Rcpp (>= 0.12.3)
-LazyData: true
-RoxygenNote: 7.1.1
+Encoding: UTF-8
+RoxygenNote: 7.2.1
