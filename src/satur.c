@@ -17,8 +17,7 @@
 #define max( a , b )  ( (a) > (b) ? (a) : (b) )
 #define min( a , b )  ( (a) < (b) ? (a) : (b) )
 
-typedef /* Subroutine */ int (*S_fp)();
-typedef /* Subroutine */ int (*U_fp)();
+#include "n1qn1.h"
 
 
 /* Scilab ( http://www.scilab.org/ ) - This file is part of Scilab */

@@ -5,7 +5,7 @@ using namespace arma;
 Rcpp::EvalBase *fev = NULL;                  // pointer to abstract base class
 Rcpp::EvalBase *gev = NULL;                  // pointer to abstract base class
 
-typedef void (*S2_fp) (int *, int *, double *, double *, double *, int *, float *, double *, int *);
+#include "n1qn1.h"
 
 extern "C" void n1qn1_ (S2_fp simul, int n[], double x[], double f[], double g[], double var[], double eps[],
                         int mode[], int niter[], int nsim[], int imp[], double zm[], int izs[], float rzs[], double dzs[], int []);

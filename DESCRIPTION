@@ -1,6 +1,6 @@
 Package: n1qn1
 Title: Port of the 'Scilab' 'n1qn1' Module for Unconstrained BFGS Optimization
-Version: 6.0.1-10
+Version: 6.0.1-11
 Authors@R: c(person("Matthew", "Fidler", role=c("aut","cre"), email= "matthew.fidler@gmail.com"),
         person("Wenping", "Wang", role = "aut", email = "wwang8198@gmail.com"),
         person("Claude","Lemarechal", role=c("aut","ctb")),

@@ -3,7 +3,8 @@
 #include <stdlib.h> // for NULL
 #include <R_ext/Rdynload.h>
 
-typedef void (*S2_fp) (int *, int *, double *, double *, double *, int *, float *, double *);
+#include "n1qn1.h"
+
 extern void n1qn1_(S2_fp simul, int n[], double x[], double f[], double g[], double var[], double eps[],
 		   int mode[], int niter[], int nsim[], int imp[], double zm[], int izs[], 
 		   float rzs[], double dzs[], int id[]);

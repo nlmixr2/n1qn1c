@@ -22,8 +22,7 @@
 //#define safe_zero(a) ((a) == 0 ? DOUBLE_EPS : (a))
 #define safe_zero(a) (a)
 
-typedef /* Subroutine */ int (*S_fp)();
-typedef /* Subroutine */ int (*U_fp)();
+#include "n1qn1.h"
 
 /* Table of constant values */
 
