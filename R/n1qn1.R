@@ -4,10 +4,15 @@
 #' of abi.
 #'
 #' @return list of pointers to the n1qn1 functions
+#'
 #' @export
+#'
 #' @author Matthew L. Fidler
+#'
 #' @examples
+#'
 #' .n1qn1ptr()
+#'
 .n1qn1ptr <- function() {
   .Call(`_n1qn1_ptr`, PACKAGE = "n1qn1")
 }

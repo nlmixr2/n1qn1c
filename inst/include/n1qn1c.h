@@ -24,10 +24,6 @@ extern n1qn1F2_t n1qn1F2;
 typedef void (*n1qn1__t)(S2_fp simul, int n[], double x[], double f[], double g[], double var[], double eps[],
                            int mode[], int niter[], int nsim[], int imp[], double zm[], int izs[],
                            float rzs[], double dzs[], int id[]);
-void n1qn1F(S2_fp simul, int n[], double x[], double f[], double g[], double var[], double eps[],
-            int mode[], int niter[], int nsim[], int imp[], int lp[], double zm[], int izs[],
-            float rzs[], double dzs[]);
-
 extern n1qn1__t n1qn1_;
 
 static inline SEXP iniN1qn1cPtrs0(SEXP p) {
