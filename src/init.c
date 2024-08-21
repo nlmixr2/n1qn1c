@@ -34,7 +34,7 @@ SEXP _n1qn1_ptr(void) {
 
   SEXP n1qn1c_n1qn1_ = PROTECT(R_MakeExternalPtrFn((DL_FUNC)&n1qn1_, R_NilValue, R_NilValue)); pro++;
 
-#define nVec 48
+#define nVec 3
 
   SEXP ret = PROTECT(Rf_allocVector(VECSXP, nVec)); pro++;
   SEXP retN = PROTECT(Rf_allocVector(STRSXP, nVec)); pro++;
