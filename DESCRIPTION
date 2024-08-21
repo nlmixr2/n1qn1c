@@ -1,6 +1,6 @@
 Package: n1qn1
 Title: Port of the 'Scilab' 'n1qn1' Module for Unconstrained BFGS Optimization
-Version: 6.0.1-11
+Version: 6.0.1-12
 Authors@R: c(person("Matthew", "Fidler", role=c("aut","cre"), email= "matthew.fidler@gmail.com"),
         person("Wenping", "Wang", role = "aut", email = "wwang8198@gmail.com"),
         person("Claude","Lemarechal", role=c("aut","ctb")),
@@ -17,7 +17,7 @@ Authors@R: c(person("Matthew", "Fidler", role=c("aut","cre"), email= "matthew.fi
 Maintainer: Matthew Fidler <matthew.fidler@gmail.com>
 Description: Provides 'Scilab' 'n1qn1'. This takes more memory than traditional L-BFGS.  The n1qn1 routine is useful since it allows prespecification of a Hessian.
        If the Hessian is near enough the truth in optimization it can speed up the optimization problem. The algorithm is described in the
-       'Scilab' optimization documentation located at 
+       'Scilab' optimization documentation located at
        <https://www.scilab.org/sites/default/files/optimization_in_scilab.pdf>. This version uses manually modified code from 'f2c' to make this a C only binary.
 URL: https://github.com/nlmixr2/n1qn1c
 BugReports: https://github.com/nlmixr2/n1qn1c/issues
