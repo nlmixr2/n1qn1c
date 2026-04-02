@@ -135,7 +135,7 @@ grr = function(x)
 x = c(1.02,1.02,1.02)
 eps=1e-3
 n=length(x); niter=100L; nsim=100L; imp=3L;
-nzm=as.integer(n*(n+13L)/2L)
+nzm=as.integer(n*(n+13)/2)
 zm=double(nzm)
 
 (op1 <- n1qn1(fr, grr, x, imp=3))

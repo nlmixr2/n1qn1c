@@ -33,6 +33,11 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="6.0.1-13" id="n1qn1-601-13">n1qn1 6.0.1-13<a class="anchor" aria-label="anchor" href="#n1qn1-601-13"></a></h2>
+<ul><li><p>Make package thread-safe: convert global state to <code>thread_local</code>, remove <code>static</code> from local variables in Fortran-translated C code, add integer overflow guards, and fix memory leaks in the R callback wrappers.</p></li>
+<li><p>Review all C integer types; confirmed existing types are correct given Fortran ABI constraints (<code>int*</code> required for Fortran INTEGER) and R’s <code>INTEGER()</code> returning <code>int*</code>.</p></li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="6.0.1-12" id="n1qn1-601-12">n1qn1 6.0.1-12<a class="anchor" aria-label="anchor" href="#n1qn1-601-12"></a></h2><p class="text-muted">CRAN release: 2024-09-17</p>
 <ul><li>Add non binary (function pointer) interface/api so that <code>nlmixr2est</code> will not have to be re submitted when changes to this package occur.</li>
 </ul></div>
