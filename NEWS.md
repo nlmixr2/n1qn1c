@@ -1,3 +1,19 @@
+# n1qn1 6.0.1-14
+
+* Fix undefined behavior: add virtual destructor to `EvalBase` so deleting
+  derived callback objects through a base pointer is well-defined.
+
+* Fix memory leak: validate `n` and `nzm` before allocating callback objects,
+  preventing a leak when `Rf_error` is called on bad inputs.
+
+* Fix `restart=TRUE`: typo caused mode to remain 2 instead of being set to 3.
+
+* Fix `assign=TRUE`: wrong field name meant the compressed Hessian was never
+  stored in the supplied environment.
+
+* Add tests for restart, assign, single-variable optimization, repeated calls,
+  and input error conditions.
+
 # n1qn1 6.0.1-13
 
 * Make package thread-safe: convert global state to `thread_local`, remove
