@@ -1,4 +1,12 @@
-# n1qn1 6.0.1-14 (development version)
+# n1qn1 6.0.1-12.9000 (development version)
+
+* Make package thread-safe: convert global state to `thread_local`, remove
+  `static` from local variables in Fortran-translated C code, add integer
+  overflow guards, and fix memory leaks in the R callback wrappers.
+
+* Review all C integer types; confirmed existing types are correct given
+  Fortran ABI constraints (`int*` required for Fortran INTEGER) and R's
+  `INTEGER()` returning `int*`.
 
 * Fix undefined behavior: add virtual destructor to `EvalBase` so deleting
   derived callback objects through a base pointer is well-defined.
@@ -13,8 +21,6 @@
 
 * Add tests for restart, assign, single-variable optimization, repeated calls,
   and input error conditions.
-
-# n1qn1 6.0.1-13 (development version)
 
 * Make package thread-safe: convert global state to `thread_local`, remove
   `static` from local variables in Fortran-translated C code, add integer
