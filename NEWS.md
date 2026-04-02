@@ -1,4 +1,4 @@
-# n1qn1 6.0.1-14
+# n1qn1 6.0.1-14 (development version)
 
 * Fix undefined behavior: add virtual destructor to `EvalBase` so deleting
   derived callback objects through a base pointer is well-defined.
@@ -14,7 +14,7 @@
 * Add tests for restart, assign, single-variable optimization, repeated calls,
   and input error conditions.
 
-# n1qn1 6.0.1-13
+# n1qn1 6.0.1-13 (development version)
 
 * Make package thread-safe: convert global state to `thread_local`, remove
   `static` from local variables in Fortran-translated C code, add integer
