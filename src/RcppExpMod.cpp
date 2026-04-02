@@ -55,19 +55,9 @@ RcppExport SEXP n1qn1_wrap(
     nq1n1c_calls=0;
   nq1n1c_grads=0;
   nq1n1c_fprint = INTEGER(fprint_sexp)[0];
-  delete fev;
-  if (TYPEOF(fSEXP) == EXTPTRSXP){
-    fev = new Rcpp::EvalCompiled(fSEXP, rhoSEXP); // xptr
-  } else {
-    fev = new Rcpp::EvalStandard(fSEXP, rhoSEXP); // Standard evaulation
-  }
-  delete gev;
-  if (TYPEOF(gSEXP) == EXTPTRSXP){
-    gev = new Rcpp::EvalCompiled(gSEXP, rhoSEXP); // xptr
-  } else {
-    gev = new Rcpp::EvalStandard(gSEXP, rhoSEXP); // Standard evaulation
-  }
-  
+
+  // Validate inputs before allocating fev/gev: Rf_error longjmps out,
+  // so any allocations made before the error check would be leaked.
   int n, mode, niter, nsim, imp, nzm;
   n = INTEGER(nSEXP)[0];
   mode = INTEGER(modeSEXP)[0];
@@ -82,6 +72,19 @@ RcppExport SEXP n1qn1_wrap(
   // used in n1qn1_all.c:144 and below.  sqrt(INT_MAX) ~ 46340.95.
   if ((double)n * (n + 1) > (double)INT_MAX)
     Rf_error("n is too large: n*(n+1) overflows 32-bit integer (maximum n is ~46340)");
+
+  delete fev;
+  if (TYPEOF(fSEXP) == EXTPTRSXP){
+    fev = new Rcpp::EvalCompiled(fSEXP, rhoSEXP); // xptr
+  } else {
+    fev = new Rcpp::EvalStandard(fSEXP, rhoSEXP); // Standard evaulation
+  }
+  delete gev;
+  if (TYPEOF(gSEXP) == EXTPTRSXP){
+    gev = new Rcpp::EvalCompiled(gSEXP, rhoSEXP); // xptr
+  } else {
+    gev = new Rcpp::EvalStandard(gSEXP, rhoSEXP); // Standard evaulation
+  }
 
   double f, eps;
   double *x = new double[n];
