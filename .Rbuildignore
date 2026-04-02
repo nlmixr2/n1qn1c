@@ -5,5 +5,6 @@
 ^\.travis\.yml$
 ^codecov\.yml$
 ^\.github$
+^\.claude$
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$

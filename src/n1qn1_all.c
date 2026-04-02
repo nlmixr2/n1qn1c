@@ -36,8 +36,8 @@ int vff_(int *n, double *g)
     int ret_val, i__1;
 
     /* Local variables */
-    static int i__;
-    static int ret;
+    int i__;
+    int ret;
 
     /* Parameter adjustments */
     --g;
@@ -71,7 +71,7 @@ L7710:
 	int *niter, int *nsim, int *imp, double *zm, int *
         izs, float *rzs, double *dzs, int *id)
 {
-    static int nd, nw, nga, ngb, nxa, nxb;
+    int nd, nw, nga, ngb, nxa, nxb;
     extern /* Subroutine */ int n1qn1a_(U_fp, int *, double *, 
 	    double *, double *, double *, double *, int *,
 	     int *, int *, int *, double *, double *, 
@@ -174,21 +174,21 @@ L7710:
     double d__1, d__2, d__3, d__4;
 
     /* Local variables */
-    static double c__;
-    static int i__, j, k;
-    static double v;
-    static int i1;
-    static double cc, fa, fb, hh;
-    static int ii, ij, ik, jk, ni, ip, ir, np;
-    static double gl1, gl2, dga, dgb, dff;
-    static int ial;
+    double c__;
+    int i__, j, k;
+    double v;
+    int i1;
+    double cc, fa, fb, hh;
+    int ii, ij, ik, jk, ni, ip, ir, np;
+    double gl1, gl2, dga, dgb, dff;
+    int ial;
     extern int vff_(int *, double *);
-    static int nip, itr;
-    static double fmin, gmin;
-    static int nfun, isfv;
-    static double step;
-    static int indic, iecri;
-    static double stmin, stepbd, steplb;
+    int nip, itr;
+    double fmin, gmin;
+    int nfun, isfv;
+    double step;
+    int indic, iecri;
+    double stmin, stepbd, steplb;
     extern /* Subroutine */ int majour_(double *, double *, 
 	    double *, int *, double *, int *, int *, 
 	    double *);
@@ -633,12 +633,12 @@ L285:
     double d__1;
 
     /* Local variables */
-    static double b;
-    static int i__, j;
-    static double r__, y, gm;
-    static int ll, mm, np;
-    static double del, hml, hon, honm;
-    static int iplus;
+    double b;
+    int i__, j;
+    double r__, y, gm;
+    int ll, mm, np;
+    double del, hml, hon, honm;
+    int iplus;
 
 
     /* Parameter adjustments */

@@ -27,11 +27,9 @@ typedef void (*n1qn1__t)(S2_fp simul, int n[], double x[], double f[], double g[
 extern n1qn1__t n1qn1_;
 
 static inline SEXP iniN1qn1cPtrs0(SEXP p) {
-  if (n1qn1F == NULL) {
-    n1qn1F = (n1qn1F_t) R_ExternalPtrAddrFn(VECTOR_ELT(p, 0));
-    n1qn1F2 = (n1qn1F2_t) R_ExternalPtrAddrFn(VECTOR_ELT(p, 1));
-    n1qn1_ = (n1qn1__t) R_ExternalPtrAddrFn(VECTOR_ELT(p, 2));
-  }
+  n1qn1F = (n1qn1F_t) R_ExternalPtrAddrFn(VECTOR_ELT(p, 0));
+  n1qn1F2 = (n1qn1F2_t) R_ExternalPtrAddrFn(VECTOR_ELT(p, 1));
+  n1qn1_ = (n1qn1__t) R_ExternalPtrAddrFn(VECTOR_ELT(p, 2));
   return R_NilValue;
 }
 

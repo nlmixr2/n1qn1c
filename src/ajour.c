@@ -43,18 +43,18 @@
     double d__1;
 
     /* Local variables */
-    static double a, b, c__;
-    static int i__, j, k;
-    static double u, v, h1;
-    static int i1;
-    static double h2, ai, di;
-    static int ii, ij, ik, nh, nj, nk, nl, ko;
-    static double wi;
-    static int nw;
-    static double di1;
-    static int nh1, nr1, nr2, inc;
-    static double hij;
-    static int nii, nkk, nrr, inc1, nsaut;
+    double a, b, c__;
+    int i__, j, k;
+    double u, v, h1;
+    int i1;
+    double h2, ai, di;
+    int ii, ij, ik, nh, nj, nk, nl, ko;
+    double wi;
+    int nw;
+    double di1;
+    int nh1, nr1, nr2, inc;
+    double hij;
+    int nii, nkk, nrr, inc1, nsaut;
 
 
 

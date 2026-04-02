@@ -42,11 +42,11 @@
     double d__1;
 
     /* Local variables */
-    static double e;
-    static int i__;
-    static double ep, tb;
-    static int inf;
-    static double cres;
+    double e;
+    int i__;
+    double ep, tb;
+    int inf;
+    double cres;
 
 
 /*      subroutine calculant ,dans un intervalle donne, un pas proche */
