@@ -1,5 +1,8 @@
+<!-- badges: start -->
+[![Codecov test coverage](https://codecov.io/gh/nlmixr2/n1qn1c/graph/badge.svg)](https://app.codecov.io/gh/nlmixr2/n1qn1c)
 [![R-CMD-check](https://github.com/nlmixr2/n1qn1c/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/nlmixr2/n1qn1c/actions/workflows/R-CMD-check.yaml)
 [![CRAN version](http://www.r-pkg.org/badges/version/n1qn1)](https://cran.r-project.org/package=n1qn1)
+<!-- badges: end -->
 
 *Ported By:* Matthew Fidler, Wenping Wang
 

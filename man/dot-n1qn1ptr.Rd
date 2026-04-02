@@ -14,7 +14,9 @@ Using this will allow C-level linking by function pointers instead
 of abi.
 }
 \examples{
+
 .n1qn1ptr()
+
 }
 \author{
 Matthew L. Fidler
