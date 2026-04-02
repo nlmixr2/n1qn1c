@@ -145,7 +145,7 @@ n1qn1 <- function(call_eval, call_grad, vars, environment = parent.frame(1), ...
     zm <- double(nzm)
   } else {
     mode <- 2L
-    if (restart) model <- 3L
+    if (restart) mode <- 3L
     if (length(zm) != nzm) {
       stop(sprintf("Compressed Hessian not the right length for this problem.  It should be %d.", nzm))
     }
@@ -154,6 +154,6 @@ n1qn1 <- function(call_eval, call_grad, vars, environment = parent.frame(1), ...
     n1qn1_wrap, call_eval, call_grad, environment,
     vars, epsilon, n, mode, max_iterations, nsim, imp, nzm, zm, as.integer(print.functions)
   )
-  if (assign) environment$c.hess <- ret$hess
+  if (assign) environment$c.hess <- ret$c.hess
   return(ret)
 }

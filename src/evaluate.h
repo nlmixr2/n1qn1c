@@ -11,6 +11,7 @@ namespace Rcpp {
   class EvalBase {
   public:
   EvalBase() : neval(0) {};
+  virtual ~EvalBase() {}
     virtual Rcpp::NumericVector eval(SEXP par) = 0;
     unsigned long getNbEvals() { return neval; }
   protected:
