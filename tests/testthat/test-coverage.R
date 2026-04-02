@@ -29,3 +29,8 @@ test_that("invisible != 1 (non-NULL) enables print.functions", {
   result <- n1qn1(fr3, grr3, x0, invisible = 2)
   expect_equal(result$par, c(1, 1, 1), tolerance = 1e-3)
 })
+
+test_that("max_iterations without nsim auto-sets nsim = max_iterations * 10", {
+  result <- n1qn1(fr3, grr3, x0, max_iterations = 50)
+  expect_equal(result$par, c(1, 1, 1), tolerance = 1e-3)
+})
