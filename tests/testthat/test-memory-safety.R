@@ -1,5 +1,3 @@
-context("Memory safety and integer overflow")
-
 test_that("nzm docstring form overflows R integer at n=46342", {
   # BUG: The nzm formula shown in the n1qn1() docstring example uses integer
   # arithmetic: nzm=as.integer(n*(n+13L)/2L)
