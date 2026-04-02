@@ -3,6 +3,7 @@
 ^LICENCE$
 ^codecov\.yml$
 ^\.github$
+^\.claude$
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$
 ^_pkgdown\.yml$

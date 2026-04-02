@@ -2,16 +2,16 @@
 #include <limits>
 using namespace arma;
 
-Rcpp::EvalBase *fev = NULL;                  // pointer to abstract base class
-Rcpp::EvalBase *gev = NULL;                  // pointer to abstract base class
+thread_local Rcpp::EvalBase *fev = NULL;     // pointer to abstract base class
+thread_local Rcpp::EvalBase *gev = NULL;     // pointer to abstract base class
 
 #include "n1qn1.h"
 
 extern "C" void n1qn1_ (S2_fp simul, int n[], double x[], double f[], double g[], double var[], double eps[],
                         int mode[], int niter[], int nsim[], int imp[], double zm[], int izs[], float rzs[], double dzs[], int []);
 
-unsigned int nq1n1c_calls = 0, nq1n1c_grads = 0;
-int nq1n1c_fprint = 0;
+thread_local unsigned int nq1n1c_calls = 0, nq1n1c_grads = 0;
+thread_local int nq1n1c_fprint = 0;
 static void fwrap(int *ind, int *n, double *x, double *f, double *g, int *ti, float *tr, double *td, int *id)
 {
   int i;
@@ -55,11 +55,13 @@ RcppExport SEXP n1qn1_wrap(
     nq1n1c_calls=0;
   nq1n1c_grads=0;
   nq1n1c_fprint = INTEGER(fprint_sexp)[0];
+  delete fev;
   if (TYPEOF(fSEXP) == EXTPTRSXP){
     fev = new Rcpp::EvalCompiled(fSEXP, rhoSEXP); // xptr
   } else {
     fev = new Rcpp::EvalStandard(fSEXP, rhoSEXP); // Standard evaulation
   }
+  delete gev;
   if (TYPEOF(gSEXP) == EXTPTRSXP){
     gev = new Rcpp::EvalCompiled(gSEXP, rhoSEXP); // xptr
   } else {
@@ -73,6 +75,13 @@ RcppExport SEXP n1qn1_wrap(
   nsim = INTEGER(nsimSEXP)[0];
   imp = INTEGER(impSEXP)[0];
   nzm = INTEGER(nzmSEXP)[0];
+
+  if (n <= 0) Rf_error("n must be positive");
+  if (nzm <= 0) Rf_error("nzm must be positive (check for integer overflow in nzm calculation)");
+  // Prevent signed int overflow in triangular index arithmetic n*(n+1)/2
+  // used in n1qn1_all.c:144 and below.  sqrt(INT_MAX) ~ 46340.95.
+  if ((double)n * (n + 1) > (double)INT_MAX)
+    Rf_error("n is too large: n*(n+1) overflows 32-bit integer (maximum n is ~46340)");
 
   double f, eps;
   double *x = new double[n];
@@ -100,8 +109,9 @@ RcppExport SEXP n1qn1_wrap(
   mat L = eye(n,n);
   mat D = mat(n,n,fill::zeros);
   mat H = mat(n,n);
-  vec zmV(n*(n+1)/2);
-  std::copy(&zm[0], &zm[0]+n*(n+1)/2, zmV.begin());
+  arma::uword zmLen = (arma::uword)n * (n + 1) / 2;
+  vec zmV(zmLen);
+  std::copy(&zm[0], &zm[0] + zmLen, zmV.begin());
   H.elem(lowerTri(H,true)) = zmV;
   if (n == 1) H = D;
   else{
