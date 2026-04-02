@@ -1,5 +1,11 @@
 # n1qn1 6.0.1-12.9000 (development version)
 
+* Verify no upstream Scilab Fortran changes need porting: the two 2020 Scilab
+  commits (`977d4b6c`, `b9c2de06`) fixed Fortran 77 rank-mismatch errors in
+  `n1qn1a.f` for gfortran 10 compatibility by declaring `f` as `f(1)`. The
+  f2c-translated C code already uses a separate scalar `fb` variable, so these
+  changes are already correctly represented in the C translation.
+
 * Make package thread-safe: convert global state to `thread_local`, remove
   `static` from local variables in Fortran-translated C code, add integer
   overflow guards, and fix memory leaks in the R callback wrappers.
