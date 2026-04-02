@@ -2,6 +2,8 @@
 
 ## n1qn1 6.0.1-13
 
+CRAN release: 2026-04-02
+
 - Make package thread-safe: convert global state to `thread_local`,
   remove `static` from local variables in Fortran-translated C code, add
   integer overflow guards, and fix memory leaks in the R callback

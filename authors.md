@@ -32,7 +32,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/nlmixr2/n1qn1c/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/nlmixr2/n1qn1c/blob/v6.0.1-13/DESCRIPTION)
 
 Fidler M, Wang W, Lemarechal C (2026). *n1qn1: Port of the 'Scilab'
 'n1qn1' Module for Unconstrained BFGS Optimization*. R package version
