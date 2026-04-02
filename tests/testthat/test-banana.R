@@ -1,4 +1,3 @@
-context("Test banana function")
 test_that("banana", {
   n <- 3
   p <- 100
