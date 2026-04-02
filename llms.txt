@@ -1,0 +1,20 @@
+*Ported By:* Matthew Fidler, Wenping Wang
+
+*Algorithm Authors:* C. Lemarechal, Stephen L. Campbell, Jean-Philippe
+Chancelier, Ramine Nikoukhah
+
+R port of the Scilab n1qn1 module. This package provides n1qn1, or
+Quasi-Newton BFGS “qn” without constraints. This takes more memory than
+traditional L-BFGS. This routine is useful since it allows
+prespecification of a Hessian; If the Hessian is near the truth in
+optimization it can speed up the optimization problem.
+
+# Package index
+
+## All functions
+
+- [`.n1qn1ptr()`](https://nlmixr2.github.io/n1qn1c/reference/dot-n1qn1ptr.md)
+  : This gives the function pointers in the n1qn1 library
+- [`n1qn1()`](https://nlmixr2.github.io/n1qn1c/reference/n1qn1.md) :
+  n1qn1 optimization
+
