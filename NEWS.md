@@ -1,3 +1,13 @@
+# n1qn1 6.0.1-13
+
+* Make package thread-safe: convert global state to `thread_local`, remove
+  `static` from local variables in Fortran-translated C code, add integer
+  overflow guards, and fix memory leaks in the R callback wrappers.
+
+* Review all C integer types; confirmed existing types are correct given
+  Fortran ABI constraints (`int*` required for Fortran INTEGER) and R's
+  `INTEGER()` returning `int*`.
+
 # n1qn1 6.0.1-12
 
 * Add non binary (function pointer) interface/api so that `nlmixr2est`
