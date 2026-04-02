@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">n1qn1</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">6.0.1-13</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">6.0.1-12.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,12 +29,19 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/nlmixr2/n1qn1c/blob/v6.0.1-13/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/nlmixr2/n1qn1c/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="6.0.1-13" id="n1qn1-601-13">n1qn1 6.0.1-13<a class="anchor" aria-label="anchor" href="#n1qn1-601-13"></a></h2><p class="text-muted">CRAN release: 2026-04-02</p>
+<h2 class="pkg-version" data-toc-text="6.0.1-12.9000" id="n1qn1-601-129000-development-version">n1qn1 6.0.1-12.9000 (development version)<a class="anchor" aria-label="anchor" href="#n1qn1-601-129000-development-version"></a></h2>
 <ul><li><p>Make package thread-safe: convert global state to <code>thread_local</code>, remove <code>static</code> from local variables in Fortran-translated C code, add integer overflow guards, and fix memory leaks in the R callback wrappers.</p></li>
+<li><p>Review all C integer types; confirmed existing types are correct given Fortran ABI constraints (<code>int*</code> required for Fortran INTEGER) and R’s <code>INTEGER()</code> returning <code>int*</code>.</p></li>
+<li><p>Fix undefined behavior: add virtual destructor to <code>EvalBase</code> so deleting derived callback objects through a base pointer is well-defined.</p></li>
+<li><p>Fix memory leak: validate <code>n</code> and <code>nzm</code> before allocating callback objects, preventing a leak when <code>Rf_error</code> is called on bad inputs.</p></li>
+<li><p>Fix <code>restart=TRUE</code>: typo caused mode to remain 2 instead of being set to 3.</p></li>
+<li><p>Fix <code>assign=TRUE</code>: wrong field name meant the compressed Hessian was never stored in the supplied environment.</p></li>
+<li><p>Add tests for restart, assign, single-variable optimization, repeated calls, and input error conditions.</p></li>
+<li><p>Make package thread-safe: convert global state to <code>thread_local</code>, remove <code>static</code> from local variables in Fortran-translated C code, add integer overflow guards, and fix memory leaks in the R callback wrappers.</p></li>
 <li><p>Review all C integer types; confirmed existing types are correct given Fortran ABI constraints (<code>int*</code> required for Fortran INTEGER) and R’s <code>INTEGER()</code> returning <code>int*</code>.</p></li>
 </ul></div>
     <div class="section level2">
