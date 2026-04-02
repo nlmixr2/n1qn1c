@@ -29,7 +29,7 @@
     int i__1, i__2;
 
     /* Local variables */
-    static int i__, j, k, nfac1, n2fac, nnfac;
+    int i__, j, k, nfac1, n2fac, nnfac;
     extern /* Subroutine */ int majour_(double *, double *, 
 	    double *, int *, double *, int *, int *, 
 	    double *);

@@ -39,7 +39,7 @@
     double d__1, d__2, d__3, d__4;
 
     /* Local variables */
-    static int i__;
+    int i__;
 
     /* Parameter adjustments */
     --x;
