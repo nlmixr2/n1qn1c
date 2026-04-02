@@ -19,3 +19,13 @@ test_that("print.functions=TRUE exercises the fwrap print path", {
   result <- n1qn1(fr3, grr3, x0, print.functions = TRUE)
   expect_equal(result$par, c(1, 1, 1), tolerance = 1e-3)
 })
+
+test_that("invisible=1 sets imp=0 and suppresses print.functions", {
+  result <- n1qn1(fr3, grr3, x0, invisible = 1)
+  expect_equal(result$par, c(1, 1, 1), tolerance = 1e-3)
+})
+
+test_that("invisible != 1 (non-NULL) enables print.functions", {
+  result <- n1qn1(fr3, grr3, x0, invisible = 2)
+  expect_equal(result$par, c(1, 1, 1), tolerance = 1e-3)
+})
