@@ -1,5 +1,11 @@
 test_that("nzm docstring form overflows R integer at n=46342", {
-  skip_on_cran("This checks an overflow but gives an error in R: /home/hornik/src/R/src/main/arithmetic.c:357:6: runtime error: signed integer overflow: 46355 * 46342 cannot be represented in type 'int', so skip on CRAN")
+
+  # This checks an overflow but gives an error in R:
+  # /home/hornik/src/R/src/main/arithmetic.c:357:6: runtime error:
+  # signed integer overflow: 46355 * 46342 cannot be represented in
+  # type 'int', so skip on CRAN
+  skip_on_cran()
+
   # BUG: The nzm formula shown in the n1qn1() docstring example uses integer
   # arithmetic: nzm=as.integer(n*(n+13L)/2L)
   # For n >= 46342, n * (n + 13L) overflows R's signed 32-bit integer
