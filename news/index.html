@@ -33,16 +33,18 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="6.0.1-12.9000" id="n1qn1-601-129000-development-version">n1qn1 6.0.1-12.9000 (development version)<a class="anchor" aria-label="anchor" href="#n1qn1-601-129000-development-version"></a></h2>
-<ul><li><p>Verify no upstream Scilab Fortran changes need porting: the two 2020 Scilab commits (<code>977d4b6c</code>, <code>b9c2de06</code>) fixed Fortran 77 rank-mismatch errors in <code>n1qn1a.f</code> for gfortran 10 compatibility by declaring <code>f</code> as <code>f(1)</code>. The f2c-translated C code already uses a separate scalar <code>fb</code> variable, so these changes are already correctly represented in the C translation.</p></li>
-<li><p>Make package thread-safe: convert global state to <code>thread_local</code>, remove <code>static</code> from local variables in Fortran-translated C code, add integer overflow guards, and fix memory leaks in the R callback wrappers.</p></li>
+<h2 class="pkg-version" data-toc-text="6.0.1-14" id="n1qn1-601-14">n1qn1 6.0.1-14<a class="anchor" aria-label="anchor" href="#n1qn1-601-14"></a></h2>
+<ul><li><p>Make package thread-safe: convert global state to <code>thread_local</code>, remove <code>static</code> from local variables in Fortran-translated C code, add integer overflow guards, and fix memory leaks in the R callback wrappers.</p></li>
 <li><p>Review all C integer types; confirmed existing types are correct given Fortran ABI constraints (<code>int*</code> required for Fortran INTEGER) and R’s <code>INTEGER()</code> returning <code>int*</code>.</p></li>
 <li><p>Fix undefined behavior: add virtual destructor to <code>EvalBase</code> so deleting derived callback objects through a base pointer is well-defined.</p></li>
 <li><p>Fix memory leak: validate <code>n</code> and <code>nzm</code> before allocating callback objects, preventing a leak when <code>Rf_error</code> is called on bad inputs.</p></li>
 <li><p>Fix <code>restart=TRUE</code>: typo caused mode to remain 2 instead of being set to 3.</p></li>
 <li><p>Fix <code>assign=TRUE</code>: wrong field name meant the compressed Hessian was never stored in the supplied environment.</p></li>
 <li><p>Add tests for restart, assign, single-variable optimization, repeated calls, and input error conditions.</p></li>
-<li><p>Make package thread-safe: convert global state to <code>thread_local</code>, remove <code>static</code> from local variables in Fortran-translated C code, add integer overflow guards, and fix memory leaks in the R callback wrappers.</p></li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="6.0.1-13" id="n1qn1-601-13">n1qn1 6.0.1-13<a class="anchor" aria-label="anchor" href="#n1qn1-601-13"></a></h2><p class="text-muted">CRAN release: 2026-04-02</p>
+<ul><li><p>Make package thread-safe: convert global state to <code>thread_local</code>, remove <code>static</code> from local variables in Fortran-translated C code, add integer overflow guards, and fix memory leaks in the R callback wrappers.</p></li>
 <li><p>Review all C integer types; confirmed existing types are correct given Fortran ABI constraints (<code>int*</code> required for Fortran INTEGER) and R’s <code>INTEGER()</code> returning <code>int*</code>.</p></li>
 </ul></div>
     <div class="section level2">
