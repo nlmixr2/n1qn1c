@@ -1,5 +1,9 @@
 # n1qn1 6.0.1-14
 
+* As requested by CRAN, fixed and verified by rhub:
+   -  gcc-asan (https://github.com/nlmixr2/n1qn1c/actions/runs/23968526553)
+   -  valgrind (https://github.com/nlmixr2/n1qn1c/actions/runs/23968582408)
+
 * Make package thread-safe: convert global state to `thread_local`, remove
   `static` from local variables in Fortran-translated C code, add integer
   overflow guards, and fix memory leaks in the R callback wrappers.
