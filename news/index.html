@@ -34,11 +34,7 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="6.0.1-14" id="n1qn1-601-14">n1qn1 6.0.1-14<a class="anchor" aria-label="anchor" href="#n1qn1-601-14"></a></h2>
-<ul><li>
-<p>As requested by CRAN, fixed and verified by rhub:</p>
-<ul><li>gcc-asan (<a href="https://github.com/nlmixr2/n1qn1c/actions/runs/23968526553" class="external-link uri">https://github.com/nlmixr2/n1qn1c/actions/runs/23968526553</a>)</li>
-<li>valgrind (<a href="https://github.com/nlmixr2/n1qn1c/actions/runs/23968582408" class="external-link uri">https://github.com/nlmixr2/n1qn1c/actions/runs/23968582408</a>)</li>
-</ul></li>
+<ul><li><p>As requested by CRAN, gcc-asan and valgrind</p></li>
 <li><p>Make package thread-safe: convert global state to <code>thread_local</code>, remove <code>static</code> from local variables in Fortran-translated C code, add integer overflow guards, and fix memory leaks in the R callback wrappers.</p></li>
 <li><p>Review all C integer types; confirmed existing types are correct given Fortran ABI constraints (<code>int*</code> required for Fortran INTEGER) and R’s <code>INTEGER()</code> returning <code>int*</code>.</p></li>
 <li><p>Fix undefined behavior: add virtual destructor to <code>EvalBase</code> so deleting derived callback objects through a base pointer is well-defined.</p></li>
