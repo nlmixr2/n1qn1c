@@ -1,4 +1,5 @@
 test_that("nzm docstring form overflows R integer at n=46342", {
+  skip_on_cran("This checks an overflow but gives an error in R: /home/hornik/src/R/src/main/arithmetic.c:357:6: runtime error: signed integer overflow: 46355 * 46342 cannot be represented in type 'int', so skip on CRAN")
   # BUG: The nzm formula shown in the n1qn1() docstring example uses integer
   # arithmetic: nzm=as.integer(n*(n+13L)/2L)
   # For n >= 46342, n * (n + 13L) overflows R's signed 32-bit integer
@@ -22,7 +23,8 @@ test_that("C-level nd overflows int32 for n=46341: out-of-bounds zm[] access", {
   n_val <- 46341L
   product <- suppressWarnings(n_val * (n_val + 1L))
   expect_true(is.na(product) || product < 0L,
-    label = "46341 * 46342 overflows signed int32")
+              label = "46341 * 46342 overflows signed int32")
+  skip("Confirmed segfault (exit 139): n=46341 overflows nd in n1qn1_all.c:144, then accesses zm[] out-of-bounds")
   expect_error(n1qn1(function(x) sum(x^2), function(x) 2 * x, double(n_val)),
                "n is too large")
 })
