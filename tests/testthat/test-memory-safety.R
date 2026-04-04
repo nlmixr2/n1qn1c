@@ -23,13 +23,8 @@ test_that("C-level nd overflows int32 for n=46341: out-of-bounds zm[] access", {
   product <- suppressWarnings(n_val * (n_val + 1L))
   expect_true(is.na(product) || product < 0L,
     label = "46341 * 46342 overflows signed int32")
-  # Skip: on Linux with overcommit the virtual allocation succeeds and C
-  # proceeds to index zm[] at the overflowed nd offset, producing a confirmed
-  # SIGSEGV (exit 139, "invalid permissions" at the out-of-bounds address).
-  # On systems without overcommit the R zm allocation fails first (~8.6 GB).
-  skip("Confirmed segfault (exit 139): n=46341 overflows nd in n1qn1_all.c:144, then accesses zm[] out-of-bounds")
-  # Without the skip above, this call produces a process-terminating segfault:
-  n1qn1(function(x) sum(x^2), function(x) 2 * x, double(n_val))
+  expect_error(n1qn1(function(x) sum(x^2), function(x) 2 * x, double(n_val)),
+               "n is too large")
 })
 
 test_that("as.integer(nzm) overflows to NA for n=65536: error before C allocation", {
