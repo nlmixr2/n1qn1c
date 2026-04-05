@@ -4,7 +4,6 @@ test_that("nzm docstring form overflows R integer at n=46342", {
   # /home/hornik/src/R/src/main/arithmetic.c:357:6: runtime error:
   # signed integer overflow: 46355 * 46342 cannot be represented in
   # type 'int', so skip on CRAN
-  skip_on_cran()
 
   # BUG: The nzm formula shown in the n1qn1() docstring example uses integer
   # arithmetic: nzm=as.integer(n*(n+13L)/2L)
