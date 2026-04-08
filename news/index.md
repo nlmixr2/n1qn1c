@@ -2,6 +2,8 @@
 
 ## n1qn1 6.0.1-14
 
+CRAN release: 2026-04-06
+
 - As requested by CRAN, gcc-asan and valgrind
 
 - Make package thread-safe: convert global state to `thread_local`,
