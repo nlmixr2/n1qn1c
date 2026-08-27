@@ -107,6 +107,7 @@ Nikoukhah, Wenping Wang & Matthew L. Fidler
 ## Examples
 
 ``` r
+
 ## Rosenbrock's banana function
 n=3; p=100
 

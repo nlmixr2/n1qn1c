@@ -20,14 +20,15 @@ Matthew L. Fidler
 ## Examples
 
 ``` r
+
 .n1qn1ptr()
 #> $n1qn1F
-#> <pointer: 0x7feafea17d10>
+#> <pointer: 0x7f551eb09f00>
 #> 
 #> $n1qn1F2
-#> <pointer: 0x7feafea17d80>
+#> <pointer: 0x7f551eb09f70>
 #> 
 #> $n1qn1_
-#> <pointer: 0x7feafea19840>
+#> <pointer: 0x7f551eb0ba30>
 #> 
 ```
