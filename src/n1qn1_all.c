@@ -66,13 +66,13 @@ L7710:
 /* are also available at */
 /* http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt */
 
-/* Subroutine */ int n1qn1_(U_fp simul, int *n, double *x, double 
-	*f, double *g, double *var, double *eps, int *mode, 
+/* Subroutine */ void n1qn1_(S2_fp simul, int *n, double *x, double
+	*f, double *g, double *var, double *eps, int *mode,
 	int *niter, int *nsim, int *imp, double *zm, int *
         izs, float *rzs, double *dzs, int *id)
 {
     int nd, nw, nga, ngb, nxa, nxb;
-    extern /* Subroutine */ int n1qn1a_(U_fp, int *, double *, 
+    extern /* Subroutine */ int n1qn1a_(S2_fp, int *, double *,
 	    double *, double *, double *, double *, int *,
 	     int *, int *, int *, double *, double *, 
 	    double *, double *, double *, double *, 
@@ -147,10 +147,10 @@ L7710:
     nga = nxa + *n;
     nxb = nga + *n;
     ngb = nxb + *n;
-    n1qn1a_((U_fp)simul, n, &x[1], f, &g[1], &var[1], eps, mode, niter, nsim, 
+    n1qn1a_(simul, n, &x[1], f, &g[1], &var[1], eps, mode, niter, nsim,
 	    imp, &zm[1], &zm[nd], &zm[nw], &zm[nxa], &zm[nga], &zm[nxb], &zm[ngb],
 	    &izs[1], &rzs[1], &dzs[1], id);
-    return 0;
+    return;
 } /* n1qn1_ */
 
 /* Scilab ( http://www.scilab.org/ ) - This file is part of Scilab */
@@ -162,7 +162,7 @@ L7710:
 /* are also available at */
 /* http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt */
 
-/* Subroutine */ int n1qn1a_(S_fp simul, int *n, double *x, 
+/* Subroutine */ int n1qn1a_(S2_fp simul, int *n, double *x,
 	double *f, double *g, double *scale, double *acc, 
 	int *mode, int *niter, int *nsim, int *iprint, 
 	double *h__, double *d__, double *w, double *xa, 
