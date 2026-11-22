@@ -1,3 +1,8 @@
+# n1qn1 6.0.1-15
+
+* Replace `Rf_error()` with `Rcpp::stop()` in the C++ input checks so errors
+  unwind correctly (Rcpp issue #1247; n1qn1c issue #8).
+
 # n1qn1 6.0.1-14
 
 * As requested by CRAN, gcc-asan and valgrind
