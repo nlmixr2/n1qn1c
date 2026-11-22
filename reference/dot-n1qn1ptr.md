@@ -23,12 +23,12 @@ Matthew L. Fidler
 
 .n1qn1ptr()
 #> $n1qn1F
-#> <pointer: 0x7f551eb09f00>
+#> <pointer: 0x7c7564ff8990>
 #> 
 #> $n1qn1F2
-#> <pointer: 0x7f551eb09f70>
+#> <pointer: 0x7c7564ff8a00>
 #> 
 #> $n1qn1_
-#> <pointer: 0x7f551eb0ba30>
+#> <pointer: 0x7c7564ffa7d0>
 #> 
 ```
