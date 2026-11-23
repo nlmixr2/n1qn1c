@@ -56,8 +56,10 @@ RcppExport SEXP n1qn1_wrap(
   nq1n1c_grads=0;
   nq1n1c_fprint = INTEGER(fprint_sexp)[0];
 
-  // Validate inputs before allocating fev/gev: Rf_error longjmps out,
-  // so any allocations made before the error check would be leaked.
+  // Validate inputs before allocating fev/gev with Rcpp::stop (not Rf_error,
+  // which longjmps past C++ destructors; see RcppCore/Rcpp#1247).  The raw
+  // new[] allocations below are not RAII-managed,
+  // so any allocation made before an error check would still be leaked.
   int n, mode, niter, nsim, imp, nzm;
   n = INTEGER(nSEXP)[0];
   mode = INTEGER(modeSEXP)[0];
@@ -66,12 +68,12 @@ RcppExport SEXP n1qn1_wrap(
   imp = INTEGER(impSEXP)[0];
   nzm = INTEGER(nzmSEXP)[0];
 
-  if (n <= 0) Rf_error("n must be positive");
-  if (nzm <= 0) Rf_error("nzm must be positive (check for integer overflow in nzm calculation)");
+  if (n <= 0) Rcpp::stop("n must be positive");
+  if (nzm <= 0) Rcpp::stop("nzm must be positive (check for integer overflow in nzm calculation)");
   // Prevent signed int overflow in triangular index arithmetic n*(n+1)/2
   // used in n1qn1_all.c:144 and below.  sqrt(INT_MAX) ~ 46340.95.
   if ((double)n * (n + 1) > (double)INT_MAX) {
-    Rf_error("n is too large: n*(n+1) overflows 32-bit integer (maximum n is ~46340)");
+    Rcpp::stop("n is too large: n*(n+1) overflows 32-bit integer (maximum n is ~46340)");
   }
 
   delete fev;
