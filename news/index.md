@@ -1,5 +1,12 @@
 # Changelog
 
+## n1qn1 6.0.1-15
+
+- Replace `Rf_error()` with `Rcpp::stop()` in the C++ input checks so
+  errors unwind correctly (Rcpp issue
+  [\#1247](https://github.com/nlmixr2/n1qn1c/issues/1247); n1qn1c issue
+  [\#8](https://github.com/nlmixr2/n1qn1c/issues/8)).
+
 ## n1qn1 6.0.1-14
 
 CRAN release: 2026-04-06
